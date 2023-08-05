@@ -1,0 +1,45 @@
+body {
+  background-image: url("../../assets/images/background_login.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.image {
+  width: 40vh;
+  height: 10vh;
+}
+
+.containerIcon {
+  position: relative;
+}
+
+.containerIcon svg {
+  position: absolute;
+  top: 15%;
+  right: 4.5%;
+  width: 25px;
+  height: 25px;
+  color: rgb(100, 100, 100);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+@media only screen and (min-width: 1000px) {
+  #containerLogin {
+    width: 700px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .containerIcon svg {
+    right: 13%;
+  }
+  .image {
+    width: 30vh;
+    height: 8vh;
+  }
+}
