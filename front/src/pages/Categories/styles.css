@@ -1,0 +1,7 @@
+.catcard:hover {
+    background-color: rgba(241, 241, 241, 0.83);
+}
+
+h3 {
+    text-shadow: 0.2em 0.2em 0.2em rgb(100, 100, 100)
+}
