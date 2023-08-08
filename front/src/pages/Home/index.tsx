@@ -67,11 +67,11 @@ const Home: React.FC = () => {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -86,11 +86,11 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -101,11 +101,11 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -119,11 +119,11 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -138,11 +138,11 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -157,11 +157,11 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
-                alt="imagem do produto"
+                alt="imagem do projeto"
               />
             </a>
             <div className="card-body border secondary">
@@ -176,7 +176,7 @@ const Home: React.FC = () => {
         </div>
         <div className="col">
           <div className="card shadow-sm h-100">
-            <a href="/home">
+            <a href="/project">
               <img
                 src={require("../../assets/images/default_product.png")}
                 className="card-img-top border secondary"
