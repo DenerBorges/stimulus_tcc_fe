@@ -161,7 +161,15 @@ const Categories: React.FC = () => {
                 src={require("../../assets/images/facebook_logo.png")}
                 alt="facebook"
                 width="30"
-                className="me-2"
+                className="me-1"
+              />
+            </a>
+            <a href="/home">
+              <img
+                src={require("../../assets/images/twitter_logo.png")}
+                alt="twitter"
+                width="31"
+                className="me-1"
               />
             </a>
             <a href="/home">
@@ -177,14 +185,6 @@ const Categories: React.FC = () => {
                 src={require("../../assets/images/linkedin_logo.png")}
                 alt="linkedin"
                 width="30"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/twitter_logo.png")}
-                alt="twitter"
-                width="35"
                 className="me-1"
               />
             </a>
