@@ -7,3 +7,16 @@
   width: 1.7rem;
   margin-left: 1rem;
 }
+
+.commentColor {
+  background-color: rgb(190, 190, 190);
+}
+
+textarea {
+  height: 100px;
+}
+
+.shareIcon {
+  width: 2rem;
+  margin-right: 1rem;
+}
