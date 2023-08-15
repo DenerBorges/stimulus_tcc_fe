@@ -19,12 +19,14 @@ export class UsersService {
     return users.save();
   }
 
-  findAll() {
-    return this.usersModel.find();
+  async findAll() {
+    const foundAllUser = await this.usersModel.find();
+    return foundAllUser;
   }
 
-  findOne(id: string) {
-    return this.usersModel.findById(id);
+  async findOne(id: string) {
+    const foundOneUser = await this.usersModel.findById(id);
+    return foundOneUser;
   }
 
   async findByUser(user: string) {
@@ -32,8 +34,8 @@ export class UsersService {
     return foundUser;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.usersModel.findByIdAndUpdate(
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const updateUser = await this.usersModel.findByIdAndUpdate(
       id,
       {
         $set: updateUserDto,
@@ -42,13 +44,15 @@ export class UsersService {
         new: true,
       },
     );
+    return updateUser;
   }
 
-  remove(id: string) {
-    return this.usersModel
+  async remove(id: string) {
+    const removeUser = await this.usersModel
       .deleteOne({
         _id: id,
       })
       .exec();
+    return removeUser;
   }
 }
