@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/entities/user.entity';
+// import { UsersService } from 'src/users/users.service';
+// import { User } from 'src/users/entities/user.entity';
+import { PrismaService } from 'src/prisma.service';
 import { UserPayload } from './models/UserPayload';
 import { UserToken } from './models/UserToken';
 import { JwtService } from '@nestjs/jwt';
@@ -9,7 +10,7 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -27,7 +28,7 @@ export class AuthService {
   //   };
   // }
 
-  async login(userDto: User): Promise<UserToken> {
+  async login(userDto: { user: string; password: string }): Promise<UserToken> {
     const validatedUser = await this.validateUser(
       userDto.user,
       userDto.password,
@@ -35,7 +36,7 @@ export class AuthService {
 
     if (validatedUser) {
       const payload: UserPayload = {
-        sub: validatedUser._id.toString(),
+        sub: validatedUser.id,
         user: validatedUser.user,
       };
 
@@ -50,16 +51,15 @@ export class AuthService {
   }
 
   async validateUser(user: string, password: string) {
-    const users = await this.usersService.findByUser(user);
+    const users = await this.prisma.user.findFirst({
+      where: { user },
+    });
 
     if (users) {
       const isPasswordValid = await bcrypt.compare(password, users.password);
 
       if (isPasswordValid) {
-        return {
-          ...users.toJSON(),
-          password: password,
-        };
+        return users;
       }
     }
     throw new Error('Email ou senha enviados estão incorretos.');
