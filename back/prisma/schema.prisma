@@ -27,8 +27,8 @@ model Project {
   goal        Float
   image       String
   reward      Reward[]
-  User        User?    @relation(fields: [userId], references: [id])
-  userId      String?  @unique @db.ObjectId
+  User        User    @relation(fields: [userId], references: [id])
+  userId      String  @unique @db.ObjectId
 }
 
 model Reward {
@@ -36,6 +36,6 @@ model Reward {
   name        String
   description String
   value       Float
-  Project     Project? @relation(fields: [projectId], references: [id])
-  projectId   String?  @unique @db.ObjectId
+  Project     Project @relation(fields: [projectId], references: [id])
+  projectId   String  @unique @db.ObjectId
 }
