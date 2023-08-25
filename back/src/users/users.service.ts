@@ -28,7 +28,7 @@ export class UsersService {
     return foundAllUser;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<User> {
     const foundOneUser = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -42,7 +42,7 @@ export class UsersService {
     return foundUser;
   }
 
-  async update(id: string, data: any): Promise<User> {
+  async update(id: string, data: Partial<User>): Promise<User> {
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data,
