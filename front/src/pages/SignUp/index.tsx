@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import "./styles.css";
+import api from "../../utils/api";
 
 const SignUp: React.FC = () => {
   const [user, setUser] = useState("");
@@ -37,7 +38,7 @@ const SignUp: React.FC = () => {
   var m = hoje.getMonth() - nasc.getMonth();
   if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
 
-  const handleRegister = (e: FormEvent) => {
+  const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
 
     if (!user || !date || !email || !password || !confirmPassword) {
@@ -56,6 +57,12 @@ const SignUp: React.FC = () => {
       setError("Error");
       return;
     } else {
+      await api.post(`users`, {
+        user,
+        birthdate: date,
+        email,
+        password: password,
+      });
       navigate("/");
     }
   };
@@ -75,7 +82,7 @@ const SignUp: React.FC = () => {
         <h2>Cadastro</h2>
         <h5 className="my-4">Por favor, efetue o seu cadastro</h5>
 
-        <form action="#" onSubmit={handleRegister}>
+        <form action="post" onSubmit={handleRegister}>
           <div className="mb-2">
             <label htmlFor="user" className="form-label fw-semibold">
               Nome de usuário
