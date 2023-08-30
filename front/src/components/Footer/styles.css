@@ -1,0 +1,10 @@
+footer {
+  background-color: rgb(30, 30, 30);
+}
+
+@media only screen and (min-height: 1500px) {
+  footer {
+    position: fixed;
+    bottom: 0;
+  }
+}
