@@ -2,71 +2,18 @@ import {
   Bars3BottomLeftIcon,
   ChatBubbleBottomCenterTextIcon,
   CurrencyDollarIcon,
-  MagnifyingGlassIcon,
   ShareIcon,
-  UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import React from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 import "./styles.css";
 
 const Project: React.FC = () => {
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg bg-body-tertiary"
-        data-bs-theme="dark"
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/home">
-            <img
-              src={require("../../assets/images/logo_1.png")}
-              alt="Logo do site"
-              className="logo mx-auto d-block"
-            />
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <form className="d-flex mx-auto" role="search">
-              <div className="searchIcon">
-                <input
-                  className="pesquisa form-control text-light me-2"
-                  type="search"
-                  placeholder="     Pesquisar"
-                  aria-label="Search"
-                />
-                <MagnifyingGlassIcon />
-              </div>
-              <button className="btn btn-outline-info fw-medium" type="submit">
-                Pesquisar
-              </button>
-            </form>
-            <ul className="navbar-nav mt-1">
-              <li className="nav-item border rounded me-1">
-                <a className="nav-link fw-medium" href="/categories">
-                  Categorias
-                </a>
-              </li>
-              <li className="nav-item border rounded me-1">
-                <a className="profile nav-link fw-medium" href="/">
-                  Login
-                  <UserCircleIcon />
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       <h1 className="text-center shadow fw-bolder py-2 my-3">
         Nome do Projeto
@@ -164,7 +111,7 @@ const Project: React.FC = () => {
                 aria-valuemin={0}
                 aria-valuemax={100}
               >
-                <div className="progress-bar bg-info progress-bar-striped w-50"></div>
+                <div className="progress-bar bg-info" style={{width: "50%"}}></div>
               </div>
               <p className="text-start fw-medium">
                 Meta: <span className="text-secondary">R$ 400</span>
@@ -175,13 +122,15 @@ const Project: React.FC = () => {
                 Arrecadado: <span className="text-info">R$ 200</span>
               </h2>
             </div>
-            <button
-              className="btn btn-info text-light rounded-pill mt-5 pb-2 pt-2 fs-3 fw-semibold shadow-sm"
-              type="submit"
-            >
-              Financiar projeto
-              <CurrencyDollarIcon className="dollarIcon" />
-            </button>
+            <a href="/reward">
+              <button
+                className="btn btn-info text-light rounded-pill mt-5 py-3 px-3 fs-3 fw-semibold shadow"
+                type="submit"
+              >
+                Financiar projeto
+                <CurrencyDollarIcon className="dollarIcon" />
+              </button>
+            </a>
           </div>
         </div>
       </div>
@@ -198,12 +147,12 @@ const Project: React.FC = () => {
               type="button"
               id="pills-about-tab"
               data-bs-toggle="pill"
-              data-bs-target="#pill-about"
+              data-bs-target="#pills-about"
               role="tab"
               aria-controls="pills-about"
               aria-selected="true"
             >
-              Sobre o projetos
+              Sobre o projeto
               <Bars3BottomLeftIcon className="navIcons" />
             </button>
           </li>
@@ -213,7 +162,7 @@ const Project: React.FC = () => {
               type="button"
               id="pills-comment-tab"
               data-bs-toggle="pill"
-              data-bs-target="#pill-comment"
+              data-bs-target="#pills-comment"
               role="tab"
               aria-controls="pills-comment"
               aria-selected="false"
@@ -228,7 +177,7 @@ const Project: React.FC = () => {
               type="button"
               id="pills-share-tab"
               data-bs-toggle="pill"
-              data-bs-target="#pill-share"
+              data-bs-target="#pills-share"
               role="tab"
               aria-controls="pills-share"
               aria-selected="false"
@@ -244,7 +193,7 @@ const Project: React.FC = () => {
           id="pill-tabContent"
         >
           <div
-            className="tab-pane fade show"
+            className="tab-pane fade show active"
             id="pills-about"
             role="tabpanel"
             aria-labelledby="pills-about-tab"
@@ -279,7 +228,7 @@ const Project: React.FC = () => {
             </p>
           </div>
           <div
-            className="tab-pane fade show"
+            className="tab-pane fade"
             id="pills-comment"
             role="tabpanel"
             aria-labelledby="pills-comment-tab"
@@ -315,7 +264,7 @@ const Project: React.FC = () => {
             </div>
           </div>
           <div
-            className="tab-pane fade show active"
+            className="tab-pane fade"
             id="pills-share"
             role="tabpanel"
             aria-labelledby="pills-share-tab"
@@ -366,66 +315,7 @@ const Project: React.FC = () => {
         </div>
       </div>
 
-      <footer className="container-fluid mt-3 p-3 text-center">
-        <div className="row">
-          <div className="col">
-            <img
-              src={require("../../assets/images/logo_1.png")}
-              alt="Logo do site"
-              width="300"
-              className="mt-2"
-            />
-          </div>
-          <div className="col">
-            <p className="fw-medium fs-4 mt-1 text-light">Contate-nos</p>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/facebook_logo.png")}
-                alt="facebook"
-                width="30"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/twitter_logo.png")}
-                alt="twitter"
-                width="31"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/gmail_logo.png")}
-                alt="gmail"
-                width="30"
-                className="me-2"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/linkedin_logo.png")}
-                alt="linkedin"
-                width="30"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/whatsapp_logo.png")}
-                alt="whatsapp"
-                width="30"
-                className="me-2"
-              />
-            </a>
-          </div>
-          <div className="col">
-            <p className="fw-medium text-light mt-4">
-              Copyright © 2023 <br /> Todos os direitos reservados
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 };
