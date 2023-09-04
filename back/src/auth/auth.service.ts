@@ -46,8 +46,9 @@ export class AuthService {
         access_token: jwtToken,
         user_name: validatedUser.user,
       };
+    } else {
+      throw new UnauthorizedException('Email ou senha incorretos.');
     }
-    throw new UnauthorizedException('Email ou senha incorretos.');
   }
 
   async validateUser(user: string, password: string) {
@@ -59,9 +60,14 @@ export class AuthService {
       const isPasswordValid = await bcrypt.compare(password, users.password);
 
       if (isPasswordValid) {
-        return users;
+        return {
+          ...users,
+          password: password,
+        };
       }
     }
-    throw new Error('Email ou senha enviados estão incorretos.');
+    throw new UnauthorizedException(
+      'Email ou senha enviados estão incorretos.',
+    );
   }
 }
