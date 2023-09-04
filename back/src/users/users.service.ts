@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 // import { CreateUserDto } from './dto/create-user.dto';
 // import { UpdateUserDto } from './dto/update-user.dto';
 // import { InjectModel } from '@nestjs/mongoose';
@@ -50,10 +50,21 @@ export class UsersService {
     return updatedUser;
   }
 
-  async remove(id: string): Promise<User> {
-    const deletedUser = await this.prisma.user.delete({
-      where: { id },
+  async remove(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    const userProjects = await this.prisma.project.findMany({
+      where: { userId },
     });
-    return deletedUser;
+
+    for (const project of userProjects) {
+      await this.prisma.project.delete({ where: { id: project.id } });
+    }
+
+    await this.prisma.user.delete({ where: { id: userId } });
   }
 }

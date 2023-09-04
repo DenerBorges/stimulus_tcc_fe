@@ -51,10 +51,23 @@ export class ProjectsService {
     return updateProject;
   }
 
-  async remove(id: string): Promise<Project> {
-    const removeProject = await this.prisma.project.delete({
-      where: { id },
+  async remove(projectId: string) {
+    const project = await this.prisma.project.findUnique({
+      where: { id: projectId },
     });
-    return removeProject;
+
+    if (!project) {
+      throw new NotFoundException('Projeto não encontrado');
+    }
+
+    const projectRewards = await this.prisma.reward.findMany({
+      where: { projectId },
+    });
+
+    for (const reward of projectRewards) {
+      await this.prisma.reward.delete({ where: { id: reward.id } });
+    }
+
+    await this.prisma.project.delete({ where: { id: projectId } });
   }
 }
