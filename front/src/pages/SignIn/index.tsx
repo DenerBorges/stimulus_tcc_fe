@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
 
 import "./styles.css";
+import api from "../../utils/api";
 
 const SignIn: React.FC = () => {
   const [user, setUser] = useState("");
@@ -11,15 +12,24 @@ const SignIn: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleLogin = (e: FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!user || !password) {
-      setError("Preencha todos os campos!");
-      return;
-    } else {
+    try {
+      const response = await api.post(`login`, {user, password});
+      const { access_token, user_name } = response.data;
+
+      localStorage.setItem("userToken", access_token);
+      localStorage.setItem("userName", user_name);
       navigate("/home");
+    } catch (error) {
+      if (!user || !password) {
+        setError("Preencha todos os campos!");
+        return;
+      }
+      console.log(error);
     }
+
   };
 
   return (
@@ -37,7 +47,7 @@ const SignIn: React.FC = () => {
         <h2>Login</h2>
         <h5 className="my-5">Por favor, efetue o login</h5>
 
-        <form action="#" onSubmit={handleLogin}>
+        <form action="post" onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="user" className="form-label fw-semibold">
               Usuário

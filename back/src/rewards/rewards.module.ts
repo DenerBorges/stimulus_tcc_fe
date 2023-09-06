@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { RewardsService } from './rewards.service';
 import { RewardsController } from './rewards.controller';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Reward, RewardSchema } from './entities/reward.entity';
+import { PrismaModule } from 'src/prisma.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Reward.name, schema: RewardSchema }]),
-  ],
+  imports: [PrismaModule],
   controllers: [RewardsController],
   providers: [RewardsService],
+  exports: [RewardsService],
 })
 export class RewardsModule {}

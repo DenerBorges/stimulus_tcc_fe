@@ -1,54 +1,10 @@
-.logo {
-  width: 20vh;
-  height: 5vh;
-}
-
-.searchIcon {
-  position: relative;
-}
-
-.searchIcon svg {
-  position: absolute;
-  top: 20%;
-  left: 2%;
-  height: 22px;
-  color: rgb(200, 200, 200);
-}
-
-.searchIcon:focus-within svg {
-  visibility: hidden;
-}
-
-.profile svg {
-  width: 1.7rem;
-}
-
 .card {
   width: 18rem;
   margin: auto;
   padding: auto;
 }
 
-footer {
-  background-color: rgb(30, 30, 30);
-}
-
-@media only screen and (min-width: 1200px) {
-  .pesquisa {
-    width: 50vh;
-  }
-}
-
-@media only screen and (max-width: 991px) {
-  li {
-    padding-left: 1rem;
-  }
-}
-
 @media only screen and (min-width: 991px) and (max-width: 1200px) {
-  .pesquisa {
-    width: 50vh;
-  }
   .card {
     width: 14rem;
   }

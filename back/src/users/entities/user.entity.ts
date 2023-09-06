@@ -14,7 +14,7 @@ export class User {
   @Prop()
   birthdate: string;
 
-  @Prop()
+  @Prop({ unique: true })
   email: string;
 
   @Prop()

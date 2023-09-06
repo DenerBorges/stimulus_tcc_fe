@@ -6,33 +6,46 @@ import {
   Put,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { RewardsService } from './rewards.service';
-import { CreateRewardDto } from './dto/create-reward.dto';
-import { UpdateRewardDto } from './dto/update-reward.dto';
+import { Reward } from '@prisma/client';
 
 @Controller('rewards')
 export class RewardsController {
   constructor(private readonly rewardsService: RewardsService) {}
 
-  @Post()
-  create(@Body() createRewardDto: CreateRewardDto) {
-    return this.rewardsService.create(createRewardDto);
+  @Post(':projectId')
+  async create(
+    @Param('projectId') projectId: string,
+    @Body() data: Omit<Reward, 'projectId'>,
+  ): Promise<Reward> {
+    try {
+      return this.rewardsService.create(data, projectId);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw new NotFoundException('Projeto não encontrado');
+      }
+      throw error;
+    }
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Reward[]> {
     return this.rewardsService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Reward | null> {
     return this.rewardsService.findOne(id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateRewardDto: UpdateRewardDto) {
-    return this.rewardsService.update(id, updateRewardDto);
+  update(
+    @Param('id') id: string,
+    @Body() reward: Reward,
+  ): Promise<Reward | null> {
+    return this.rewardsService.update(id, reward);
   }
 
   @Delete(':id')
