@@ -11,31 +11,59 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      String
-  birthdate String
-  email     String   @unique
-  password  String
-  project   Project[]
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  user         String
+  birthdate    String
+  email        String     @unique
+  password     String
+  mobile       String?
+  document     String?
+  zipCode      String?
+  street       String?
+  number       String?
+  complement   String?
+  neighborhood String?
+  city         String?
+  state        String?
+  project      Project[]
+  donation     Donation[]
 }
 
 model Project {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   category    String
-  goal        Float
+  goal        Float    @db.Double
   image       String
   reward      Reward[]
-  User        User    @relation(fields: [userId], references: [id])
-  userId      String  @unique @db.ObjectId
+  donation     Donation[]
+  User        User     @relation(fields: [userId], references: [id])
+  userId      String   @db.ObjectId
 }
 
 model Reward {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
-  value       Float
+  value       Float   @db.Double
   Project     Project @relation(fields: [projectId], references: [id])
-  projectId   String  @unique @db.ObjectId
+  projectId   String  @db.ObjectId
+}
+
+enum DonationStatus {
+  PENDING
+  PAID
+  CANCELED
+}
+
+model Donation {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  status        DonationStatus @default(PENDING)
+  total         Float          @db.Double
+  transactionId String?
+  project       Project        @relation(fields: [projectId], references: [id])
+  projectId     String         @db.ObjectId
+  User          User           @relation(fields: [userId], references: [id])
+  userId        String         @db.ObjectId
 }
