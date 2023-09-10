@@ -1,65 +1,13 @@
 import React from "react";
-import { MagnifyingGlassIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 import "./styles.css";
 
 const Home: React.FC = () => {
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg bg-body-tertiary"
-        data-bs-theme="dark"
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/home">
-            <img
-              src={require("../../assets/images/logo_1.png")}
-              alt="Logo do site"
-              className="logo mx-auto d-block"
-            />
-          </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <form className="d-flex mx-auto" role="search">
-              <div className="searchIcon">
-                <input
-                  className="pesquisa form-control text-light me-2"
-                  type="search"
-                  placeholder="     Pesquisar"
-                  aria-label="Search"
-                />
-                <MagnifyingGlassIcon />
-              </div>
-              <button className="btn btn-outline-info fw-medium" type="submit">
-                Pesquisar
-              </button>
-            </form>
-            <ul className="navbar-nav mt-1">
-              <li className="nav-item border rounded me-1">
-                <a className="nav-link fw-medium" href="/categories">
-                  Categorias
-                </a>
-              </li>
-              <li className="nav-item border rounded me-1">
-                <a className="profile nav-link fw-medium" href="/">
-                  Login
-                  <UserCircleIcon />
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       <h1 className="text-center shadow fw-bolder py-2 my-3">
         Projetos em destaque
@@ -75,12 +23,33 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content. This content is a little bit
                 longer.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={25}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "25%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>25 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>80 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -94,8 +63,29 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">This is a short card.</p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={50}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "50%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>50 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>56 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -109,11 +99,32 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={85}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "85%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>85 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>15 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -127,12 +138,33 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content. This content is a little bit
                 longer.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={100}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-success" style={{width: "100%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>100 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>13 horas restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -146,12 +178,33 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content. This content is a little bit
                 longer.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={15}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "15%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>15 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>128 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -165,12 +218,33 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content. This content is a little bit
                 longer.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={93}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "93%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>93 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>14 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -184,77 +258,39 @@ const Home: React.FC = () => {
               />
             </a>
             <div className="card-body border secondary">
-              <h5 className="card-title">Card title</h5>
+              <h5 className="card-title text-center">Card title</h5>
+              <p className="card-text">
+                <small className="text-body-secondary">Categoria</small>
+              </p>
               <p className="card-text">
                 This is a longer card with supporting text below as a natural
                 lead-in to additional content. This content is a little bit
                 longer.
               </p>
+              <div
+                className="progress"
+                role="progressbar"
+                aria-label="Basic example"
+                aria-valuenow={63}
+                aria-valuemin={0}
+                aria-valuemax={100}
+              >
+                <div className="progress-bar bg-info" style={{width: "63%"}}></div>
+              </div>
+              <div className="row pt-2">
+                <div className="col pe-0">
+                  <small>63 %</small>
+                </div>
+                <div className="col p-0">
+                  <small>98 dias restantes</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <footer className="container-fluid mt-3 p-3 text-center">
-        <div className="row">
-          <div className="col">
-            <img
-              src={require("../../assets/images/logo_1.png")}
-              alt="Logo do site"
-              width="300"
-              className="mt-2"
-            />
-          </div>
-          <div className="col">
-            <p className="fw-medium fs-4 mt-1 text-light">Contate-nos</p>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/facebook_logo.png")}
-                alt="facebook"
-                width="30"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/twitter_logo.png")}
-                alt="twitter"
-                width="31"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/gmail_logo.png")}
-                alt="gmail"
-                width="30"
-                className="me-2"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/linkedin_logo.png")}
-                alt="linkedin"
-                width="30"
-                className="me-1"
-              />
-            </a>
-            <a href="/home">
-              <img
-                src={require("../../assets/images/whatsapp_logo.png")}
-                alt="whatsapp"
-                width="30"
-                className="me-2"
-              />
-            </a>
-          </div>
-          <div className="col">
-            <p className="fw-medium text-light mt-4">
-              Copyright © 2023 <br /> Todos os direitos reservados
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 };
