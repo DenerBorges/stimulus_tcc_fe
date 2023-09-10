@@ -278,7 +278,7 @@ const Project: React.FC = () => {
                 link/nomedoprojeto
               </div>
               <div className="col pb-2">
-                <a className="text-decoration-none text-dark" href="/home">
+                <a className="text-decoration-none text-dark" href="/">
                   <img
                     src={require("../../assets/images/facebook_logo.png")}
                     alt="facebook"
@@ -289,7 +289,7 @@ const Project: React.FC = () => {
                 </a>
               </div>
               <div className="col pb-2">
-                <a className="text-decoration-none text-dark" href="/home">
+                <a className="text-decoration-none text-dark" href="/">
                   <img
                     src={require("../../assets/images/twitter_logo.png")}
                     alt="twitter"
@@ -300,7 +300,7 @@ const Project: React.FC = () => {
                 </a>
               </div>
               <div className="col pb-2">
-                <a className="text-decoration-none text-dark" href="/home">
+                <a className="text-decoration-none text-dark" href="/">
                   <img
                     src={require("../../assets/images/linkedin_logo.png")}
                     alt="linkedin"
