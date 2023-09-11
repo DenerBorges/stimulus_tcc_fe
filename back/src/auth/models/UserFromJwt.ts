@@ -1,6 +1,6 @@
 import { User as PrismaUser } from '@prisma/client';
 
 export interface UserFromJwt extends PrismaUser {
-  id: string;
+  id: number;
   user: string;
 }
