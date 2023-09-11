@@ -74,7 +74,7 @@ The following tools were used in building the project:
 - [React](https://react.dev/)
 - [NestJS](https://nestjs.com)
 - [TypeScript](https://www.typescriptlang.org)
-- [MongoDB](https://www.mongodb.com)
+- [PostgreSQL](https://www.postgresql.org)
 
 ## Author
 
