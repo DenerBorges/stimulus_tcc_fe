@@ -1,16 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-// import { CreateUserDto } from './dto/create-user.dto';
-// import { UpdateUserDto } from './dto/update-user.dto';
-// import { InjectModel } from '@nestjs/mongoose';
-// import { User } from './entities/user.entity';
-// import mongoose, { Model } from 'mongoose';
-import { PrismaService } from 'src/prisma.service';
-import { User } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
+import { PrismaClient, User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaClient) {}
 
   async create(data: any): Promise<User> {
     const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -28,7 +22,7 @@ export class UsersService {
     return foundAllUser;
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: number): Promise<User> {
     const foundOneUser = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -42,7 +36,7 @@ export class UsersService {
     return foundUser;
   }
 
-  async update(id: string, data: Partial<User>): Promise<User> {
+  async update(id: number, data: Partial<User>): Promise<User> {
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data,
@@ -50,21 +44,10 @@ export class UsersService {
     return updatedUser;
   }
 
-  async remove(userId: string) {
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-
-    if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
-    }
-
-    const userProjects = await this.prisma.project.findMany({
-      where: { userId },
+  async remove(id: number) {
+    const deletedUser = await this.prisma.user.delete({
+      where: { id },
     });
-
-    for (const project of userProjects) {
-      await this.prisma.project.delete({ where: { id: project.id } });
-    }
-
-    await this.prisma.user.delete({ where: { id: userId } });
+    return deletedUser;
   }
 }

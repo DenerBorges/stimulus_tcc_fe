@@ -36,17 +36,17 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User | null> {
-    return this.usersService.findOne(id);
+  findOne(@Param('id') id: number): Promise<User | null> {
+    return this.usersService.findOne(+id);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() user: User): Promise<User | null> {
-    return this.usersService.update(id, user);
+  update(@Param('id') id: number, @Body() user: User): Promise<User | null> {
+    return this.usersService.update(+id, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  remove(@Param('id') id: number) {
+    return this.usersService.remove(+id);
   }
 }
