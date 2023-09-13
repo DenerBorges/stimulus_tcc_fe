@@ -1,10 +1,10 @@
 export class CreateProjectDto {
-  _id: string;
+  id: number;
   name: string;
   description: string;
   category: string;
   goal: number;
   amount_donated?: number;
   image: string;
-  user_id: string;
+  userId: number;
 }

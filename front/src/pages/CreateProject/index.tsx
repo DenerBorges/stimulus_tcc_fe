@@ -13,7 +13,7 @@ const CreateProject: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    navigate("/reward");
+    navigate("/home");
   }
 
   return (
@@ -92,6 +92,7 @@ const CreateProject: React.FC = () => {
               className="form-control"
               type="file"
               id="formFileMultiple"
+              accept="image/* video/*"
               multiple
               required
             />

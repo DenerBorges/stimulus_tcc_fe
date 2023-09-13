@@ -1,5 +1,5 @@
 export interface UserPayload {
-  sub: string;
+  sub: number;
   user: string;
   iat?: number;
   exp?: number;

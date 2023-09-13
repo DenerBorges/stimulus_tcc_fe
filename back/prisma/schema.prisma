@@ -6,49 +6,56 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DB_URI")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  user         String
-  birthdate    String
-  email        String     @unique
-  password     String
-  mobile       String?
-  document     String?
-  zipCode      String?
-  street       String?
-  number       String?
-  complement   String?
-  neighborhood String?
-  city         String?
-  state        String?
+  id           Int        @id @default(autoincrement())
+  user         String     @db.VarChar(255)
+  birthdate    String     @db.VarChar(255)
+  email        String     @unique @db.VarChar(255)
+  password     String     @db.VarChar(255)
+  mobile       String?    @db.VarChar(255)
+  document     String?    @db.VarChar(255)
+  zipCode      String?    @db.VarChar(255)
+  street       String?    @db.VarChar(255)
+  number       String?    @db.VarChar(255)
+  complement   String?    @db.VarChar(255)
+  neighborhood String?    @db.VarChar(255)
+  city         String?    @db.VarChar(255)
+  state        String?    @db.Char(2)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
   project      Project[]
   donation     Donation[]
 }
 
 model Project {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  category    String
-  goal        Float    @db.Double
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  description String     @db.VarChar(255)
+  category    String     @db.VarChar(255)
+  goal        Decimal    @db.Decimal(10, 2)
   image       String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  User        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
   reward      Reward[]
-  donation     Donation[]
-  User        User     @relation(fields: [userId], references: [id])
-  userId      String   @db.ObjectId
+  donation    Donation[]
 }
 
 model Reward {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  description String
-  value       Float   @db.Double
-  Project     Project @relation(fields: [projectId], references: [id])
-  projectId   String  @db.ObjectId
+  id          Int        @id @default(autoincrement())
+  name        String     @db.VarChar(255)
+  description String     @db.VarChar(255)
+  value       Decimal    @db.Decimal(10, 2)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   Int
+  donation    Donation[]
 }
 
 enum DonationStatus {
@@ -58,12 +65,16 @@ enum DonationStatus {
 }
 
 model Donation {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int            @id @default(autoincrement())
   status        DonationStatus @default(PENDING)
-  total         Float          @db.Double
-  transactionId String?
+  total         Decimal        @db.Decimal(10, 2)
+  transactionId String?        @db.VarChar(255)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   project       Project        @relation(fields: [projectId], references: [id])
-  projectId     String         @db.ObjectId
-  User          User           @relation(fields: [userId], references: [id])
-  userId        String         @db.ObjectId
+  projectId     Int
+  user          User           @relation(fields: [userId], references: [id])
+  userId        Int
+  reward        Reward         @relation(fields: [rewardId], references: [id])
+  rewardId      Int
 }

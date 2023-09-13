@@ -6,28 +6,18 @@ import {
   Put,
   Param,
   Delete,
-  NotFoundException,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { Project } from '@prisma/client';
+import { CreateProjectDto } from './dto/create-project.dto';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @Post(':userId')
-  async create(
-    @Param('userId') userId: string,
-    @Body() data: Omit<Project, 'userId'>,
-  ): Promise<Project> {
-    try {
-      return this.projectsService.create(data, userId);
-    } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw new NotFoundException('Usuário não encontrado');
-      }
-      throw error;
-    }
+  @Post()
+  create(@Body() createProjectDto: CreateProjectDto) {
+    return this.projectsService.create(createProjectDto);
   }
 
   @Get()
@@ -36,20 +26,20 @@ export class ProjectsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Project | null> {
-    return this.projectsService.findOne(id);
+  findOne(@Param('id') id: number): Promise<Project | null> {
+    return this.projectsService.findOne(+id);
   }
 
   @Put(':id')
   update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() project: Project,
   ): Promise<Project | null> {
-    return this.projectsService.update(id, project);
+    return this.projectsService.update(+id, project);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(id);
+  remove(@Param('id') id: number) {
+    return this.projectsService.remove(+id);
   }
 }

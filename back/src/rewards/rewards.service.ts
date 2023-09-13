@@ -1,32 +1,26 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Reward } from '@prisma/client';
-import { PrismaService } from 'src/prisma.service';
-// import { CreateRewardDto } from './dto/create-reward.dto';
-// import { UpdateRewardDto } from './dto/update-reward.dto';
-// import { InjectModel } from '@nestjs/mongoose';
-// import { Reward } from './entities/reward.entity';
-// import mongoose, { Model } from 'mongoose';
+import { Injectable } from '@nestjs/common';
+import { PrismaClient, Reward } from '@prisma/client';
+import { CreateRewardDto } from './dto/create-reward.dto';
 
 @Injectable()
 export class RewardsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaClient) {}
 
-  async create(
-    data: Omit<Reward, 'projectId'>,
-    projectId: string,
-  ): Promise<Reward> {
+  async create(createRewardDto: CreateRewardDto) {
+    const { projectId, ...rewardData } = createRewardDto;
+
     const projectExists = await this.prisma.project.findUnique({
       where: { id: projectId },
     });
 
     if (!projectExists) {
-      throw new NotFoundException('Projeto não encontrado');
+      throw new Error(`Projeto com ID ${projectId} não encontrado.`);
     }
 
     return this.prisma.reward.create({
       data: {
-        ...data,
         projectId: projectId,
+        ...rewardData,
       },
     });
   }
@@ -36,14 +30,14 @@ export class RewardsService {
     return foundAllReward;
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const foundReward = await this.prisma.reward.findUnique({
       where: { id },
     });
     return foundReward;
   }
 
-  async update(id: string, data: Partial<Reward>): Promise<Reward> {
+  async update(id: number, data: Partial<Reward>): Promise<Reward> {
     const updateReward = await this.prisma.reward.update({
       where: { id },
       data,
@@ -51,10 +45,10 @@ export class RewardsService {
     return updateReward;
   }
 
-  async remove(id: string): Promise<Reward> {
-    const removeReward = await this.prisma.reward.delete({
+  async remove(id: number): Promise<Reward> {
+    const removedReward = await this.prisma.reward.delete({
       where: { id },
     });
-    return removeReward;
+    return removedReward;
   }
 }

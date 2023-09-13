@@ -63,7 +63,7 @@ const SignUp: React.FC = () => {
         email,
         password: password,
       });
-      navigate("/");
+      navigate("/signin");
     }
   };
 
@@ -213,7 +213,7 @@ const SignUp: React.FC = () => {
         <label className="my-1 fw-semibold">
           Já possui uma conta?
           <strong className="fw-semibold">
-            &nbsp;<Link to="/">Faça Login</Link>
+            &nbsp;<Link to="/signin">Faça Login</Link>
           </strong>
         </label>
       </div>

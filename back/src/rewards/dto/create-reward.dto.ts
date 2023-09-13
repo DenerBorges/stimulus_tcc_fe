@@ -1,7 +1,7 @@
 export class CreateRewardDto {
-  _id: string;
+  id: number;
   name: string;
   description: string;
   value: number;
-  project_id: string;
+  projectId: number;
 }

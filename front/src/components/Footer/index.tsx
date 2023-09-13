@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="col">
           <p className="fw-medium fs-4 mt-1 text-light">Contate-nos</p>
-          <a href="/home">
+          <a href="/">
             <img
               src={require("../../assets/images/facebook_logo.png")}
               alt="facebook"
@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
               className="me-1"
             />
           </a>
-          <a href="/home">
+          <a href="/">
             <img
               src={require("../../assets/images/twitter_logo.png")}
               alt="twitter"
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
               className="me-1"
             />
           </a>
-          <a href="/home">
+          <a href="/">
             <img
               src={require("../../assets/images/gmail_logo.png")}
               alt="gmail"
@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
               className="me-2"
             />
           </a>
-          <a href="/home">
+          <a href="/">
             <img
               src={require("../../assets/images/linkedin_logo.png")}
               alt="linkedin"
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               className="me-1"
             />
           </a>
-          <a href="/home">
+          <a href="/">
             <img
               src={require("../../assets/images/whatsapp_logo.png")}
               alt="whatsapp"

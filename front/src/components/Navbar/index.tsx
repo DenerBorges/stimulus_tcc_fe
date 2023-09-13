@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MagnifyingGlassIcon,
   PlusIcon,
@@ -9,13 +9,21 @@ import {
 import "./styles.css";
 
 const Navbar: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <nav
       className="navbar navbar-expand-lg bg-body-tertiary"
       data-bs-theme="dark"
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/home">
+        <a className="navbar-brand" href="/">
           <img
             src={require("../../assets/images/logo_1.png")}
             alt="Logo do site"
@@ -65,10 +73,17 @@ const Navbar: React.FC = () => {
               </a>
             </li>
             <li className="nav-item border rounded me-1">
-              <a className="navBtns nav-link fw-medium" href="/">
-                Login
-                <UserCircleIcon />
-              </a>
+              {isLoggedIn ? (
+                <a className="navBtns nav-link fw-medium" href="/profile">
+                  Perfil
+                  <UserCircleIcon />
+                </a>
+              ) : (
+                <a className="navBtns nav-link fw-medium" href="/signin">
+                  Login
+                  <UserCircleIcon />
+                </a>
+              )}
             </li>
           </ul>
         </div>

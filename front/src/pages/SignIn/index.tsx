@@ -21,12 +21,13 @@ const SignIn: React.FC = () => {
 
       localStorage.setItem("userToken", access_token);
       localStorage.setItem("userName", user_name);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       if (!user || !password) {
         setError("Preencha todos os campos!");
         return;
       }
+      setError("Seu usuário ou senha estão incorretos!");
       console.log(error);
     }
 
