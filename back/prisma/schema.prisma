@@ -55,7 +55,7 @@ model Reward {
   updatedAt   DateTime   @updatedAt
   Project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   Int
-  Donation    Donation[]
+  donation    Donation[]
 }
 
 enum DonationStatus {
@@ -73,8 +73,8 @@ model Donation {
   updatedAt     DateTime       @updatedAt
   project       Project        @relation(fields: [projectId], references: [id])
   projectId     Int
-  User          User           @relation(fields: [userId], references: [id])
+  user          User           @relation(fields: [userId], references: [id])
   userId        Int
-  Reward        Reward         @relation(fields: [rewardId], references: [id])
+  reward        Reward         @relation(fields: [rewardId], references: [id])
   rewardId      Int
 }
