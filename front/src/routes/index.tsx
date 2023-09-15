@@ -12,7 +12,7 @@ import Reward from "../pages/Reward";
 
 const RoutesApp: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.REACT_APP_BASE_NAME}>
       <Fragment>
         <Routes>
           <Route path="/" element={<Home />} />
