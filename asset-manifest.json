@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.c91d5567.css",
+    "main.js": "/static/js/main.bfb621b1.js",
+    "static/media/background_login.png": "/static/media/background_login.31c8e6695d7f9bb78a56.png",
+    "static/media/whatsapp_logo.png": "/static/media/whatsapp_logo.6fcbb1e5dd32943e4aa2.png",
+    "static/media/logo_1.png": "/static/media/logo_1.bd382791acf5b7934cc9.png",
+    "static/media/categorie_music.png": "/static/media/categorie_music.2cd7f3bcea876622e80d.png",
+    "static/media/categorie_gastronomy.png": "/static/media/categorie_gastronomy.b467f2304070dbddc50b.png",
+    "static/media/categorie_art.png": "/static/media/categorie_art.bb7e270fd47704519e85.png",
+    "static/media/categorie_book.png": "/static/media/categorie_book.08a04321e58c084fa925.png",
+    "static/media/facebook_logo.png": "/static/media/facebook_logo.e1fd4348185a1f927919.png",
+    "static/media/categorie_game.png": "/static/media/categorie_game.162ed61fa9123c981410.png",
+    "static/media/categorie_technology.png": "/static/media/categorie_technology.c9f342ec48643f00e154.png",
+    "static/media/gmail_logo.png": "/static/media/gmail_logo.8108bab95d17f4ef2367.png",
+    "index.html": "/index.html",
+    "main.c91d5567.css.map": "/static/css/main.c91d5567.css.map",
+    "main.bfb621b1.js.map": "/static/js/main.bfb621b1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c91d5567.css",
+    "static/js/main.bfb621b1.js"
+  ]
+}
