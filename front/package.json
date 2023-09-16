@@ -1,7 +1,7 @@
 {
   "name": "front",
   "version": "0.1.0",
-  "homepage": "https://denerborges.github.io/stimulus_tcc/",
+  "homepage": "https://denerborges.github.io/stimulus_tcc/front",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^2.0.18",
