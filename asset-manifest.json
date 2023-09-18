@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/stimulus_tcc/front/static/css/main.bc9d67b4.css",
-    "main.js": "/stimulus_tcc/front/static/js/main.c696155f.js",
-    "static/media/background_login.png": "/stimulus_tcc/front/static/media/background_login.31c8e6695d7f9bb78a56.png",
-    "static/media/whatsapp_logo.png": "/stimulus_tcc/front/static/media/whatsapp_logo.6fcbb1e5dd32943e4aa2.png",
-    "static/media/logo_1.png": "/stimulus_tcc/front/static/media/logo_1.bd382791acf5b7934cc9.png",
-    "static/media/categorie_music.png": "/stimulus_tcc/front/static/media/categorie_music.2cd7f3bcea876622e80d.png",
-    "static/media/categorie_gastronomy.png": "/stimulus_tcc/front/static/media/categorie_gastronomy.b467f2304070dbddc50b.png",
-    "static/media/categorie_art.png": "/stimulus_tcc/front/static/media/categorie_art.bb7e270fd47704519e85.png",
-    "static/media/categorie_book.png": "/stimulus_tcc/front/static/media/categorie_book.08a04321e58c084fa925.png",
-    "static/media/facebook_logo.png": "/stimulus_tcc/front/static/media/facebook_logo.e1fd4348185a1f927919.png",
-    "static/media/categorie_game.png": "/stimulus_tcc/front/static/media/categorie_game.162ed61fa9123c981410.png",
-    "static/media/categorie_technology.png": "/stimulus_tcc/front/static/media/categorie_technology.c9f342ec48643f00e154.png",
-    "static/media/gmail_logo.png": "/stimulus_tcc/front/static/media/gmail_logo.8108bab95d17f4ef2367.png",
-    "index.html": "/stimulus_tcc/front/index.html",
-    "main.bc9d67b4.css.map": "/stimulus_tcc/front/static/css/main.bc9d67b4.css.map",
-    "main.c696155f.js.map": "/stimulus_tcc/front/static/js/main.c696155f.js.map"
+    "main.css": "/stimulus_tcc/static/css/main.3ff1a2cd.css",
+    "main.js": "/stimulus_tcc/static/js/main.7e24fbff.js",
+    "static/media/background_login.png": "/stimulus_tcc/static/media/background_login.31c8e6695d7f9bb78a56.png",
+    "static/media/whatsapp_logo.png": "/stimulus_tcc/static/media/whatsapp_logo.6fcbb1e5dd32943e4aa2.png",
+    "static/media/logo_1.png": "/stimulus_tcc/static/media/logo_1.bd382791acf5b7934cc9.png",
+    "static/media/categorie_music.png": "/stimulus_tcc/static/media/categorie_music.2cd7f3bcea876622e80d.png",
+    "static/media/categorie_gastronomy.png": "/stimulus_tcc/static/media/categorie_gastronomy.b467f2304070dbddc50b.png",
+    "static/media/categorie_art.png": "/stimulus_tcc/static/media/categorie_art.bb7e270fd47704519e85.png",
+    "static/media/categorie_book.png": "/stimulus_tcc/static/media/categorie_book.08a04321e58c084fa925.png",
+    "static/media/facebook_logo.png": "/stimulus_tcc/static/media/facebook_logo.e1fd4348185a1f927919.png",
+    "static/media/categorie_game.png": "/stimulus_tcc/static/media/categorie_game.162ed61fa9123c981410.png",
+    "static/media/categorie_technology.png": "/stimulus_tcc/static/media/categorie_technology.c9f342ec48643f00e154.png",
+    "static/media/gmail_logo.png": "/stimulus_tcc/static/media/gmail_logo.8108bab95d17f4ef2367.png",
+    "index.html": "/stimulus_tcc/index.html",
+    "main.3ff1a2cd.css.map": "/stimulus_tcc/static/css/main.3ff1a2cd.css.map",
+    "main.7e24fbff.js.map": "/stimulus_tcc/static/js/main.7e24fbff.js.map"
   },
   "entrypoints": [
-    "static/css/main.bc9d67b4.css",
-    "static/js/main.c696155f.js"
+    "static/css/main.3ff1a2cd.css",
+    "static/js/main.7e24fbff.js"
   ]
 }
