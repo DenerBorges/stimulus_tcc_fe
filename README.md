@@ -27,42 +27,23 @@ Also it's nice to have an editor to work with the code like [VSCode](https://cod
 ## Usage
 
 <p align="justify">
-Port: 5000
-
-Base URL: http://localhost:5000/api/v1/
+Port: 3000
 
 ## Installation
 
 ### Starting React APP
 ```bash
 # Clone this repository
-$ git clone https://github.com/DenerBorges/stimulus_tcc.git
+$ git clone https://github.com/DenerBorges/stimulus_tcc_fe.git
 
 # Access project folder in terminal/cmd
-$ cd stimulus_tcc
-
-# Access frontend folder in terminal/cmd
-$ cd front
+$ cd stimulus_tcc_fe
 
 # Install the dependencies
 $ npm install
 
 # Initialize the project
 $ npm start
-```
-### Starting Nest Server
-```bash
-# Access project folder in terminal/cmd
-$ cd stimulus_tcc
-
-# Access backend folder in terminal/cmd
-$ cd back
-
-# Install the dependencies
-$ npm install
-
-# Initialize the server with watch mode
-$ npm run start:dev
 ```
 
 ## Technologies
