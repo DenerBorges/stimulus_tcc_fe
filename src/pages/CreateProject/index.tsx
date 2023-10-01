@@ -1,20 +1,68 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import api from "../../utils/api";
 
 import "./styles.css";
 
 const CreateProject: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [goal, setGoal] = useState(0);
+  const [deadline, setDeadline] = useState(0);
+  const [image, setImage] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("userToken")) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    navigate("/home");
-  }
+    if (isLoggedIn) {
+      try {
+        const response = await api.get("users/profile");
+        const loged = response.data;
+
+        const selectedFiles = document.getElementById(
+          "formFileMultiple"
+        ) as HTMLInputElement;
+        const fileList = selectedFiles.files;
+
+        if (fileList && fileList.length > 0) {
+          const imageFileNames = [];
+
+          for (let i = 0; i < fileList.length; i++) {
+            imageFileNames.push(fileList[i].name);
+          }
+
+          await api.post("projects", {
+            name,
+            description,
+            category,
+            goal,
+            deadline,
+            image: imageFileNames,
+            userId: loged.id,
+          });
+          navigate("/");
+        } else {
+          console.log("Nenhum arquivo selecionado.");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigate("/signin");
+    }
+  };
 
   return (
     <>
@@ -24,8 +72,10 @@ const CreateProject: React.FC = () => {
         Criar seu Projeto
       </h1>
       <div className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5">
-        <h2 className="text-center fw-bolder">Formulário de criação de projeto</h2>
-        <form action="#" onSubmit={handleSubmit}>
+        <h2 className="text-center fw-bolder">
+          Formulário de criação de projeto
+        </h2>
+        <form method="post" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label fw-medium">
               Nome
@@ -35,6 +85,8 @@ const CreateProject: React.FC = () => {
               className="form-control"
               placeholder="Nome do projeto"
               id="name"
+              value={name}
+              onChange={(e) => [setName(e.target.value)]}
               required
             />
           </div>
@@ -46,6 +98,8 @@ const CreateProject: React.FC = () => {
               className="form-control"
               placeholder="Descrição do seu projeto"
               id="description"
+              value={description}
+              onChange={(e) => [setDescription(e.target.value)]}
               required
             ></textarea>
           </div>
@@ -58,6 +112,26 @@ const CreateProject: React.FC = () => {
               className="form-control"
               placeholder="Meta de valor"
               id="goal"
+              value={goal}
+              onChange={(e) => {
+                setGoal(parseInt(e.target.value, 0));
+              }}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="deadline" className="form-label fw-medium">
+              Data de expiração do projeto (dias)
+            </label>
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Dias de expiração"
+              id="deadline"
+              value={deadline}
+              onChange={(e) => {
+                setDeadline(parseInt(e.target.value, 0));
+              }}
               required
             />
           </div>
@@ -70,18 +144,18 @@ const CreateProject: React.FC = () => {
               id="category"
               aria-label="Select Category"
               required
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
             >
               <option value="" disabled>
                 Selecione a categoria
               </option>
-              <option value="1">Arte</option>
-              <option value="2">Gastronomia</option>
-              <option value="3">Jogo</option>
-              <option value="4">Livro</option>
-              <option value="5">Música</option>
-              <option value="6">Tecnologia</option>
+              <option value="Arte">Arte</option>
+              <option value="Gastronomia">Gastronomia</option>
+              <option value="Jogo">Jogo</option>
+              <option value="Livro">Livro</option>
+              <option value="Música">Música</option>
+              <option value="Tecnologia">Tecnologia</option>
             </select>
           </div>
           <div className="mb-3">
@@ -92,7 +166,9 @@ const CreateProject: React.FC = () => {
               className="form-control"
               type="file"
               id="formFileMultiple"
-              accept="image/* video/*"
+              accept="image/*"
+              value={image}
+              onChange={(e) => [setImage(e.target.value)]}
               multiple
               required
             />
