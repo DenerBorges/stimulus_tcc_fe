@@ -4,11 +4,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
-import Profile from "../pages/Profile";
-import Categories from "../pages/Categories";
 import CreateProject from "../pages/CreateProject";
 import Project from "../pages/Project";
 import Reward from "../pages/Reward";
+import Profile from "../pages/Profile";
+import Categories from "../pages/Categories";
+import Art from "../pages/Art";
+import Gastronomy from "../pages/Gastronomy";
+import Game from "../pages/Game";
+import Book from "../pages/Book";
+import Music from "../pages/Music";
+import Technology from "../pages/Technology";
 
 const RoutesApp: React.FC = () => {
   return (
@@ -18,11 +24,17 @@ const RoutesApp: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/create_project" element={<CreateProject />} />
+          <Route path="/project/:id" element={<Project />} />
+          <Route path="/reward" element={<Reward />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/create_project" element={<CreateProject />} />
-          <Route path="/project" element={<Project />} />
-          <Route path="/reward" element={<Reward />} />
+          <Route path="/art" element={<Art />} />
+          <Route path="/gastronomy" element={<Gastronomy />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/music" element={<Music />} />
+          <Route path="/technology" element={<Technology />} />
         </Routes>
       </Fragment>
     </BrowserRouter>
