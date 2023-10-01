@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ArrowLeftOnRectangleIcon,
   MagnifyingGlassIcon,
   PlusIcon,
   TagIcon,
@@ -10,6 +11,11 @@ import "./styles.css";
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    localStorage.removeItem("userName");
+  };
 
   useEffect(() => {
     if (localStorage.getItem("userToken")) {
@@ -17,9 +23,10 @@ const Navbar: React.FC = () => {
     }
   }, []);
 
+
   return (
     <nav
-      className="navbar navbar-expand-lg bg-body-tertiary"
+      className="navbar navbar-expand-xl bg-body-tertiary"
       data-bs-theme="dark"
     >
       <div className="container-fluid">
@@ -72,19 +79,33 @@ const Navbar: React.FC = () => {
                 <TagIcon />
               </a>
             </li>
-            <li className="nav-item border rounded me-1">
-              {isLoggedIn ? (
-                <a className="navBtns nav-link fw-medium" href="/profile">
-                  Perfil
-                  <UserCircleIcon />
-                </a>
-              ) : (
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item border rounded me-1">
+                  <a className="navBtns nav-link fw-medium" href="/profile">
+                    Perfil
+                    <UserCircleIcon />
+                  </a>
+                </li>
+                <li className="nav-item border rounded me-1">
+                  <a
+                    className="navBtns nav-link fw-medium"
+                    href="/"
+                    onClick={handleLogout}
+                  >
+                    Sair
+                    <ArrowLeftOnRectangleIcon />
+                  </a>
+                </li>
+              </>
+            ) : (
+              <li className="nav-item border rounded me-1">
                 <a className="navBtns nav-link fw-medium" href="/signin">
                   Login
                   <UserCircleIcon />
                 </a>
-              )}
-            </li>
+              </li>
+            )}
           </ul>
         </div>
       </div>
