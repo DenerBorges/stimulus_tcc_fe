@@ -13,7 +13,7 @@ const Categories: React.FC = () => {
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5 mx-auto my-auto">
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/art" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_art.png")}
                 className="card-img"
@@ -27,7 +27,7 @@ const Categories: React.FC = () => {
         </div>
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/gastronomy" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_gastronomy.png")}
                 className="card-img"
@@ -41,7 +41,7 @@ const Categories: React.FC = () => {
         </div>
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/game" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_game.png")}
                 className="card-img"
@@ -55,7 +55,7 @@ const Categories: React.FC = () => {
         </div>
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/book" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_book.png")}
                 className="card-img"
@@ -69,7 +69,7 @@ const Categories: React.FC = () => {
         </div>
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/music" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_music.png")}
                 className="card-img"
@@ -83,7 +83,7 @@ const Categories: React.FC = () => {
         </div>
         <div className="col">
           <div className="catcard card pt-4 h-100">
-            <a href="/categories" className="text-dark">
+            <a href="/technology" className="text-dark">
               <img
                 src={require("../../assets/images/categorie_technology.png")}
                 className="card-img"
