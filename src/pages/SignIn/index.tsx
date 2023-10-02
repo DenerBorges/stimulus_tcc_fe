@@ -48,7 +48,7 @@ const SignIn: React.FC = () => {
         <h2>Login</h2>
         <h5 className="my-5">Por favor, efetue o login</h5>
 
-        <form action="post" onSubmit={handleLogin}>
+        <form method="post" onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="user" className="form-label fw-semibold">
               Usuário

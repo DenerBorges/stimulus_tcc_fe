@@ -7,9 +7,9 @@ import {
   ShieldCheckIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import api from "../../utils/api";
 
 import "./styles.css";
-import api from "../../utils/api";
 
 const SignUp: React.FC = () => {
   const [user, setUser] = useState("");
@@ -28,7 +28,7 @@ const SignUp: React.FC = () => {
   data = data.replace(/\//g, "-");
   var data_array = data.split("-");
 
-  if (data_array[0].length !== 4) {
+  if (data_array[0].length !== 4 || data_array[0].length > 4) {
     data = data_array[2] + "-" + data_array[1] + "-" + data_array[0];
   }
 
@@ -82,7 +82,7 @@ const SignUp: React.FC = () => {
         <h2>Cadastro</h2>
         <h5 className="my-4">Por favor, efetue o seu cadastro</h5>
 
-        <form action="post" onSubmit={handleRegister}>
+        <form method="post" onSubmit={handleRegister}>
           <div className="mb-2">
             <label htmlFor="user" className="form-label fw-semibold">
               Nome de usuário
