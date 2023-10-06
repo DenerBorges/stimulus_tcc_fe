@@ -1,0 +1,9 @@
+.plusIcon {
+    width: 6rem;
+    fill: rgb(40, 40, 40);
+}
+
+.plusIcon:hover {
+    cursor: pointer;
+    fill: rgb(65, 65, 65);
+}
