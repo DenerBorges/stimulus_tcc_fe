@@ -36,7 +36,7 @@ const Music: React.FC = () => {
       <h1 className="text-center shadow fw-bolder py-2 my-3">
         Projetos da categoria música
       </h1>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
+      <div className="container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
         {projects.length === 0
           ? [1, 2, 3, 4, 5, 6, 7, 8].map((n) => <Loading key={n} />)
           : music.map((project) => (

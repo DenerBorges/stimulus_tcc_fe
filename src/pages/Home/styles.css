@@ -4,19 +4,19 @@
   padding: auto;
 }
 
-@media only screen and (min-width: 991px) and (max-width: 1200px) {
+@media only screen and (min-width: 991px) and (max-width: 1400px) {
   .card {
     width: 14rem;
   }
 }
 
-@media only screen and (min-width: 767px) and (max-width: 900px) {
+@media only screen and (min-width: 767px) and (max-width: 1100px) {
   .card {
-    width: 15rem;
+    width: 13rem;
   }
 }
 
-@media only screen and (min-width: 576px) and (max-width: 600px) {
+@media only screen and (min-width: 576px) and (max-width: 767px) {
   .card {
     width: 15rem;
   }

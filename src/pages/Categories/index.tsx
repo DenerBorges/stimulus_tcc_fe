@@ -10,7 +10,7 @@ const Categories: React.FC = () => {
       <Navbar />
 
       <h1 className="text-center shadow fw-bolder py-2 my-3">Categorias</h1>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5 mx-auto my-auto">
+      <div className="container row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-5 mx-auto my-auto">
         <div className="col">
           <div className="catcard card pt-4 h-100">
             <a href="/art" className="text-dark">
