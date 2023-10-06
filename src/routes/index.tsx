@@ -38,7 +38,7 @@ const RoutesApp: React.FC = () => {
           <Route path="/book" element={<Book />} />
           <Route path="/music" element={<Music />} />
           <Route path="/technology" element={<Technology />} />
-          <Route path="/search" element={<Search />} />
+          {/* <Route path="/search" element={<Search />} /> */}
 
           <Route
             path="/profile"
