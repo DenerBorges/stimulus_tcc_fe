@@ -18,7 +18,7 @@ import Technology from "../pages/Technology";
 import Profile from "../pages/Profile";
 import EditProject from "../pages/EditProject";
 import EditReward from "../pages/EditReward";
-import Search from "../pages/Search";
+// import Search from "../pages/Search";
 
 const RoutesApp: React.FC = () => {
   return (
