@@ -101,7 +101,7 @@ const Profile: React.FC = () => {
         }, 3000);
       }
     } catch (error) {
-      console.error("Erro ao atualizar o perfil:", error);
+      console.error("Erro ao atualizar o perfil: ", error);
     }
   };
 
@@ -119,7 +119,7 @@ const Profile: React.FC = () => {
         localStorage.removeItem("userName");
         navigate("/signin");
       } catch (error) {
-        console.error("Erro ao excluir a conta:", error);
+        console.error("Erro ao excluir a conta: ", error);
       }
     }
   };
