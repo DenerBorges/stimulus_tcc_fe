@@ -76,7 +76,7 @@ const Project: React.FC = () => {
           </h1>
           <div className="container shadow border rounded text-center bg-light bg-gradient my-5 mx-auto">
             <div className="row row-cols-lg-2 row-cols-1 border secondary">
-              <div className="col">
+              <div className="col p-0">
                 <div
                   id="carouselExampleIndicators"
                   className="carousel carousel-dark slide"
@@ -104,7 +104,7 @@ const Project: React.FC = () => {
                       >
                         <img
                           src={image}
-                          className="d-block w-100"
+                          className="image-card d-block w-100"
                           alt="Imagem do projeto"
                         />
                       </div>
