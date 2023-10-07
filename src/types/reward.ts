@@ -3,4 +3,5 @@ export interface rewardType {
   name: string;
   description: string;
   value: string;
+  projectId: number;
 }

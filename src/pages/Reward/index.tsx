@@ -80,13 +80,17 @@ const Reward: React.FC = () => {
     e.preventDefault();
 
     try {
-      await api.post("rewards", {
-        name,
-        description,
-        value,
-        projectId: project?.id,
-      });
-      navigate(0);
+      if (project?.id) {
+        await api.post("rewards", {
+          name,
+          description,
+          value,
+          projectId: project.id,
+        });
+        navigate(0);
+      } else {
+        console.error("ID do projeto não definido.");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -149,41 +153,46 @@ const Reward: React.FC = () => {
             </form>
           </div>
 
-          {rewards.map((reward) => (
-            <div
-              className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5"
-              key={reward.id}
-            >
-              <div className="float-end">
-                {isLoggedIn && isOwner && (
-                  <button
-                    className="btn btn-info text-light"
-                    type="submit"
-                    onClick={() =>
-                      navigate(
-                        `/project/${project?.id}/edit_reward/${reward?.id}`
-                      )
-                    }
-                  >
-                    Editar Projeto
-                  </button>
-                )}
-              </div>
-              <h4 className="fw-medium pb-3">
-                Valor <span className="text-info">R$ {reward.value}</span>
-              </h4>
-              <h5 className="fw-bolder py-2">{reward.name}</h5>
-              <p>{reward.description}</p>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
-                <button
-                  type="submit"
-                  className="btn btn-info text-light fw-medium rounded-pill shadow px-4 py-2"
+          {rewards.map((reward) => {
+            if (reward.projectId === project.id) {
+              return (
+                <div
+                  className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5"
+                  key={reward.id}
                 >
-                  Doar R$ {reward.value}
-                </button>
-              </div>
-            </div>
-          ))}
+                  <div className="float-end">
+                    {isLoggedIn && isOwner && (
+                      <button
+                        className="btn btn-info text-light"
+                        type="submit"
+                        onClick={() =>
+                          navigate(
+                            `/project/${project?.id}/edit_reward/${reward?.id}`
+                          )
+                        }
+                      >
+                        Editar Projeto
+                      </button>
+                    )}
+                  </div>
+                  <h4 className="fw-medium pb-3">
+                    Valor <span className="text-info">R$ {reward.value}</span>
+                  </h4>
+                  <h5 className="fw-bolder py-2">{reward.name}</h5>
+                  <p>{reward.description}</p>
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button
+                      type="submit"
+                      className="btn btn-info text-light fw-medium rounded-pill shadow px-4 py-2"
+                    >
+                      Doar R$ {reward.value}
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
 
           {isLoggedIn && isOwner && (
             <div className="container bg-light-subtle text-center border border-2 rounded shadow my-5 py-5 px-5">
@@ -282,10 +291,7 @@ const Reward: React.FC = () => {
                         >
                           Fechar
                         </button>
-                        <button
-                          type="submit"
-                          className="btn btn-primary"
-                        >
+                        <button type="submit" className="btn btn-primary">
                           Criar recompensa
                         </button>
                       </div>
