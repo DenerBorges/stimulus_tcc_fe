@@ -33,10 +33,10 @@ const Home: React.FC = () => {
       <div className="container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
         {projects.length === 0
           ? [1, 2, 3, 4, 5, 6, 7, 8].map((n) => <Loading key={n} />)
-          : projects.map((project) => (
+          : projects.sort((a, b) => a.id - b.id).map((project) => (
               <div className="col" key={project.id}>
                 <div className="card shadow-sm h-100">
-                  <a className="h-100" href={`/project/${project.id}`}>
+                  <a href={`/project/${project.id}`}>
                     <img
                       src={project.image[0]}
                       className="card-img-top border secondary"
