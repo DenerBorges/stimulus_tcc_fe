@@ -10,6 +10,7 @@ const CreateProject: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [total, setTotal] = useState(0);
   const [goal, setGoal] = useState(0);
   const [deadline, setDeadline] = useState(0);
   const [image, setImage] = useState("");
@@ -47,6 +48,7 @@ const CreateProject: React.FC = () => {
             name,
             description,
             category,
+            total,
             goal,
             deadline,
             image: imageFileNames,
