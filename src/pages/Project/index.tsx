@@ -11,6 +11,7 @@ import Footer from "../../components/Footer";
 import api from "../../utils/api";
 import { projectType } from "../../types/project";
 import { userType } from "../../types/user";
+import { commentType } from "../../types/comment";
 
 import "./styles.css";
 
@@ -18,8 +19,10 @@ const Project: React.FC = () => {
   const { id } = useParams();
   const [project, setProject] = useState<projectType>();
   const [user, setUser] = useState<userType>();
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<userType | null>(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [comments, setComments] = useState<commentType[]>([]);
+  const [comment, setComment] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const navigate = useNavigate();
@@ -31,18 +34,27 @@ const Project: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        // Obtenha os detalhes do projeto
+        // Obter os detalhes do projeto
         const projectResponse = await api.get(`projects/${id}`);
         const projectData = projectResponse.data;
         setProject(projectData);
 
-        // Obtenha os detalhes do usuário associado ao projeto
+        // Obter os detalhes dos comentários
+        const commentResponse = await api.get(`comments`);
+        const sortedComments = commentResponse.data.sort((a: any, b: any) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB.getTime() - dateA.getTime();
+        });
+        setComments(sortedComments);
+
+        // Obter os detalhes do usuário associado ao projeto
         const userId = projectData.userId;
         const userResponse = await api.get(`users/${userId}`);
         const userData = userResponse.data;
         setUser(userData);
 
-        // Obtenha os detalhes do usuário logado
+        // Obter os detalhes do usuário logado
         if (isLoggedIn) {
           const profileResponse = await api.get("users/profile");
           const currentUserData = profileResponse.data;
@@ -60,6 +72,37 @@ const Project: React.FC = () => {
     };
     fetchData();
   }, [id, isLoggedIn]);
+
+  const handlePostComment = async () => {
+    try {
+      if (isLoggedIn && project?.id) {
+        const formattedDateTime = new Date().toISOString();
+
+        const commentResponse = await api.post("comments", {
+          comment,
+          user: currentUser?.user,
+          createdAt: formattedDateTime,
+          userId: currentUser?.id,
+          projectId: project?.id,
+        });
+
+        // Atualize a lista de comentários após postar um novo
+        setComments((prevComments) => [commentResponse.data, ...prevComments]);
+        setComment("");
+      } else {
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.error("Erro ao postar um comentário:", error);
+    }
+  };
+
+  function formatCommentTimestamp(timestamp: Date) {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `${hours}:${minutes}`;
+  }
 
   const handleEditProject = () => {
     navigate(`/edit_project/${project?.id}`);
@@ -105,7 +148,7 @@ const Project: React.FC = () => {
                         <img
                           src={image}
                           className="image-card d-block w-100"
-                          alt="Imagem do projeto"
+                          alt={project.name}
                         />
                       </div>
                     ))}
@@ -174,7 +217,7 @@ const Project: React.FC = () => {
                 </div>
                 <div className="mx-5">
                   <h2 className="fw-bolder py-4">
-                    Arrecadado: <span className="text-info">R$ 200</span>
+                    Arrecadado: <span className="text-info">R$ {project.total}</span>
                   </h2>
                 </div>
                 <a href={`/project/${project.id}/reward`}>
@@ -264,37 +307,60 @@ const Project: React.FC = () => {
                 role="tabpanel"
                 aria-labelledby="pills-comment-tab"
               >
-                <h2 className="text-center pb-4 fw-bolder">
-                  Deixe seu comentário
-                </h2>
-                <div className="container p-3">
-                  <p className="text-start ms-2">Nome da pessoa</p>
-                  <div className="commentColor rounded-pill p-1 pt-3 ps-3 w-auto justify-content-center">
-                    <p className="text-start fw-medium fs-4">
-                      Comentário da pessoa.
+                <>
+                  <h2 className="text-center pb-4 fw-bolder">
+                    Deixe seu comentário
+                  </h2>
+                  {comments.some((com) => com.projectId === project.id) ? (
+                    comments
+                      .filter((com) => com.projectId === project.id)
+                      .map((com) => (
+                        <div className="container my-1 border border-secondary rounded p-3" key={com.id}>
+                          <div className="d-flex align-items-start">
+                            <p className="mx-2 fs-5 fw-medium">{com.user}</p>
+                            <p className="text-secondary mt-1">
+                              - {formatCommentTimestamp(com.createdAt)}
+                            </p>
+                          </div>
+                          <div className="commentColor rounded-pill p-1 pt-3 ps-3 w-auto justify-content-center">
+                            <p className="text-start fw-medium fs-4">
+                              {com.comment}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                  ) : (
+                    <p className="mx-2 py-2 fs-5 border border-secondary rounded text-center fw-medium">
+                      Não há comentários.
                     </p>
+                  )}
+                  <div className="form-floating mt-2">
+                    <textarea
+                      className="form-control border border-dark border-2"
+                      name="comment"
+                      id="floatingTextarea"
+                      title="comment"
+                      value={comment}
+                      onChange={(e) => [setComment(e.target.value)]}
+                      placeholder="Deixe um comentário"
+                    ></textarea>
+                    <label
+                      className="text-secondary"
+                      htmlFor="floatingTextarea"
+                    >
+                      Deixe um comentário
+                    </label>
                   </div>
-                </div>
-                <div className="form-floating">
-                  <textarea
-                    className="form-control border border-dark border-2"
-                    name="comment"
-                    id="floatingTextarea"
-                    title="comment"
-                    placeholder="Deixe um comentário"
-                  ></textarea>
-                  <label className="text-secondary" htmlFor="floatingTextarea">
-                    Deixe um comentário
-                  </label>
-                </div>
-                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button
-                    className="btn btn-info text-light rounded-pill shadow-sm fw-medium fs-4 mt-3 px-5"
-                    type="submit"
-                  >
-                    Enviar
-                  </button>
-                </div>
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      className="btn btn-info text-light rounded-pill shadow-sm fw-medium fs-4 mt-3 px-5"
+                      type="submit"
+                      onClick={handlePostComment}
+                    >
+                      Enviar
+                    </button>
+                  </div>
+                </>
               </div>
               <div
                 className="tab-pane fade"
@@ -305,7 +371,7 @@ const Project: React.FC = () => {
                 <h2 className="text-center pb-4 fw-bolder">
                   Compartilhe este projeto
                 </h2>
-                <div className="col mx-auto my-auto fs-5 fw-medium">
+                <div className="col text-center mx-auto my-auto fs-5 fw-medium">
                   <div className="col pb-2">
                     <ShareIcon className="shareIcon" /> Copie este link: link/
                     {project?.name}
