@@ -3,6 +3,7 @@ export interface projectType {
   name: string;
   description: string;
   category: string;
+  total: number;
   goal: number;
   deadline: number;
   image: string[];

@@ -5,6 +5,7 @@ export interface userType {
   email: string;
   password: string;
   mobile: string;
+  profilePic: string;
   document: string;
   zipCode: string;
   street: string;

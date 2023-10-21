@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   AtSymbolIcon,
@@ -18,6 +18,7 @@ const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [profilePic, setProfilePic] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -38,8 +39,13 @@ const SignUp: React.FC = () => {
   var m = hoje.getMonth() - nasc.getMonth();
   if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
 
+  useEffect(() => {
+    setProfilePic('https://i.imgur.com/6zvhinZ.png');
+  }, [])
+
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
+
 
     if (!user || !date || !email || !password || !confirmPassword) {
       setError("Error");
@@ -62,6 +68,7 @@ const SignUp: React.FC = () => {
         birthdate: date,
         email,
         password: password,
+        profilePic,
       });
       navigate("/signin");
     }
