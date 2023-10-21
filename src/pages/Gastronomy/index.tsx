@@ -46,7 +46,7 @@ const Gastronomy: React.FC = () => {
                     <img
                       src={project.image[0]}
                       className="card-img-top border secondary"
-                      alt="imagem do projeto"
+                      alt={project.name}
                     />
                   </a>
                   <div className="card-body border secondary">
