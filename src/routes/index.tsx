@@ -18,7 +18,7 @@ import Technology from "../pages/Technology";
 import Profile from "../pages/Profile";
 import EditProject from "../pages/EditProject";
 import EditReward from "../pages/EditReward";
-// import Search from "../pages/Search";
+import Search from "../pages/Search";
 
 const RoutesApp: React.FC = () => {
   return (
@@ -38,7 +38,7 @@ const RoutesApp: React.FC = () => {
           <Route path="/book" element={<Book />} />
           <Route path="/music" element={<Music />} />
           <Route path="/technology" element={<Technology />} />
-          {/* <Route path="/search" element={<Search />} /> */}
+          <Route path="/search" element={<Search />} />
 
           <Route
             path="/profile"

@@ -20,6 +20,7 @@ const SignUp: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ const SignUp: React.FC = () => {
   data = data.replace(/\//g, "-");
   var data_array = data.split("-");
 
-  if (data_array[0].length !== 4 || data_array[0].length > 4) {
+  if (data_array[0].length !== 4 && data_array[0].length <= 4) {
     data = data_array[2] + "-" + data_array[1] + "-" + data_array[0];
   }
 
@@ -40,12 +41,11 @@ const SignUp: React.FC = () => {
   if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
 
   useEffect(() => {
-    setProfilePic('https://i.imgur.com/6zvhinZ.png');
-  }, [])
+    setProfilePic("https://i.imgur.com/6zvhinZ.png");
+  }, []);
 
   const handleRegister = async (e: FormEvent) => {
     e.preventDefault();
-
 
     if (!user || !date || !email || !password || !confirmPassword) {
       setError("Error");
@@ -62,7 +62,8 @@ const SignUp: React.FC = () => {
     } else if (password.length < 8 && password.length !== 0) {
       setError("Error");
       return;
-    } else {
+    }
+    try {
       await api.post(`users`, {
         user,
         birthdate: date,
@@ -71,6 +72,8 @@ const SignUp: React.FC = () => {
         profilePic,
       });
       navigate("/signin");
+    } catch (error) {
+      setEmailError("E-mail já existe.");
     }
   };
 
@@ -154,6 +157,7 @@ const SignUp: React.FC = () => {
                 }
               />
               <AtSymbolIcon />
+              {emailError !== '' && <div className="text-danger fw-medium">{emailError}</div>}
               <div id="emailFeedback" className="invalid-feedback fw-medium">
                 Email inválido!
               </div>

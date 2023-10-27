@@ -38,7 +38,7 @@ const Home: React.FC = () => {
                 .sort((a, b) => a.id - b.id)
                 .map((project) => (
                   <div className="col" key={project.id}>
-                    <div className="card shadow-sm h-100">
+                    <div className="card shadow-sm">
                       <a href={`/project/${project.id}`}>
                         <img
                           src={project.image[0]}

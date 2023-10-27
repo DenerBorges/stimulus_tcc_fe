@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import SearchBar from "../SearchBar";
 import {
   ArrowLeftOnRectangleIcon,
-  MagnifyingGlassIcon,
   PlusIcon,
   TagIcon,
   UserCircleIcon,
@@ -22,7 +22,6 @@ const Navbar: React.FC = () => {
       setIsLoggedIn(true);
     }
   }, []);
-
 
   return (
     <nav
@@ -49,23 +48,7 @@ const Navbar: React.FC = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <form className="d-flex mx-auto" role="search">
-            <div className="searchIcon input-group">
-              <input
-                className="pesquisa form-control rounded-end text-light me-2"
-                type="search"
-                placeholder="     Pesquisar"
-                aria-label="Search"
-              />
-              <button
-                className="btn btn-outline-info rounded fw-medium"
-                type="submit"
-              >
-                Pesquisar
-              </button>
-              <MagnifyingGlassIcon />
-            </div>
-          </form>
+          <SearchBar />
           <ul className="navbar-nav mt-1">
             <li className="nav-item border rounded me-1">
               <a className="navBtns nav-link fw-medium" href="/create_project">
