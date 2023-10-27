@@ -17,17 +17,34 @@ const Profile: React.FC = () => {
   const [dateType, setDateType] = useState("text");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [tempProfilePic, setTempProfilePic] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
+  const selectImage = (imageUrl: string) => {
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleUpdatePic = (e: FormEvent) => {
+    e.preventDefault();
+    if (!selectedImageUrl) {
+      window.confirm("Selecione uma imagem antes de confirmar.");
+      return;
+    }
+
+    // Atualize o estado temporário
+    setTempProfilePic(selectedImageUrl);
+  };
+
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   var data = birthdate;
-  data = data.replace(/\//g, "-");
   var data_array = data.split("-");
 
-  if (data_array[0].length !== 4 || data_array[0].length > 4) {
+  if (data_array[0].length !== 4 && data_array[0].length <= 4) {
     data = data_array[2] + "-" + data_array[1] + "-" + data_array[0];
   }
 
@@ -38,6 +55,10 @@ const Profile: React.FC = () => {
   if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
 
   function validarNumeroCelular(numeroCelular: string): boolean {
+    if (numeroCelular.trim() === "") {
+      return true;
+    }
+
     const padrao = /^(\(\d{2}\)\s?)?\d{5}-\d{4}$/;
 
     if (padrao.test(numeroCelular)) {
@@ -55,6 +76,7 @@ const Profile: React.FC = () => {
       setBirthdate(response.data.birthdate);
       setEmail(response.data.email);
       setMobile(response.data.mobile);
+      setProfilePic(response.data.profilePic);
     } catch (error) {
       console.log(error);
     }
@@ -81,12 +103,19 @@ const Profile: React.FC = () => {
         setError("Error");
         return;
       } else {
-        await api.put(`users/${profile?.id}`, {
+        const updateData: any = {
           user,
           birthdate,
           email,
           mobile,
-        });
+        };
+
+        // Verifique se há uma imagem de perfil temporária e atualize a solicitação, se houver
+        if (tempProfilePic) {
+          updateData.profilePic = tempProfilePic;
+        }
+
+        await api.put(`users/${profile?.id}`, updateData);
 
         getProfile();
 
@@ -132,6 +161,129 @@ const Profile: React.FC = () => {
       <div className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5">
         <h2 className="text-center fw-bolder mb-5">Informações do usuário</h2>
         <form method="post" key={profile?.id}>
+          <div className="container text-center mb-4">
+            <img
+              src={tempProfilePic || profile?.profilePic}
+              alt="Foto de Perfil"
+              className="profile-image"
+              data-bs-toggle="modal"
+              data-bs-target="#profilePic"
+            />
+          </div>
+          <div
+            className="modal fade"
+            id="profilePic"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabIndex={-1}
+            aria-labelledby="profilePicLabel"
+            aria-hidden="true"
+          >
+            <div className="full-modal-pic modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                    Escolha seu avatar
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="container text-center">
+                    <div className="f-row row align-items-start">
+                      <img
+                        src="https://i.imgur.com/JaCbdwu.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/JaCbdwu.png")
+                        }
+                        alt="avatar1"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/0EeZEGh.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/0EeZEGh.png")
+                        }
+                        alt="avatar2"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/OkZfyRi.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/OkZfyRi.png")
+                        }
+                        alt="avatar3"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/6wUE9VU.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/6wUE9VU.png")
+                        }
+                        alt="avatar4"
+                        className="modal-pic col h-100"
+                      ></img>
+                    </div>
+                    <div className="s-row row align-items-start">
+                      <img
+                        src="https://i.imgur.com/vFzf8nS.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/vFzf8nS.png")
+                        }
+                        alt="avatar5"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/CKh51X2.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/CKh51X2.png")
+                        }
+                        alt="avatar6"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/ZaMXigS.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/ZaMXigS.png")
+                        }
+                        alt="avatar7"
+                        className="modal-pic col h-100"
+                      ></img>
+                      <img
+                        src="https://i.imgur.com/nHvhGwg.png"
+                        onClick={() =>
+                          selectImage("https://i.imgur.com/nHvhGwg.png")
+                        }
+                        alt="avatar8"
+                        className="modal-pic col h-100"
+                      ></img>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Fechar
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={handleUpdatePic}
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Confirmar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="row mx-0 mb-5 fw-medium">
             <label
               htmlFor="user"
@@ -232,9 +384,9 @@ const Profile: React.FC = () => {
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               className={
-                (error && !validarNumeroCelular(mobile))
-                ? "profile-input form-control is-invalid col-1 w-50"
-                : "profile-input form-control col-1 w-50"
+                error && !validarNumeroCelular(mobile)
+                  ? "profile-input form-control is-invalid col-1 w-50"
+                  : "profile-input form-control col-1 w-50"
               }
             />
             <div
