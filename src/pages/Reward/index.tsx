@@ -184,6 +184,11 @@ const Reward: React.FC = () => {
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                       <button
                         type="submit"
+                        onClick={() =>
+                          navigate(
+                            `/project/${project?.id}/payment/${reward?.id}`
+                          )
+                        }
                         className="btn btn-info text-light fw-medium rounded-pill shadow px-4 py-2"
                       >
                         Doar R$ {reward.value}

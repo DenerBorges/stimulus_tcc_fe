@@ -349,7 +349,7 @@ const Profile: React.FC = () => {
             <input
               id="email"
               type="email"
-              aria-describedby="dateAria"
+              aria-describedby="emailAria"
               placeholder="Insire seu email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}

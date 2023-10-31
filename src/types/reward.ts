@@ -2,6 +2,6 @@ export interface rewardType {
   id: number;
   name: string;
   description: string;
-  value: string;
+  value: number;
   projectId: number;
 }

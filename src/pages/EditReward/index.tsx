@@ -1,13 +1,13 @@
 import React, { FormEvent, useEffect, useState } from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import api from "../../utils/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { rewardType } from "../../types/reward";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./styles.css";
-import api from "../../utils/api";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
 
 const EditReward: React.FC = () => {
   const { id } = useParams();
