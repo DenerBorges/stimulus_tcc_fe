@@ -6,6 +6,7 @@ import {
   CurrencyDollarIcon,
   ShareIcon,
 } from "@heroicons/react/24/solid";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -108,6 +109,10 @@ const Project: React.FC = () => {
     navigate(`/edit_project/${project?.id}`);
   };
 
+  const total = project?.total ?? 0;
+  const goal = project?.goal ?? 1;
+  const progress = (total / goal) * 100;
+
   return (
     <>
       <Navbar />
@@ -184,30 +189,32 @@ const Project: React.FC = () => {
                 <div className="float-end">
                   {isLoggedIn && isOwner && (
                     <button
-                      className="btn btn-info text-light"
+                      className="editBtn btn btn-info text-light"
                       type="submit"
                       onClick={() => handleEditProject()}
                     >
-                      Editar Projeto
+                      {""}
+                      <PencilSquareIcon />
                     </button>
                   )}
                 </div>
                 <div className="m-5 py-3">
                   <u className="text-start fw-medium">Criador: {user?.user}</u>
                   <p className="text-start fw-semibold">
-                    Atingido: <span className="text-info">50%</span>
+                    Atingido:{" "}
+                    <span className="text-info">{`${progress.toFixed(0)}%`}</span>
                   </p>
                   <div
                     className="progress"
                     role="progressbar"
                     aria-label="Progress bar"
-                    aria-valuenow={50}
+                    aria-valuenow={progress}
                     aria-valuemin={0}
                     aria-valuemax={100}
                   >
                     <div
                       className="progress-bar bg-info"
-                      style={{ width: "50%" }}
+                      style={{ width: `${progress}%` }}
                     ></div>
                   </div>
                   <p className="text-start fw-medium">
@@ -217,7 +224,8 @@ const Project: React.FC = () => {
                 </div>
                 <div className="mx-5">
                   <h2 className="fw-bolder py-4">
-                    Arrecadado: <span className="text-info">R$ {project.total}</span>
+                    Arrecadado:{" "}
+                    <span className="text-info">R$ {project.total}</span>
                   </h2>
                 </div>
                 <a href={`/project/${project.id}/reward`}>
@@ -315,7 +323,10 @@ const Project: React.FC = () => {
                     comments
                       .filter((com) => com.projectId === project.id)
                       .map((com) => (
-                        <div className="container my-1 border border-secondary rounded p-3" key={com.id}>
+                        <div
+                          className="container my-1 border border-secondary rounded p-3"
+                          key={com.id}
+                        >
                           <div className="d-flex align-items-start">
                             <p className="mx-2 fs-5 fw-medium">{com.user}</p>
                             <p className="text-secondary mt-1">
