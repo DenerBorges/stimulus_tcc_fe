@@ -4,6 +4,7 @@ import { rewardType } from "../../types/reward";
 import { projectType } from "../../types/project";
 import { userType } from "../../types/user";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -164,7 +165,7 @@ const Reward: React.FC = () => {
                     <div className="float-end">
                       {isLoggedIn && isOwner && (
                         <button
-                          className="btn btn-info text-light"
+                          className="editBtn btn btn-info text-light"
                           type="submit"
                           onClick={() =>
                             navigate(
@@ -172,7 +173,8 @@ const Reward: React.FC = () => {
                             )
                           }
                         >
-                          Editar Projeto
+                          {""}
+                          <PencilSquareIcon />
                         </button>
                       )}
                     </div>
