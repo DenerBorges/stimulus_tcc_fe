@@ -14,6 +14,7 @@ const CreateProject: React.FC = () => {
   const [goal, setGoal] = useState(0);
   const [deadline, setDeadline] = useState(0);
   const [image, setImage] = useState("");
+  const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -27,7 +28,16 @@ const CreateProject: React.FC = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (isLoggedIn) {
+    if (description.length < 10) {
+      setError("Error");
+      return;
+    } else if (goal < 100) {
+      setError("Error");
+      return;
+    } else if (deadline < 100) {
+      setError("Error");
+      return;
+    } else if (isLoggedIn) {
       try {
         const response = await api.get("users/profile");
         const loged = response.data;
@@ -37,27 +47,27 @@ const CreateProject: React.FC = () => {
         ) as HTMLInputElement;
         const fileList = selectedFiles.files;
 
-        if (fileList && fileList.length > 0) {
-          const imageFileNames = [];
+        let imageFileNames: string[] = [];
 
+        if (fileList && fileList.length > 0) {
           for (let i = 0; i < fileList.length; i++) {
             imageFileNames.push(fileList[i].name);
           }
-
-          await api.post("projects", {
-            name,
-            description,
-            category,
-            total,
-            goal,
-            deadline,
-            image: imageFileNames,
-            userId: loged.id,
-          });
-          navigate("/");
         } else {
-          console.log("Nenhum arquivo selecionado.");
+          imageFileNames = ["https://i.imgur.com/cu6tCOx.jpg"];
         }
+
+        await api.post("projects", {
+          name,
+          description,
+          category,
+          total,
+          goal,
+          deadline,
+          image: imageFileNames,
+          userId: loged.id,
+        });
+        navigate("/");
       } catch (error) {
         console.log(error);
       }
@@ -84,11 +94,11 @@ const CreateProject: React.FC = () => {
             </label>
             <input
               type="text"
-              className="form-control"
               placeholder="Nome do projeto"
               id="name"
               value={name}
               onChange={(e) => [setName(e.target.value)]}
+              className="form-control"
               required
             />
           </div>
@@ -97,13 +107,24 @@ const CreateProject: React.FC = () => {
               Descrição
             </label>
             <textarea
-              className="form-control"
               placeholder="Descrição do seu projeto"
               id="description"
+              aria-describedby="descriptionFeedback"
               value={description}
               onChange={(e) => [setDescription(e.target.value)]}
+              className={
+                error && description.length < 10
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
               required
             ></textarea>
+            <div
+              id="descriptionFeedback"
+              className="invalid-feedback fw-medium"
+            >
+              A descrição deve conter mais de 10 caracteres!
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="goal" className="form-label fw-medium">
@@ -111,15 +132,26 @@ const CreateProject: React.FC = () => {
             </label>
             <input
               type="number"
-              className="form-control"
               placeholder="Meta de valor"
               id="goal"
+              aria-describedby="goalFeedback"
               value={goal}
               onChange={(e) => {
                 setGoal(parseInt(e.target.value, 0));
               }}
+              className={
+                error && goal < 100
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
               required
             />
+            <div
+              id="goalFeedback"
+              className="invalid-feedback fw-medium"
+            >
+              O valor da meta deve ser maior ou igual a 100!
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="deadline" className="form-label fw-medium">
@@ -127,15 +159,26 @@ const CreateProject: React.FC = () => {
             </label>
             <input
               type="number"
-              className="form-control"
               placeholder="Dias de expiração"
               id="deadline"
+              aria-describedby="deadlineFeedback"
               value={deadline}
               onChange={(e) => {
                 setDeadline(parseInt(e.target.value, 0));
               }}
+              className={
+                error && deadline < 100
+                  ? "form-control is-invalid"
+                  : "form-control"
+              }
               required
             />
+            <div
+              id="deadlineFeedback"
+              className="invalid-feedback fw-medium"
+            >
+              O valor de dias de expiração deve ser maior ou igual a 100!
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="category" className="form-label fw-medium">
@@ -172,7 +215,6 @@ const CreateProject: React.FC = () => {
               value={image}
               onChange={(e) => [setImage(e.target.value)]}
               multiple
-              required
             />
           </div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
