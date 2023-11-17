@@ -16,7 +16,7 @@ const SignIn: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await api.post(`login`, {user, password});
+      const response = await api.post(`login`, { user, password });
       const { access_token, user_name } = response.data;
 
       localStorage.setItem("userToken", access_token);
@@ -30,7 +30,6 @@ const SignIn: React.FC = () => {
       setError("Seu usuário ou senha estão incorretos!");
       console.log(error);
     }
-
   };
 
   return (
@@ -51,7 +50,7 @@ const SignIn: React.FC = () => {
         <form method="post" onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="user" className="form-label fw-semibold">
-              Usuário
+              Nome de usuário
             </label>
             <div className="containerIcon">
               <input
