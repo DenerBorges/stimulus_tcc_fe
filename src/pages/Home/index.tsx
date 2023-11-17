@@ -37,10 +37,15 @@ const Home: React.FC = () => {
             : projects
                 .sort((a, b) => a.id - b.id)
                 .map((project) => {
-                  const progress = (project.total / project.goal) * 100;
+                  const progress = Math.min(
+                    (project.total / project.goal) * 100,
+                    100
+                  );
+                  const progressBarColor =
+                    progress === 100 ? "bg-success" : "bg-info";
                   return (
                     <div className="col" key={project.id}>
-                      <div className="card shadow-sm">
+                      <div className="card shadow-sm h-100">
                         <a href={`/project/${project.id}`}>
                           <img
                             src={project.image[0]}
@@ -67,7 +72,7 @@ const Home: React.FC = () => {
                             aria-valuemax={100}
                           >
                             <div
-                              className="progress-bar bg-info"
+                              className={`progress-bar ${progressBarColor}`}
                               style={{ width: `${progress}%` }}
                             ></div>
                           </div>
