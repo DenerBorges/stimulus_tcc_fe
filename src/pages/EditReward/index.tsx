@@ -46,9 +46,13 @@ const EditReward: React.FC = () => {
 
       toast.success("Recompensa atualizada com sucesso!\nParabéns!", {
         position: toast.POSITION.TOP_LEFT,
-        autoClose: 2000,
+        autoClose: 3000,
         className: "custom-toast",
       });
+
+      setTimeout(() => {
+        navigate(-1);
+      }, 4000);
     } catch (error) {
       console.error("Erro ao atualizar a recompensa: ", error);
     }

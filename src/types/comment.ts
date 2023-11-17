@@ -3,6 +3,7 @@ export interface commentType {
     comment: string;
     user: string;
     createdAt: Date;
+    updatedAt: Date;
     userId: number;
     projectId: number;
 }

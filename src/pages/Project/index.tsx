@@ -6,7 +6,7 @@ import {
   CurrencyDollarIcon,
   ShareIcon,
 } from "@heroicons/react/24/solid";
-import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -24,7 +24,12 @@ const Project: React.FC = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [comments, setComments] = useState<commentType[]>([]);
   const [comment, setComment] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingComment, setEditingComment] = useState<Partial<commentType>>(
+    {}
+  );
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -35,12 +40,10 @@ const Project: React.FC = () => {
 
     const fetchData = async () => {
       try {
-        // Obter os detalhes do projeto
         const projectResponse = await api.get(`projects/${id}`);
         const projectData = projectResponse.data;
         setProject(projectData);
 
-        // Obter os detalhes dos comentários
         const commentResponse = await api.get(`comments`);
         const sortedComments = commentResponse.data.sort((a: any, b: any) => {
           const dateA = new Date(a.createdAt);
@@ -49,13 +52,11 @@ const Project: React.FC = () => {
         });
         setComments(sortedComments);
 
-        // Obter os detalhes do usuário associado ao projeto
         const userId = projectData.userId;
         const userResponse = await api.get(`users/${userId}`);
         const userData = userResponse.data;
         setUser(userData);
 
-        // Obter os detalhes do usuário logado
         if (isLoggedIn) {
           const profileResponse = await api.get("users/profile");
           const currentUserData = profileResponse.data;
@@ -77,19 +78,27 @@ const Project: React.FC = () => {
   const handlePostComment = async () => {
     try {
       if (isLoggedIn && project?.id) {
-        const formattedDateTime = new Date().toISOString();
+        if (!comment) {
+          setError("Error");
+          return;
+        } else if (comment.length > 0) {
+          const formattedDateTime = new Date().toISOString();
 
-        const commentResponse = await api.post("comments", {
-          comment,
-          user: currentUser?.user,
-          createdAt: formattedDateTime,
-          userId: currentUser?.id,
-          projectId: project?.id,
-        });
+          const commentResponse = await api.post("comments", {
+            comment,
+            user: currentUser?.user,
+            createdAt: formattedDateTime,
+            updatedAt: formattedDateTime,
+            userId: currentUser?.id,
+            projectId: project?.id,
+          });
 
-        // Atualize a lista de comentários após postar um novo
-        setComments((prevComments) => [commentResponse.data, ...prevComments]);
-        setComment("");
+          setComments((prevComments) => [
+            commentResponse.data,
+            ...prevComments,
+          ]);
+          setComment("");
+        }
       } else {
         navigate("/signin");
       }
@@ -102,7 +111,14 @@ const Project: React.FC = () => {
     const date = new Date(timestamp);
     const hours = date.getHours();
     const minutes = date.getMinutes();
-    return `${hours}:${minutes}`;
+    return `${date.toLocaleDateString()} às ${hours}:${minutes}`;
+  }
+
+  function formatEditTimestamp(timestamp: Date) {
+    const date = new Date(timestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    return `Editado em ${date.toLocaleDateString()} às ${hours}:${minutes}`;
   }
 
   const handleEditProject = () => {
@@ -111,7 +127,61 @@ const Project: React.FC = () => {
 
   const total = project?.total ?? 0;
   const goal = project?.goal ?? 1;
-  const progress = (total / goal) * 100;
+  const progress = Math.min((total / goal) * 100, 100);
+  const progressBarColor = progress === 100 ? "bg-success" : "bg-info";
+
+  const handleEditComment = async (commentId: number) => {
+    try {
+      const commentResponse = await api.get(`comments/${commentId}`);
+      const commentToEdit = commentResponse.data;
+
+      setEditingComment(commentToEdit);
+      setIsEditing(true);
+    } catch (error) {
+      console.error("Erro ao obter dados do comentário:", error);
+    }
+  };
+
+  const handleConfirmEditComment = async () => {
+    try {
+      if (editingComment && editingComment.id) {
+        if (!editingComment.comment) {
+          setError("Error");
+          return;
+        } else if (editingComment.comment.length > 0) {
+          await api.put(`comments/${editingComment.id}`, {
+            comment: editingComment.comment,
+          });
+
+          setComments(
+            (prevComments) =>
+              prevComments.map((com) =>
+                com.id === editingComment.id
+                  ? { ...com, comment: editingComment.comment }
+                  : com
+              ) as commentType[]
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao confirmar a edição do comentário:", error);
+    } finally {
+      setEditingComment({});
+      setIsEditing(false);
+    }
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    try {
+      await api.delete(`comments/${commentId}`);
+
+      setComments((prevComments) =>
+        prevComments.filter((com) => com.id !== commentId)
+      );
+    } catch (error) {
+      console.error("Erro ao excluir o comentário:", error);
+    }
+  };
 
   return (
     <>
@@ -202,7 +272,9 @@ const Project: React.FC = () => {
                   <u className="text-start fw-medium">Criador: {user?.user}</u>
                   <p className="text-start fw-semibold">
                     Atingido:{" "}
-                    <span className="text-info">{`${progress.toFixed(0)}%`}</span>
+                    <span className="text-info">{`${progress.toFixed(
+                      0
+                    )}%`}</span>
                   </p>
                   <div
                     className="progress"
@@ -213,7 +285,7 @@ const Project: React.FC = () => {
                     aria-valuemax={100}
                   >
                     <div
-                      className="progress-bar bg-info"
+                      className={`progress-bar ${progressBarColor}`}
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
@@ -324,14 +396,122 @@ const Project: React.FC = () => {
                       .filter((com) => com.projectId === project.id)
                       .map((com) => (
                         <div
-                          className="container my-1 border border-secondary rounded p-3"
+                          className={`container my-1 border border-secondary rounded p-3 ${
+                            isEditing && com.id === editingComment.id
+                              ? "editing-comment"
+                              : ""
+                          }`}
                           key={com.id}
                         >
                           <div className="d-flex align-items-start">
                             <p className="mx-2 fs-5 fw-medium">{com.user}</p>
                             <p className="text-secondary mt-1">
-                              - {formatCommentTimestamp(com.createdAt)}
+                              -{" "}
+                              {com.updatedAt !== com.createdAt
+                                ? formatEditTimestamp(com.updatedAt)
+                                : formatCommentTimestamp(com.createdAt)}
                             </p>
+                            {isLoggedIn && com.userId === currentUser?.id && (
+                              <>
+                                <div className="d-grid gap-2 d-md-flex align-items-md-end ms-3">
+                                  <button
+                                    className="comBtn btn btn-info text-light"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editComment"
+                                    onClick={() => handleEditComment(com.id)}
+                                  >
+                                    {""}
+                                    <PencilSquareIcon />
+                                  </button>
+                                  <button
+                                    className="comBtn btn btn-danger text-light"
+                                    type="button"
+                                    onClick={() => handleDeleteComment(com.id)}
+                                  >
+                                    {""}
+                                    <TrashIcon />
+                                  </button>
+                                </div>
+                                <div
+                                  className="modal fade"
+                                  id="editComment"
+                                  data-bs-backdrop="static"
+                                  data-bs-keyboard="false"
+                                  tabIndex={-1}
+                                  aria-labelledby="staticBackdropLabel"
+                                  aria-hidden="true"
+                                >
+                                  <div className="modal-dialog modal-dialog-centered">
+                                    <div className="modal-content">
+                                      <div className="modal-header">
+                                        <h1
+                                          className="modal-title fs-5"
+                                          id="staticBackdropLabel"
+                                        >
+                                          Editar seu comentário
+                                        </h1>
+                                        <button
+                                          type="button"
+                                          className="btn-close"
+                                          data-bs-dismiss="modal"
+                                          aria-label="Close"
+                                        ></button>
+                                      </div>
+                                      <div className="modal-body">
+                                        <textarea
+                                          name="editedComment"
+                                          aria-describedby="commentAria"
+                                          placeholder="Deixe um comentário"
+                                          title="commentModal"
+                                          value={editingComment?.comment || ""}
+                                          onChange={(e) => [
+                                            setEditingComment({
+                                              ...editingComment,
+                                              comment: e.target.value,
+                                            }),
+                                            setError(""),
+                                          ]}
+                                          className={
+                                            error && !editingComment.comment
+                                              ? "form-control is-invalid"
+                                              : "form-control"
+                                          }
+                                        ></textarea>
+                                        <div
+                                          id="commentAria"
+                                          className="invalid-feedback text-center fw-medium"
+                                        >
+                                          O campo não pode ser vazio!
+                                        </div>
+                                      </div>
+                                      <div className="modal-footer">
+                                        <button
+                                          type="button"
+                                          className="btn btn-secondary"
+                                          data-bs-dismiss="modal"
+                                          onClick={() => setEditingComment({})}
+                                        >
+                                          Fechar
+                                        </button>
+                                        <button
+                                          type="button"
+                                          className="btn btn-primary"
+                                          data-bs-dismiss={
+                                            error && !editingComment.comment
+                                              ? ""
+                                              : "modal"
+                                          }
+                                          onClick={handleConfirmEditComment}
+                                        >
+                                          Confirmar
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
                           </div>
                           <div className="commentColor rounded-pill p-1 pt-3 ps-3 w-auto justify-content-center">
                             <p className="text-start fw-medium fs-4">
@@ -347,14 +527,25 @@ const Project: React.FC = () => {
                   )}
                   <div className="form-floating mt-2">
                     <textarea
-                      className="form-control border border-dark border-2"
                       name="comment"
                       id="floatingTextarea"
+                      aria-describedby="comment1Aria"
+                      placeholder="Deixe um comentário"
                       title="comment"
                       value={comment}
                       onChange={(e) => [setComment(e.target.value)]}
-                      placeholder="Deixe um comentário"
+                      className={
+                        error && !comment
+                          ? "form-control border-2 is-invalid"
+                          : "form-control border border-dark border-2"
+                      }
                     ></textarea>
+                    <div
+                      id="comment1Aria"
+                      className="invalid-feedback text-center fw-medium"
+                    >
+                      O campo não pode ser vazio!
+                    </div>
                     <label
                       className="text-secondary"
                       htmlFor="floatingTextarea"
