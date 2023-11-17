@@ -121,13 +121,13 @@ const Profile: React.FC = () => {
 
         toast.success("Perfil atualizado com sucesso!\nRedirecionando...", {
           position: toast.POSITION.TOP_LEFT,
-          autoClose: 2000,
+          autoClose: 3000,
           className: "custom-toast",
         });
 
         setTimeout(() => {
           navigate("/signin");
-        }, 3000);
+        }, 4000);
       }
     } catch (error) {
       console.error("Erro ao atualizar o perfil: ", error);
