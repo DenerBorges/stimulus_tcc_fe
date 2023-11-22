@@ -107,6 +107,10 @@ const Reward: React.FC = () => {
       setError("Um valor é requerido!");
       return;
     }
+
+    navigate(`/project/${project?.id}/payment/${input}`, {
+      state: { customAmount: input },
+    });
   };
 
   return (
