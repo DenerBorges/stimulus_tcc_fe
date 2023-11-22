@@ -11,10 +11,14 @@ import {
 } from "@brazilian-utils/brazilian-utils";
 import { StateCode } from "@brazilian-utils/brazilian-utils/dist/common/states";
 import { userType } from "../../types/user";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { projectType } from "../../types/project";
+import { rewardType } from "../../types/reward";
+import { donationType } from "../../types/donation";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./styles.css";
-import { rewardType } from "../../types/reward";
 
 const Payment: React.FC = () => {
   const { id } = useParams();
@@ -30,9 +34,13 @@ const Payment: React.FC = () => {
   const [neighborhood, setNeighborhood] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState<StateCode>();
+  const [project, setProject] = useState<projectType>();
+  const [total, setTotal] = useState();
   const [reward, setReward] = useState<rewardType>();
   const [value, setValue] = useState();
   const [projectId, setProjectId] = useState("");
+  const [donation, setDonation] = useState<donationType>();
+  const [name, setName] = useState("");
   const [responsePayment, setResponsePayment] = useState<any>(false);
   const [linkBuyMercadoPago, setLinkBuyMercadoPago] = useState<any>(false);
   const [statusPayment, setStatusPayment] = useState(false);
@@ -40,16 +48,8 @@ const Payment: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const getReward = async () => {
-    try {
-      const response = await api.get(`rewards/${id}`);
-      setReward(response.data);
-      setValue(response.data.value);
-      setProjectId(response.data.value);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const location = useLocation();
+  const customAmount = location.state?.customAmount;
 
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
@@ -67,30 +67,58 @@ const Payment: React.FC = () => {
     }
   }
 
-  const getProfile = async () => {
-    try {
-      const response = await api.get("users/profile");
-      setProfile(response.data);
-      setUser(response.data.user);
-      setEmail(response.data.email);
-      setMobile(response.data.mobile);
-      setDocument(response.data.document);
-      setZipCode(response.data.zipCode);
-      setStreet(response.data.street);
-      setNumber(response.data.number);
-      setComplement(response.data.complement);
-      setNeighborhood(response.data.neighborhood);
-      setCity(response.data.city);
-      setState(response.data.state);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const getProfile = async () => {
+      try {
+        const response = await api.get("users/profile");
+        setProfile(response.data);
+        setUser(response.data.user);
+        setEmail(response.data.email);
+        setMobile(response.data.mobile);
+        setDocument(response.data.document);
+        setZipCode(response.data.zipCode);
+        setStreet(response.data.street);
+        setNumber(response.data.number);
+        setComplement(response.data.complement);
+        setNeighborhood(response.data.neighborhood);
+        setCity(response.data.city);
+        setState(response.data.state);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getReward = async () => {
+      try {
+        const response = await api.get(`rewards/${id}`);
+        setReward(response.data);
+        setValue(response.data.value);
+        setProjectId(response.data.value);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const getProject = async () => {
+      if (reward) {
+        try {
+          const response = await api.get(`projects/${reward?.projectId}`);
+          setProject(response.data);
+          setTotal(response.data.value);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        const response = await api.get(`projects/0`);
+        setProject(response.data);
+        setTotal(response.data.value);
+      }
+    };
+
     getProfile();
     getReward();
-  }, []);
+    getProject();
+  }, [id, reward, reward?.projectId]);
 
   const handlePayment = async (e: FormEvent) => {
     e.preventDefault();
@@ -105,8 +133,8 @@ const Payment: React.FC = () => {
         !street ||
         !number ||
         !neighborhood ||
-        !city ||
-        !state
+        !state ||
+        !city
       ) {
         setError("Error");
         return;
@@ -122,7 +150,9 @@ const Payment: React.FC = () => {
       } else {
         const body = {
           payment_method_id: "pix",
-          transaction_amount: Number(reward?.value),
+          transaction_amount: reward
+            ? Number(reward?.value)
+            : Number(customAmount),
           payer: {
             email: email,
             first_name: user,
@@ -164,6 +194,42 @@ const Payment: React.FC = () => {
         setLinkBuyMercadoPago(
           response.data.point_of_interaction.transaction_data.ticket_url
         );
+
+        if (project && project.total && reward && reward.value !== undefined) {
+          await api.put(`projects/${reward?.projectId}`, {
+            total: Number(project.total) + Number(reward.value),
+          });
+
+          await api.post("donations", {
+            name: "Pago com sucesso",
+            value: reward.value,
+            userId: profile?.id,
+            projectId: reward.projectId,
+            rewardId: reward.id,
+          });
+        } else if (project && project.total && !reward) {
+          await api.put(`projects/${project.id}`, {
+            total: Number(project.total) + Number(customAmount),
+          });
+
+          await api.post("donations", {
+            name: "Pago com sucesso",
+            value: customAmount,
+            userId: profile?.id,
+            projectId: project.id,
+            rewardId: 0,
+          });
+        }
+
+        toast.success("Pagamento realizado com sucesso!\nRedirecionando...", {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 3000,
+          className: "custom-toast",
+        });
+
+        setTimeout(() => {
+          navigate("/");
+        }, 5000);
       }
     } catch (error) {
       console.error("Erro ao efetuar pagamento: ", error);
@@ -457,7 +523,7 @@ const Payment: React.FC = () => {
             />
           )}
 
-          {statusPayment && <h1>Compra Aprovada</h1>}
+          <ToastContainer autoClose={3000} className="custom-toast" />
         </div>
         <Footer />
       </div>
