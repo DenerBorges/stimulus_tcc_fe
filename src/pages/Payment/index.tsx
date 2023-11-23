@@ -118,7 +118,7 @@ const Payment: React.FC = () => {
     getProfile();
     getReward();
     getProject();
-  }, [id, reward, reward?.projectId]);
+  }, [id, reward?.projectId]);
 
   const handlePayment = async (e: FormEvent) => {
     e.preventDefault();
