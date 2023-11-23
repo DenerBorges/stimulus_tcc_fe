@@ -8,6 +8,8 @@ import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./styles.css";
 
@@ -108,6 +110,13 @@ const Reward: React.FC = () => {
       return;
     }
 
+    if (isLoggedIn && isOwner) {
+      toast.error("Você não pode doar para seu próprio projeto.", {
+        position: "top-right",
+      });
+      return;
+    }
+
     navigate(`/project/${project?.id}/payment/${input}`, {
       state: { customAmount: input },
     });
@@ -191,9 +200,16 @@ const Reward: React.FC = () => {
                       <button
                         type="submit"
                         onClick={() =>
-                          navigate(
-                            `/project/${project?.id}/payment/${reward?.id}`
-                          )
+                          isLoggedIn && isOwner
+                            ? toast.error(
+                                "Você não pode doar para seu próprio projeto.",
+                                {
+                                  position: "top-right",
+                                }
+                              )
+                            : navigate(
+                                `/project/${project?.id}/payment/${reward?.id}`
+                              )
                         }
                         className="btn btn-info text-light fw-medium rounded-pill shadow px-4 py-2"
                       >
@@ -318,6 +334,7 @@ const Reward: React.FC = () => {
             )}
           </>
         )}
+        <ToastContainer className="custom-toast" />
 
         <Footer />
       </div>
