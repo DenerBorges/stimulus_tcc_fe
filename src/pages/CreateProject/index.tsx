@@ -51,7 +51,12 @@ const CreateProject: React.FC = () => {
 
         if (fileList && fileList.length > 0) {
           for (let i = 0; i < fileList.length; i++) {
-            imageFileNames.push(fileList[i].name);
+            const originalFileName = fileList[i].name;
+            const matchResult = originalFileName.match(/\.[0-9a-z]+$/i);
+            const fileExtension = matchResult ? matchResult[0] : "";
+            const randomString = generateRandomString();
+            const newFileName = `${randomString}${fileExtension}`.toLowerCase();
+            imageFileNames.push(newFileName);
           }
         } else {
           imageFileNames = ["https://i.imgur.com/cu6tCOx.jpg"];
@@ -74,6 +79,10 @@ const CreateProject: React.FC = () => {
     } else {
       navigate("/signin");
     }
+  };
+
+  const generateRandomString = () => {
+    return Math.random().toString(36).substring(2, 15);
   };
 
   return (
@@ -140,16 +149,11 @@ const CreateProject: React.FC = () => {
                 setGoal(parseInt(e.target.value, 0));
               }}
               className={
-                error && goal < 100
-                  ? "form-control is-invalid"
-                  : "form-control"
+                error && goal < 100 ? "form-control is-invalid" : "form-control"
               }
               required
             />
-            <div
-              id="goalFeedback"
-              className="invalid-feedback fw-medium"
-            >
+            <div id="goalFeedback" className="invalid-feedback fw-medium">
               O valor da meta deve ser maior ou igual a 100!
             </div>
           </div>
@@ -173,10 +177,7 @@ const CreateProject: React.FC = () => {
               }
               required
             />
-            <div
-              id="deadlineFeedback"
-              className="invalid-feedback fw-medium"
-            >
+            <div id="deadlineFeedback" className="invalid-feedback fw-medium">
               O valor de dias de expiração deve ser maior ou igual a 100!
             </div>
           </div>
