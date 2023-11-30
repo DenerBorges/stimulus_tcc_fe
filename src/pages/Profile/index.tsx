@@ -377,7 +377,7 @@ const Profile: React.FC = () => {
             <InputMask
               id="mobile"
               type="text"
-              mask="(99) 99999-9999"
+              mask="99999-9999"
               maskChar={null}
               aria-describedby="mobileAria"
               placeholder="Insire o número do celular"
