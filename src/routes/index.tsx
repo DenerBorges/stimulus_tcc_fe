@@ -5,6 +5,8 @@ import PrivateRoute from "../components/PrivateRoute";
 import Home from "../pages/Home";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 import CreateProject from "../pages/CreateProject";
 import Project from "../pages/Project";
 import Reward from "../pages/Reward";
@@ -29,6 +31,8 @@ const RoutesApp: React.FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/forgot_password" element={<ForgotPassword />} />
+          <Route path="/reset_password" element={<ResetPassword />} />
           <Route path="/create_project" element={<CreateProject />} />
           <Route path="/project/:id" element={<Project />} />
           <Route path="/project/:id/reward" element={<Reward />} />

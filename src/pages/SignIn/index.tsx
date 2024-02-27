@@ -92,12 +92,24 @@ const SignIn: React.FC = () => {
           </button>
         </form>
 
-        <label className="my-3 fw-semibold">
-          Novo por aqui?
-          <strong className="fw-semibold">
-            &nbsp;<Link to="/signup">Registre-se</Link>
-          </strong>
-        </label>
+        <div className="row">
+          <label className="col my-3 fw-semibold">
+            Novo por aqui?
+            <strong className="fw-semibold">
+              &nbsp;<Link to="/signup">Registre-se</Link>
+            </strong>
+          </label>
+          <label className="col my-3 text-end fw-semibold">
+            <label>
+              <Link
+                className="link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
+                to="/forgot_password"
+              >
+                Esqueceu a senha?
+              </Link>
+            </label>
+          </label>
+        </div>
       </div>
     </div>
   );
