@@ -16,6 +16,7 @@ const EditProject: React.FC = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [images, setImages] = useState<FileList | null>();
 
   const navigate = useNavigate();
 
@@ -39,10 +40,20 @@ const EditProject: React.FC = () => {
     e.preventDefault();
 
     try {
-      await api.put(`projects/${project?.id}`, {
-        name,
-        description,
-        category,
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("category", category);
+      if (images) {
+        for (let i = 0; i < images.length; i++) {
+          formData.append("images", images[i]);
+        }
+      }
+
+      await api.put(`projects/${project?.id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       getProject();
@@ -57,7 +68,9 @@ const EditProject: React.FC = () => {
         navigate(-1);
       }, 4000);
     } catch (error) {
-      console.error("Erro ao atualizar o projeto: ", error);
+      toast.error(
+        "Um erro ocorreu ao atualizar o projeto.\nPor favor tente novamente."
+      );
     }
   };
 
@@ -87,8 +100,8 @@ const EditProject: React.FC = () => {
         <h2 className="text-center fw-bolder mb-5">Informações do projeto</h2>
         <div className="alert alert-warning" role="alert">
           <ExclamationCircleIcon />
-          Atenção! Se desejar editar os valores de meta, data de expiração ou
-          imagens, será necessário a criação de um novo projeto.
+          Atenção! Se desejar editar os valores de meta ou data de expiração
+          será necessário a criação de um novo projeto.
         </div>
         <form method="post" key={project?.id}>
           <div className="my-4">
@@ -141,6 +154,19 @@ const EditProject: React.FC = () => {
               <option value="Música">Música</option>
               <option value="Tecnologia">Tecnologia</option>
             </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="formFileMultiple" className="form-label fw-medium">
+              Selecione imagens
+            </label>
+            <input
+              className="form-control"
+              type="file"
+              id="formFileMultiple"
+              accept="image/*"
+              onChange={(e) => setImages(e.target.files)}
+              multiple
+            />
           </div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-5">
             <button

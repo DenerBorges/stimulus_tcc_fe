@@ -1,5 +1,6 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -13,7 +14,6 @@ const CreateProject: React.FC = () => {
   const [total, setTotal] = useState(0);
   const [goal, setGoal] = useState(0);
   const [deadline, setDeadline] = useState(0);
-  const [image, setImage] = useState("");
   const [error, setError] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -42,26 +42,6 @@ const CreateProject: React.FC = () => {
         const response = await api.get("users/profile");
         const loged = response.data;
 
-        const selectedFiles = document.getElementById(
-          "formFileMultiple"
-        ) as HTMLInputElement;
-        const fileList = selectedFiles.files;
-
-        let imageFileNames: string[] = [];
-
-        if (fileList && fileList.length > 0) {
-          for (let i = 0; i < fileList.length; i++) {
-            const originalFileName = fileList[i].name;
-            const matchResult = originalFileName.match(/\.[0-9a-z]+$/i);
-            const fileExtension = matchResult ? matchResult[0] : "";
-            const randomString = generateRandomString();
-            const newFileName = `${randomString}${fileExtension}`.toLowerCase();
-            imageFileNames.push(newFileName);
-          }
-        } else {
-          imageFileNames = ["https://i.imgur.com/cu6tCOx.jpg"];
-        }
-
         await api.post("projects", {
           name,
           description,
@@ -69,7 +49,6 @@ const CreateProject: React.FC = () => {
           total,
           goal,
           deadline,
-          image: imageFileNames,
           userId: loged.id,
         });
         navigate("/");
@@ -79,10 +58,6 @@ const CreateProject: React.FC = () => {
     } else {
       navigate("/signin");
     }
-  };
-
-  const generateRandomString = () => {
-    return Math.random().toString(36).substring(2, 15);
   };
 
   return (
@@ -96,6 +71,10 @@ const CreateProject: React.FC = () => {
         <h2 className="text-center fw-bolder">
           Formulário de criação de projeto
         </h2>
+        <div className="alert alert-warning mt-5" role="alert">
+          <ExclamationCircleIcon />
+          Atenção! Altere a imagem do seu projeto atualizando-o na página do seu projeto.
+        </div>
         <form method="post" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label fw-medium">
@@ -203,20 +182,6 @@ const CreateProject: React.FC = () => {
               <option value="Música">Música</option>
               <option value="Tecnologia">Tecnologia</option>
             </select>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="formFileMultiple" className="form-label fw-medium">
-              Selecione imagens
-            </label>
-            <input
-              className="form-control"
-              type="file"
-              id="formFileMultiple"
-              accept="image/*"
-              value={image}
-              onChange={(e) => [setImage(e.target.value)]}
-              multiple
-            />
           </div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
             <button

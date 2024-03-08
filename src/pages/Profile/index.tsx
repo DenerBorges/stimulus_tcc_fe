@@ -130,7 +130,9 @@ const Profile: React.FC = () => {
         }, 4000);
       }
     } catch (error) {
-      console.error("Erro ao atualizar o perfil: ", error);
+      toast.error(
+        "Um erro ocorreu ao atualizar o perfil.\nPor favor tente novamente."
+      );
     }
   };
 

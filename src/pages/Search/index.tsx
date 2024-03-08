@@ -22,6 +22,12 @@ const Search: React.FC = () => {
       });
   }, [query]);
 
+  function isBase64Image(image?: string) {
+    return image && !image.startsWith("http");
+  }
+
+  const defaultImage = require("../../assets/images/default_product.png");
+
   return (
     <>
       <Navbar />
@@ -49,11 +55,23 @@ const Search: React.FC = () => {
                   <div className="col" key={project.id}>
                     <div className="card shadow-sm h-75">
                       <a href={`/project/${project.id}`}>
-                        <img
-                          src={project.image[0]}
-                          className="card-img-top border secondary"
-                          alt={project.name}
-                        />
+                        {!isBase64Image(project.image[0]) ? (
+                          <img
+                            src={
+                              project.image.length > 0
+                                ? project.image[0]
+                                : defaultImage
+                            }
+                            className="card-img-top border secondary"
+                            alt={project.name}
+                          />
+                        ) : (
+                          <img
+                            src={`data:image/jpeg;base64,${project.image[0]}`}
+                            className="card-img-top border secondary"
+                            alt={project.name}
+                          />
+                        )}
                       </a>
                       <div className="card-body border secondary">
                         <h5 className="card-title text-center">

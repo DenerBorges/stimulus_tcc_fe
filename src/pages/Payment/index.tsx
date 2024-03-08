@@ -232,7 +232,9 @@ const Payment: React.FC = () => {
         }, 5000);
       }
     } catch (error) {
-      console.error("Erro ao efetuar pagamento: ", error);
+      toast.error(
+        "Um erro ocorreu ao efetuar o pagamento.\nPor favor tente novamente."
+      );
     }
   };
 
