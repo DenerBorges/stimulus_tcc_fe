@@ -183,6 +183,12 @@ const Project: React.FC = () => {
     }
   };
 
+  function isBase64Image(image?: string) {
+    return image && !image.startsWith("http");
+  }
+
+  const defaultImage = require("../../assets/images/default_product.png");
+
   return (
     <>
       <Navbar />
@@ -213,20 +219,38 @@ const Project: React.FC = () => {
                     ))}
                   </div>
                   <div className="carousel-inner">
-                    {project.image.map((image, index) => (
-                      <div
-                        key={index}
-                        className={`carousel-item${
-                          index === 0 ? " active" : ""
-                        }`}
-                      >
+                    {project && project.image && project.image.length > 0 ? (
+                      project.image.map((image, index) => (
+                        <div
+                          key={index}
+                          className={`carousel-item${
+                            index === 0 ? " active" : ""
+                          }`}
+                        >
+                          {!isBase64Image(image) ? (
+                            <img
+                              src={image}
+                              className="image-card d-block w-100"
+                              alt={project.name}
+                            />
+                          ) : (
+                            <img
+                              src={`data:image/jpeg;base64,${image}`}
+                              className="image-card d-block w-100"
+                              alt={project.name}
+                            />
+                          )}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="carousel-item active">
                         <img
-                          src={image}
+                          src={defaultImage}
                           className="image-card d-block w-100"
-                          alt={project.name}
+                          alt="Imagem Padrão"
                         />
                       </div>
-                    ))}
+                    )}
                   </div>
                   <button
                     className="carousel-control-prev"
