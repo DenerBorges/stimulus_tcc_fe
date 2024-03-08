@@ -54,7 +54,9 @@ const EditReward: React.FC = () => {
         navigate(-1);
       }, 4000);
     } catch (error) {
-      console.error("Erro ao atualizar a recompensa: ", error);
+      toast.error(
+        "Um erro ocorreu ao atualizar a recompensa.\nPor favor tente novamente."
+      );
     }
   };
 
