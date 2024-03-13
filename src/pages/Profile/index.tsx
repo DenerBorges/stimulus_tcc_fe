@@ -1,6 +1,9 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userType } from "../../types/user";
+import { projectType } from "../../types/project";
+import { donationType } from "../../types/donation";
+import { ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -20,6 +23,12 @@ const Profile: React.FC = () => {
   const [profilePic, setProfilePic] = useState("");
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
   const [tempProfilePic, setTempProfilePic] = useState<string | null>(null);
+  const [projects, setProjects] = useState<projectType[]>([]);
+  const [donations, setDonations] = useState<donationType[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDonations, setSelectedDonations] = useState<donationType[]>(
+    []
+  );
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -68,6 +77,24 @@ const Profile: React.FC = () => {
     }
   }
 
+  const fetchUserDonations = async () => {
+    try {
+      const response = await api.get("donations");
+      setDonations(response.data);
+    } catch (error) {
+      console.error("Erro ao obter doações do usuário:", error);
+    }
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const response = await api.get("projects");
+      setProjects(response.data);
+    } catch (error) {
+      console.error("Erro ao obter projetos:", error);
+    }
+  };
+
   const getProfile = async () => {
     try {
       const response = await api.get("users/profile");
@@ -84,7 +111,41 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     getProfile();
+    fetchUserDonations();
+    fetchProjects();
   }, []);
+
+  const handleOpenModal = () => {
+    const userDonations = donations.filter(
+      (donation) => donation.userId === profile?.id
+    );
+    setSelectedDonations(userDonations); // Armazenar as doações do usuário logado no estado
+  };
+
+  const getProjectName = (projectId: number) => {
+    const project = projects.find((p) => p.id === projectId);
+    return project ? project.name : "Projeto não encontrado";
+  };
+
+  const formatCurrency = (value: number) => {
+    return (value).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  };
+
+  // Função para formatar a data no formato legível
+  const formatDate = (dateString: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    return new Date(dateString).toLocaleDateString("pt-BR", options);
+  };
 
   const handleUpdateProfile = async (e: FormEvent) => {
     e.preventDefault();
@@ -110,7 +171,6 @@ const Profile: React.FC = () => {
           mobile,
         };
 
-        // Verifique se há uma imagem de perfil temporária e atualize a solicitação, se houver
         if (tempProfilePic) {
           updateData.profilePic = tempProfilePic;
         }
@@ -162,8 +222,69 @@ const Profile: React.FC = () => {
       <h1 className="text-center shadow fw-bolder py-2 my-3">Perfil</h1>
       <div className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5">
         <h2 className="text-center fw-bolder mb-5">Informações do usuário</h2>
-        <form method="post" key={profile?.id}>
-          <div className="container text-center mb-4">
+        <form className="row" method="post" key={profile?.id}>
+          <div className="container col offset-10 text-center">
+            <button
+              type="button"
+              className="btn btn-info text-light"
+              data-bs-toggle="modal"
+              data-bs-target="#paymentRecord"
+              onClick={handleOpenModal}
+            >
+              {""}
+              <ClipboardDocumentListIcon style={{ width: "24px" }} />
+            </button>
+          </div>
+          <div
+            className="modal fade"
+            id="paymentRecord"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false"
+            tabIndex={-1}
+            aria-labelledby="profilePicLabel"
+            aria-hidden="true"
+          >
+            <div className="full-modal-pic modal-dialog modal-dialog-scrollable modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="modal-dialog-scrollable">
+                    Registro de doações
+                  </h1>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  {selectedDonations.length > 0 ? (
+                    selectedDonations.map((donation) => (
+                      <div key={donation.id}>
+                        <p>Nome: {getProjectName(donation.projectId)}</p>
+                        <p>Valor: {formatCurrency(donation.value)}</p>
+                        <p>Status: {donation.name}</p>
+                        <p>Data da doação: {formatDate(donation.createdAt)}</p>
+                        <hr />
+                      </div>
+                    ))
+                  ) : (
+                    <p>Nenhuma doação encontrada para este usuário.</p>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Fechar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container col-md-6 offset-md-3 text-center mb-4">
             <img
               src={tempProfilePic || profile?.profilePic}
               alt="Foto de Perfil"
@@ -289,7 +410,7 @@ const Profile: React.FC = () => {
           <div className="row mx-0 mb-5 fw-medium">
             <label
               htmlFor="user"
-              className="offset-sm-1 w-25 px-0 pt-2 fw-medium"
+              className="offset-sm-1 w-25 px-0 pt-2 fw-bold"
             >
               Nome:
             </label>
@@ -316,7 +437,7 @@ const Profile: React.FC = () => {
           <div className="row mx-0 mb-5 fw-medium">
             <label
               htmlFor="date"
-              className="offset-sm-1 w-25 px-0 pt-2 fw-medium"
+              className="offset-sm-1 w-25 px-0 pt-2 fw-bold"
             >
               Data de nascimento:
             </label>
@@ -344,7 +465,7 @@ const Profile: React.FC = () => {
           <div className="row mx-0 mb-5 fw-medium">
             <label
               htmlFor="email"
-              className="offset-sm-1 w-25 px-0 pt-2 fw-medium"
+              className="offset-sm-1 w-25 px-0 pt-2 fw-bold"
             >
               Email:
             </label>
@@ -372,7 +493,7 @@ const Profile: React.FC = () => {
           <div className="row mx-0 mb-5 fw-medium">
             <label
               htmlFor="mobile"
-              className="offset-sm-1 w-25 px-0 pt-2 fw-medium"
+              className="offset-sm-1 w-25 px-0 pt-2 fw-bold"
             >
               Celular:
             </label>
