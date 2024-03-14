@@ -185,10 +185,7 @@ const Payment: React.FC = () => {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        const response = await payment.post(
-          `payments?access_token=${process.env.REACT_APP_TOKEN_MERCADO_PAGO_PUBLIC}`,
-          body
-        );
+        const response = await payment.post("payments", body);
 
         setResponsePayment(response);
         setLinkBuyMercadoPago(
