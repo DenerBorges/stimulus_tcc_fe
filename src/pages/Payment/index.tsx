@@ -148,25 +148,6 @@ const Payment: React.FC = () => {
         setError("Error");
         return;
       } else {
-        const body = {
-          payment_method_id: "pix",
-          transaction_amount: reward?.value,
-          payer: {
-            email: email,
-            first_name: user,
-            identification: {
-              type: "CPF",
-              number: document,
-            },
-            address: {
-              zip_code: zipCode,
-              street_name: street,
-              street_number: number,
-            },
-          },
-          notification_url: process.env.NOTIFICATION_URL,
-        };
-
         await api.put(`users/${profile?.id}`, {
           user,
           email,
@@ -183,24 +164,48 @@ const Payment: React.FC = () => {
 
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // const response = await payment.post("payments", body);
-        const response = await payment.post(
-          `payments?access_token=${process.env.REACT_APP_TOKEN_MERCADO_PAGO_PUBLIC}`,
-          body
-        );
-
+        const response = await api.post("payments/pix", {
+          amount: Number(reward?.value),
+          payerEmail: email,
+          payerName: user,
+          payerDocument: document,
+          zipCode,
+          street,
+          streetNumber: number,
+        });
+        
         setResponsePayment(response);
+        console.log(response.data);
         setLinkBuyMercadoPago(
           response.data.point_of_interaction.transaction_data.ticket_url
         );
+          // // const response = await payment.post("payments", body);
+          // const response = await payment.post(
+            //   `payments?access_token=${process.env.REACT_APP_TOKEN_MERCADO_PAGO_PUBLIC}`,
+            //   body
+            // );
+            
+            // setResponsePayment(response);
+            // setLinkBuyMercadoPago(
+              //   response.data.point_of_interaction.transaction_data.ticket_url
+        // );
+        toast.success("Pagamento realizado com sucesso!\nRedirecionando...", {
+          position: toast.POSITION.TOP_LEFT,
+          autoClose: 3000,
+          className: "custom-toast",
+        });
+        
+        setTimeout(() => {
+          navigate("/");
+        }, 5000);
       }
     } catch (error) {
       toast.error(
         "Um erro ocorreu ao efetuar o pagamento.\nPor favor tente novamente."
-      );
-    }
-  };
-
+        );
+      }
+    };
+    
   return (
     <>
       <Navbar />

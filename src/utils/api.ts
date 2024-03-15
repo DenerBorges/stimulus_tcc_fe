@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "https://stimulus.fly.dev/api/v1/",
+  // baseURL: "http://localhost:5000/api/v1/",
 });
 
 api.interceptors.request.use((config) => {
