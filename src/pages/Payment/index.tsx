@@ -150,9 +150,7 @@ const Payment: React.FC = () => {
       } else {
         const body = {
           payment_method_id: "pix",
-          transaction_amount: reward
-            ? Number(reward?.value)
-            : Number(customAmount),
+          transaction_amount: reward?.value,
           payer: {
             email: email,
             first_name: user,
@@ -195,42 +193,6 @@ const Payment: React.FC = () => {
         setLinkBuyMercadoPago(
           response.data.point_of_interaction.transaction_data.ticket_url
         );
-
-        if (project && project.total && reward && reward.value !== undefined) {
-          await api.put(`projects/${reward?.projectId}`, {
-            total: Number(project.total) + Number(reward.value),
-          });
-
-          await api.post("donations", {
-            name: "Pago com sucesso",
-            value: reward.value,
-            userId: profile?.id,
-            projectId: reward.projectId,
-            rewardId: reward.id,
-          });
-        } else if (project && project.total && !reward) {
-          await api.put(`projects/${project.id}`, {
-            total: Number(project.total) + Number(customAmount),
-          });
-
-          await api.post("donations", {
-            name: "Pago com sucesso",
-            value: customAmount,
-            userId: profile?.id,
-            projectId: project.id,
-            rewardId: 0,
-          });
-        }
-
-        toast.success("Pagamento realizado com sucesso!\nRedirecionando...", {
-          position: toast.POSITION.TOP_LEFT,
-          autoClose: 3000,
-          className: "custom-toast",
-        });
-
-        setTimeout(() => {
-          navigate("/");
-        }, 5000);
       }
     } catch (error) {
       toast.error(
