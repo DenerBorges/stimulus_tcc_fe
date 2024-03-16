@@ -148,6 +148,24 @@ const Payment: React.FC = () => {
         setError("Error");
         return;
       } else {
+        const body = {
+          payment_method_id: "pix",
+          transaction_amount: Number(reward?.value),
+          payer: {
+            email: email,
+            first_name: user,
+            identification: {
+              type: "CPF",
+              number: document,
+            },
+            address: {
+              zip_code: zipCode,
+              street_name: street,
+              street_number: number,
+            },
+          },
+          notification_url: process.env.NOTIFICATION_URL,
+        };
         await api.put(`users/${profile?.id}`, {
           user,
           email,
@@ -161,40 +179,56 @@ const Payment: React.FC = () => {
           city,
           state,
         });
-
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        const response = await api.post("payments/pix", {
-          amount: Number(reward?.value),
-          payerEmail: email,
-          payerName: user,
-          payerDocument: document,
-          zipCode,
-          street,
-          streetNumber: number,
-        });
-        
+        const response = await payment.post(
+          `payments?access_token=${process.env.REACT_APP_TOKEN_MERCADO_PAGO_PUBLIC}`,
+          body,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "X-Idempotency-Key": "aaaaaaa",
+            },
+          }
+        );
+
         setResponsePayment(response);
-        console.log(response.data);
         setLinkBuyMercadoPago(
           response.data.point_of_interaction.transaction_data.ticket_url
         );
-          // // const response = await payment.post("payments", body);
-          // const response = await payment.post(
-            //   `payments?access_token=${process.env.REACT_APP_TOKEN_MERCADO_PAGO_PUBLIC}`,
-            //   body
-            // );
-            
-            // setResponsePayment(response);
-            // setLinkBuyMercadoPago(
-              //   response.data.point_of_interaction.transaction_data.ticket_url
-        // );
+
+        if (project && project.total && reward && reward.value !== undefined) {
+          await api.put(`projects/${reward?.projectId}`, {
+            total: Number(project.total) + Number(reward.value),
+          });
+
+          await api.post("donations", {
+            name: "Pago com sucesso",
+            value: reward.value,
+            userId: profile?.id,
+            projectId: reward.projectId,
+            rewardId: reward.id,
+          });
+        } else if (project && project.total && !reward) {
+          await api.put(`projects/${project.id}`, {
+            total: Number(project.total) + Number(customAmount),
+          });
+
+          await api.post("donations", {
+            name: "Pago com sucesso",
+            value: customAmount,
+            userId: profile?.id,
+            projectId: project.id,
+            rewardId: 0,
+          });
+        }
+
         toast.success("Pagamento realizado com sucesso!\nRedirecionando...", {
           position: toast.POSITION.TOP_LEFT,
           autoClose: 3000,
           className: "custom-toast",
         });
-        
+
         setTimeout(() => {
           navigate("/");
         }, 5000);
@@ -202,10 +236,10 @@ const Payment: React.FC = () => {
     } catch (error) {
       toast.error(
         "Um erro ocorreu ao efetuar o pagamento.\nPor favor tente novamente."
-        );
-      }
-    };
-    
+      );
+    }
+  };
+
   return (
     <>
       <Navbar />
