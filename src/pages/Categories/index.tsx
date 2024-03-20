@@ -95,6 +95,20 @@ const Categories: React.FC = () => {
             </a>
           </div>
         </div>
+        <div className="container my-4">
+        <div className="catcard card pt-4 h-100">
+            <a href="/others" className="text-dark">
+              <img
+                src={require("../../assets/images/categorie_others.png")}
+                className="card-img"
+                alt="Outros"
+              />
+              <div className="card-img-overlay">
+                <h3 className="text-center fw-bolder">Outros</h3>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
 
       <Footer />
