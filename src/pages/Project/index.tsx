@@ -4,6 +4,7 @@ import {
   Bars3BottomLeftIcon,
   ChatBubbleBottomCenterTextIcon,
   CurrencyDollarIcon,
+  ExclamationTriangleIcon,
   ShareIcon,
 } from "@heroicons/react/24/solid";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
@@ -13,6 +14,8 @@ import api from "../../utils/api";
 import { projectType } from "../../types/project";
 import { userType } from "../../types/user";
 import { commentType } from "../../types/comment";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./styles.css";
 
@@ -129,6 +132,36 @@ const Project: React.FC = () => {
   const goal = project?.goal ?? 1;
   const progress = Math.min((total / goal) * 100, 100);
   const progressBarColor = progress === 100 ? "bg-success" : "bg-info";
+
+  const handleReportProject = async () => {
+    try {
+      if (project) {
+        const updatedReportCount = (project.report ?? 0) + 1;
+
+        await api.put(`projects/${id}`, {
+          report: updatedReportCount,
+        });
+
+        toast.success("Projeto reportado com sucesso!");
+        setProject({ ...project, report: updatedReportCount });
+        setTimeout(() => {
+          navigate(-1);
+        }, 4000);
+      } else {
+        toast.error("Erro ao reportar o projeto. Projeto não encontrado.");
+      }
+    } catch (error) {
+      toast.error("Falha ao reportar o projeto. Tente novamente mais tarde.");
+    }
+  };
+
+  const reportWarning = () => {
+    if (project) {
+      toast.warning(
+        `Seu projeto foi denunciado ${project.report} vez(es).\nSe seu projeto chegar a 20 denúncias, seu projeto será deletado!`
+      );
+    }
+  };
 
   const handleEditComment = async (commentId: number) => {
     try {
@@ -280,17 +313,166 @@ const Project: React.FC = () => {
               </div>
 
               <div className="col p-4 border border-1">
-                <div className="float-end">
-                  {isLoggedIn && isOwner && (
+                <div className="row">
+                  <div className="col text-start">
                     <button
-                      className="editBtn btn btn-info text-light"
+                      className="editBtn btn btn-danger text-light"
                       type="submit"
-                      onClick={() => handleEditProject()}
+                      data-bs-toggle="modal"
+                      data-bs-target="#report"
                     >
                       {""}
-                      <PencilSquareIcon />
+                      <ExclamationTriangleIcon />
                     </button>
-                  )}
+                    <div
+                      className="modal fade"
+                      id="report"
+                      data-bs-backdrop="static"
+                      data-bs-keyboard="false"
+                      tabIndex={-1}
+                      aria-labelledby="reportLabel"
+                      aria-hidden="true"
+                    >
+                      <div className="full-modal-pic modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                        <div className="modal-content">
+                          <div className="modal-header">
+                            <h1
+                              className="modal-title fs-5"
+                              id="modal-dialog-scrollable"
+                            >
+                              Qual o motivo da sua denúncia?
+                            </h1>
+                            <button
+                              type="button"
+                              className="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div className="modal-body">
+                            <div className="form-check my-2">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault1"
+                                defaultChecked
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault1"
+                              >
+                                Conteúdo inapropriado
+                              </label>
+                            </div>
+                            <div className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault2"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault2"
+                              >
+                                Assédio ou bullying
+                              </label>
+                            </div>
+                            <div className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault3"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault3"
+                              >
+                                Conteúdo de incitação ao ódio ou abusivo
+                              </label>
+                            </div>
+                            <div className="form-check mb-2">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault4"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault4"
+                              >
+                                Promove terrorismo
+                              </label>
+                            </div>
+                            <div className="form-check my-2">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="flexRadioDefault"
+                                id="flexRadioDefault5"
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="flexRadioDefault5"
+                              >
+                                Problema jurídico
+                              </label>
+                            </div>
+                          </div>
+                          <div className="modal-footer">
+                            <button
+                              type="button"
+                              className="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Fechar
+                            </button>
+                            <button
+                              type="submit"
+                              onClick={
+                                isLoggedIn
+                                  ? () => handleReportProject()
+                                  : () => navigate("/signin")
+                              }
+                              className="btn btn-primary"
+                              data-bs-dismiss="modal"
+                            >
+                              Confirmar
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col">
+                    {isOwner && project.report >= 1 ? (
+                      <button
+                        className="editBtn btn btn-warning text-light"
+                        type="submit"
+                        onClick={() => reportWarning()}
+                      >
+                        {""}
+                        <ExclamationTriangleIcon />
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="col text-end">
+                    {isLoggedIn && isOwner && (
+                      <button
+                        className="editBtn btn btn-info text-light"
+                        type="submit"
+                        onClick={() => handleEditProject()}
+                      >
+                        {""}
+                        <PencilSquareIcon />
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="m-5 py-3">
                   <u className="text-start fw-medium">Criador: {user?.user}</u>
@@ -641,6 +823,7 @@ const Project: React.FC = () => {
           </div>
         </>
       )}
+      <ToastContainer autoClose={3000} className="custom-toast" />
 
       <Footer />
     </>

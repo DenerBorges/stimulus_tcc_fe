@@ -6,6 +6,7 @@ export interface projectType {
   total: number;
   goal: number;
   deadline: number;
+  report: number;
   image: string[];
   userId: number;
 }
