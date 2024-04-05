@@ -6,18 +6,31 @@ import {
   TagIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+import { userType } from "../../types/user";
+import api from "../../utils/api";
 
 import "./styles.css";
 
 const Navbar: React.FC = () => {
+  const [profile, setProfile] = useState<userType>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
+  const getProfile = async () => {
+    try {
+      const response = await api.get("users/profile");
+      setProfile(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userName");
   };
 
   useEffect(() => {
+    getProfile();
     if (localStorage.getItem("userToken")) {
       setIsLoggedIn(true);
     }
@@ -66,8 +79,14 @@ const Navbar: React.FC = () => {
               <>
                 <li className="nav-item border rounded me-1">
                   <a className="navBtns nav-link fw-medium" href="/profile">
-                    Perfil
-                    <UserCircleIcon />
+                    {profile?.user}
+                    <img
+                      src={profile?.profilePic}
+                      alt="avatar"
+                      height="30rem"
+                      width="30rem"
+                      className="mx-1"
+                    ></img>
                   </a>
                 </li>
                 <li className="nav-item border rounded me-1">

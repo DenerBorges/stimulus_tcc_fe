@@ -25,7 +25,6 @@ const Profile: React.FC = () => {
   const [tempProfilePic, setTempProfilePic] = useState<string | null>(null);
   const [projects, setProjects] = useState<projectType[]>([]);
   const [donations, setDonations] = useState<donationType[]>([]);
-  const [showModal, setShowModal] = useState(false);
   const [selectedDonations, setSelectedDonations] = useState<donationType[]>(
     []
   );
@@ -324,7 +323,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/JaCbdwu.png")
                         }
                         alt="avatar1"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/JaCbdwu.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/0EeZEGh.png"
@@ -332,7 +331,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/0EeZEGh.png")
                         }
                         alt="avatar2"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/0EeZEGh.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/OkZfyRi.png"
@@ -340,7 +339,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/OkZfyRi.png")
                         }
                         alt="avatar3"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/OkZfyRi.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/6wUE9VU.png"
@@ -348,7 +347,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/6wUE9VU.png")
                         }
                         alt="avatar4"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/6wUE9VU.png" ? 'selected' : ''}`}
                       ></img>
                     </div>
                     <div className="s-row row align-items-start">
@@ -358,7 +357,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/vFzf8nS.png")
                         }
                         alt="avatar5"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/vFzf8nS.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/CKh51X2.png"
@@ -366,7 +365,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/CKh51X2.png")
                         }
                         alt="avatar6"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/CKh51X2.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/ZaMXigS.png"
@@ -374,7 +373,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/ZaMXigS.png")
                         }
                         alt="avatar7"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/ZaMXigS.png" ? 'selected' : ''}`}
                       ></img>
                       <img
                         src="https://i.imgur.com/nHvhGwg.png"
@@ -382,7 +381,7 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/nHvhGwg.png")
                         }
                         alt="avatar8"
-                        className="modal-pic col h-100"
+                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/nHvhGwg.png" ? 'selected' : ''}`}
                       ></img>
                     </div>
                   </div>
