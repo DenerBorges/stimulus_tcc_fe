@@ -181,6 +181,7 @@ const CreateProject: React.FC = () => {
               <option value="Livro">Livro</option>
               <option value="Música">Música</option>
               <option value="Tecnologia">Tecnologia</option>
+              <option value="Outros">Outros</option>
             </select>
           </div>
           <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
