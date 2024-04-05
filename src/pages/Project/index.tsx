@@ -437,7 +437,7 @@ const Project: React.FC = () => {
                                   ? () => handleReportProject()
                                   : () => navigate("/signin")
                               }
-                              className="btn btn-primary"
+                              className="btn btn-info text-light"
                               data-bs-dismiss="modal"
                             >
                               Confirmar
@@ -702,7 +702,7 @@ const Project: React.FC = () => {
                                         </button>
                                         <button
                                           type="button"
-                                          className="btn btn-primary"
+                                          className="btn btn-info text-light"
                                           data-bs-dismiss={
                                             error && !editingComment.comment
                                               ? ""

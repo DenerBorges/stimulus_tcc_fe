@@ -274,7 +274,7 @@ const Profile: React.FC = () => {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-info text-light"
                     data-bs-dismiss="modal"
                   >
                     Fechar
@@ -397,7 +397,7 @@ const Profile: React.FC = () => {
                   <button
                     type="submit"
                     onClick={handleUpdatePic}
-                    className="btn btn-primary"
+                    className="btn btn-info text-light"
                     data-bs-dismiss="modal"
                   >
                     Confirmar

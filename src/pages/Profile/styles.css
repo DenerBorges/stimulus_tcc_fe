@@ -18,8 +18,8 @@
 }
 
 .selected {
-  border-radius: 30%;
-  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 20%;
+  background-color: #0dcaf0aa;
 }
 
 @media (min-width: 450px) {
