@@ -14,4 +14,5 @@ export interface userType {
   neighborhood: string;
   city: string;
   state: string;
+  createdAt: Date;
 }

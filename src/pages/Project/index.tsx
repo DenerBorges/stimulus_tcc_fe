@@ -475,7 +475,12 @@ const Project: React.FC = () => {
                   </div>
                 </div>
                 <div className="m-5 py-3">
-                  <u className="text-start fw-medium">Criador: {user?.user}</u>
+                  <p className="text-start fw-bold">
+                    Criador:{" "}
+                    <u className="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick={() => navigate(`/project_creator/${user?.id}`)}>
+                      {user?.user}
+                    </u>
+                  </p>
                   <p className="text-start fw-semibold">
                     Atingido:{" "}
                     <span className="text-info">{`${progress.toFixed(
@@ -495,7 +500,7 @@ const Project: React.FC = () => {
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
-                  <p className="text-start fw-medium">
+                  <p className="text-start fw-semibold">
                     Meta:{" "}
                     <span className="text-secondary">R$ {project?.goal}</span>
                   </p>

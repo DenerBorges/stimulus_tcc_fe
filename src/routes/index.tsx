@@ -8,6 +8,7 @@ import SignUp from "../pages/SignUp";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPassword from "../pages/ResetPassword";
 import CreateProject from "../pages/CreateProject";
+import ProjectCreator from "../pages/ProjectCreator";
 import Project from "../pages/Project";
 import Reward from "../pages/Reward";
 import Categories from "../pages/Categories";
@@ -35,6 +36,7 @@ const RoutesApp: React.FC = () => {
           <Route path="/forgot_password" element={<ForgotPassword />} />
           <Route path="/reset_password" element={<ResetPassword />} />
           <Route path="/create_project" element={<CreateProject />} />
+          <Route path="/project_creator/:id" element={<ProjectCreator />} />
           <Route path="/project/:id" element={<Project />} />
           <Route path="/project/:id/reward" element={<Reward />} />
           <Route path="/categories" element={<Categories />} />
