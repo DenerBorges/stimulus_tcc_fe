@@ -79,11 +79,9 @@ const Art: React.FC = () => {
                         <h5 className="card-title text-center">
                           {project.name}
                         </h5>
-                        <p className="card-text">
-                          <small className="text-body-secondary">
-                            {project.category}
-                          </small>
-                        </p>
+                        <a className="category-link card-text" href={"/art"}>
+                          <small>{project.category}</small>
+                        </a>
                         <p className="card-text">{project.description}</p>
                         <div
                           className="progress"

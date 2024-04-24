@@ -19,6 +19,16 @@
   padding: auto;
 }
 
+.category-link {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.category-link:hover {
+  color: #0dcaf0;
+  text-decoration: underline;
+}
+
 @media only screen and (min-width: 991px) and (max-width: 1400px) {
   .card {
     width: 14rem;

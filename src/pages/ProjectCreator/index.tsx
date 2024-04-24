@@ -85,16 +85,16 @@ const ProjectCreator: React.FC = () => {
             Nenhum projeto para mostrar.
           </h4>
         ) : (
-          projects.map((project) => {
-            const progress = Math.min(
-              (project.total / project.goal) * 100,
-              100
-            );
-            const progressBarColor =
-              progress === 100 ? "bg-success" : "bg-info";
+          <div className="container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
+            {projects.map((project) => {
+              const progress = Math.min(
+                (project.total / project.goal) * 100,
+                100
+              );
+              const progressBarColor =
+                progress === 100 ? "bg-success" : "bg-info";
 
-            return (
-              <div className="container row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mx-auto my-auto">
+              return (
                 <div className="col" key={project.id}>
                   <div className="card shadow-sm h-100">
                     <a href={`/project/${project.id}`}>
@@ -118,11 +118,31 @@ const ProjectCreator: React.FC = () => {
                     </a>
                     <div className="card-body border secondary">
                       <h5 className="card-title text-center">{project.name}</h5>
-                      <p className="card-text">
-                        <small className="text-body-secondary">
-                          {project.category}
-                        </small>
-                      </p>
+                      <a
+                        className="category-link card-text"
+                        href={(() => {
+                          let categoryPath = "/";
+                          if (project.category === "Arte") {
+                            categoryPath = "/art";
+                          } else if (project.category === "Gastronomia") {
+                            categoryPath = "/gastronomy";
+                          } else if (project.category === "Jogo") {
+                            categoryPath = "/game";
+                          } else if (project.category === "Livro") {
+                            categoryPath = "/book";
+                          } else if (project.category === "Música") {
+                            categoryPath = "/music";
+                          } else if (project.category === "Tecnologia") {
+                            categoryPath = "/technology";
+                          } else if (project.category === "Outros") {
+                            categoryPath = "/others";
+                          }
+
+                          return categoryPath;
+                        })()}
+                      >
+                        <small>{project.category}</small>
+                      </a>
                       <p className="card-text">{project.description}</p>
                       <div
                         className="progress"
@@ -148,9 +168,9 @@ const ProjectCreator: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         )}
       </div>
 

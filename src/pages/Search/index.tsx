@@ -77,11 +77,31 @@ const Search: React.FC = () => {
                         <h5 className="card-title text-center">
                           {project.name}
                         </h5>
-                        <p className="card-text">
-                          <small className="text-body-secondary">
-                            {project.category}
-                          </small>
-                        </p>
+                        <a
+                          className="category-link card-text"
+                          href={(() => {
+                            let categoryPath = "/";
+                            if (project.category === "Arte") {
+                              categoryPath = "/art";
+                            } else if (project.category === "Gastronomia") {
+                              categoryPath = "/gastronomy";
+                            } else if (project.category === "Jogo") {
+                              categoryPath = "/game";
+                            } else if (project.category === "Livro") {
+                              categoryPath = "/book";
+                            } else if (project.category === "Música") {
+                              categoryPath = "/music";
+                            } else if (project.category === "Tecnologia") {
+                              categoryPath = "/technology";
+                            } else if (project.category === "Outros") {
+                              categoryPath = "/others";
+                            }
+
+                            return categoryPath;
+                          })()}
+                        >
+                          <small>{project.category}</small>
+                        </a>
                         <p className="card-text">{project.description}</p>
                         <div
                           className="progress"
@@ -125,21 +145,53 @@ const Search: React.FC = () => {
                   <div className="col" key={project.id}>
                     <div className="card shadow-sm h-100">
                       <a href={`/project/${project.id}`}>
-                        <img
-                          src={project.image[0]}
-                          className="card-img-top border secondary"
-                          alt={project.name}
-                        />
+                        {!isBase64Image(project.image[0]) ? (
+                          <img
+                            src={
+                              project.image.length > 0
+                                ? project.image[0]
+                                : defaultImage
+                            }
+                            className="card-img-top border secondary"
+                            alt={project.name}
+                          />
+                        ) : (
+                          <img
+                            src={`data:image/jpeg;base64,${project.image[0]}`}
+                            className="card-img-top border secondary"
+                            alt={project.name}
+                          />
+                        )}
                       </a>
                       <div className="card-body border secondary">
                         <h5 className="card-title text-center">
                           {project.name}
                         </h5>
-                        <p className="card-text">
-                          <small className="text-body-secondary">
-                            {project.category}
-                          </small>
-                        </p>
+                        <a
+                          className="category-link card-text"
+                          href={(() => {
+                            let categoryPath = "/";
+                            if (project.category === "Arte") {
+                              categoryPath = "/art";
+                            } else if (project.category === "Gastronomia") {
+                              categoryPath = "/gastronomy";
+                            } else if (project.category === "Jogo") {
+                              categoryPath = "/game";
+                            } else if (project.category === "Livro") {
+                              categoryPath = "/book";
+                            } else if (project.category === "Música") {
+                              categoryPath = "/music";
+                            } else if (project.category === "Tecnologia") {
+                              categoryPath = "/technology";
+                            } else if (project.category === "Outros") {
+                              categoryPath = "/others";
+                            }
+
+                            return categoryPath;
+                          })()}
+                        >
+                          <small>{project.category}</small>
+                        </a>
                         <p className="card-text">{project.description}</p>
                         <div
                           className="progress"
