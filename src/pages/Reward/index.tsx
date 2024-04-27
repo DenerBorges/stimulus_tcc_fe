@@ -117,9 +117,26 @@ const Reward: React.FC = () => {
       return;
     }
 
-    navigate(`/project/${project?.id}/payment/${input}`, {
-      state: { customAmount: input },
-    });
+    try {
+      let newReward;
+      if (project?.id) {
+        // Criar uma nova recompensa personalizada
+        const response = await api.post("rewards", {
+          name: "Personalizado",
+          description: "Valor personalizado",
+          value: input,
+          projectId: project.id,
+        });
+        newReward = response.data;
+      } else {
+        console.error("ID do projeto não definido.");
+        return;
+      }
+
+      navigate(`/project/${project?.id}/payment/${newReward.id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -322,7 +339,10 @@ const Reward: React.FC = () => {
                           >
                             Fechar
                           </button>
-                          <button type="submit" className="btn btn-info text-light">
+                          <button
+                            type="submit"
+                            className="btn btn-info text-light"
+                          >
                             Criar recompensa
                           </button>
                         </div>

@@ -297,7 +297,7 @@ const Payment: React.FC = () => {
                   </div>
                   <div className="col">
                     <label htmlFor="mobile" className="form-label fw-medium">
-                      Celular
+                      Celular (Não incluir DDD)
                     </label>
                     <InputMask
                       type="text"
