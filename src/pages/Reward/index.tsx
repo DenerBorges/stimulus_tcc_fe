@@ -120,7 +120,6 @@ const Reward: React.FC = () => {
     try {
       let newReward;
       if (project?.id) {
-        // Criar uma nova recompensa personalizada
         const response = await api.post("rewards", {
           name: "Personalizado",
           description: "Valor personalizado",
@@ -186,7 +185,11 @@ const Reward: React.FC = () => {
             </div>
 
             {rewards.map((reward) => {
-              if (reward.projectId === project.id) {
+              if (
+                reward.projectId === project.id &&
+                reward.name !== "Personalizado" &&
+                reward.description !== "Valor personalizado"
+              ) {
                 return (
                   <div
                     className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5"
