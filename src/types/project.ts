@@ -7,6 +7,7 @@ export interface projectType {
   goal: number;
   deadline: number;
   report: number;
+  reportMessages: string[];
   image: string[];
   userId: number;
 }

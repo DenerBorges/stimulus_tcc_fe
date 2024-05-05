@@ -6,6 +6,7 @@ import {
   CurrencyDollarIcon,
   ExclamationTriangleIcon,
   ShareIcon,
+  ShieldExclamationIcon,
 } from "@heroicons/react/24/solid";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
@@ -22,9 +23,11 @@ import "./styles.css";
 const Project: React.FC = () => {
   const { id } = useParams();
   const [project, setProject] = useState<projectType>();
+  const [reportMsg, setReportMsg] = useState<string[]>([]);
   const [user, setUser] = useState<userType>();
   const [currentUser, setCurrentUser] = useState<userType | null>(null);
   const [isOwner, setIsOwner] = useState(false);
+  const [moderator, setModerator] = useState(false);
   const [comments, setComments] = useState<commentType[]>([]);
   const [comment, setComment] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -70,13 +73,17 @@ const Project: React.FC = () => {
           } else {
             setIsOwner(false);
           }
+
+          if (currentUser?.isAdmin === true) {
+            setModerator(true);
+          }
         }
       } catch (error) {
         console.error("Erro ao obter dados do projeto:", error);
       }
     };
     fetchData();
-  }, [id, isLoggedIn]);
+  }, [currentUser?.isAdmin, id, isLoggedIn]);
 
   const handlePostComment = async () => {
     try {
@@ -133,6 +140,12 @@ const Project: React.FC = () => {
   const progress = Math.min((total / goal) * 100, 100);
   const progressBarColor = progress === 100 ? "bg-success" : "bg-info";
 
+  const isAnyOptionSelected = () => {
+    return (
+      document.querySelector('input[name="flexRadioDefault"]:checked') !== null
+    );
+  };
+  
   const handleReportProject = async () => {
     try {
       if (project) {
@@ -140,6 +153,7 @@ const Project: React.FC = () => {
 
         await api.put(`projects/${id}`, {
           report: updatedReportCount,
+          reportMessages: [...project.reportMessages, ...reportMsg],
         });
 
         toast.success("Projeto reportado com sucesso!");
@@ -157,9 +171,7 @@ const Project: React.FC = () => {
 
   const reportWarning = () => {
     if (project) {
-      toast.warning(
-        `Seu projeto foi denunciado ${project.report} vez(es).\nSe seu projeto chegar a 20 denúncias, seu projeto será deletado!`
-      );
+      navigate(`/moderator/${id}`);
     }
   };
 
@@ -356,7 +368,8 @@ const Project: React.FC = () => {
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault1"
-                                defaultChecked
+                                value="Conteúdo inapropriado"
+                                onChange={(e) => setReportMsg([e.target.value])}
                               />
                               <label
                                 className="form-check-label"
@@ -371,6 +384,8 @@ const Project: React.FC = () => {
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault2"
+                                value="Assédio ou bullying"
+                                onChange={(e) => setReportMsg([e.target.value])}
                               />
                               <label
                                 className="form-check-label"
@@ -385,6 +400,8 @@ const Project: React.FC = () => {
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault3"
+                                value="Conteúdo de incitação ao ódio ou abusivo"
+                                onChange={(e) => setReportMsg([e.target.value])}
                               />
                               <label
                                 className="form-check-label"
@@ -399,6 +416,8 @@ const Project: React.FC = () => {
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault4"
+                                value="Promove terrorismo"
+                                onChange={(e) => setReportMsg([e.target.value])}
                               />
                               <label
                                 className="form-check-label"
@@ -413,6 +432,8 @@ const Project: React.FC = () => {
                                 type="radio"
                                 name="flexRadioDefault"
                                 id="flexRadioDefault5"
+                                value="Problema jurídico"
+                                onChange={(e) => setReportMsg([e.target.value])}
                               />
                               <label
                                 className="form-check-label"
@@ -439,6 +460,7 @@ const Project: React.FC = () => {
                               }
                               className="btn btn-info text-light"
                               data-bs-dismiss="modal"
+                              disabled={!isAnyOptionSelected()}
                             >
                               Confirmar
                             </button>
@@ -448,14 +470,14 @@ const Project: React.FC = () => {
                     </div>
                   </div>
                   <div className="col">
-                    {isOwner && project.report >= 1 ? (
+                    {moderator && project.report >= 1 ? (
                       <button
                         className="editBtn btn btn-warning text-light"
                         type="submit"
                         onClick={() => reportWarning()}
                       >
                         {""}
-                        <ExclamationTriangleIcon />
+                        <ShieldExclamationIcon />
                       </button>
                     ) : (
                       ""
@@ -477,7 +499,10 @@ const Project: React.FC = () => {
                 <div className="m-5 py-3">
                   <p className="text-start fw-bold">
                     Criador:{" "}
-                    <u className="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick={() => navigate(`/project_creator/${user?.id}`)}>
+                    <u
+                      className="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                      onClick={() => navigate(`/project_creator/${user?.id}`)}
+                    >
                       {user?.user}
                     </u>
                   </p>

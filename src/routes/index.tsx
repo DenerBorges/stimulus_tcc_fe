@@ -24,6 +24,7 @@ import EditProject from "../pages/EditProject";
 import EditReward from "../pages/EditReward";
 import Search from "../pages/Search";
 import Payment from "../pages/Payment";
+import Moderator from "../pages/Moderator";
 
 const RoutesApp: React.FC = () => {
   return (
@@ -78,6 +79,14 @@ const RoutesApp: React.FC = () => {
             element={
               <PrivateRoute>
                 <Payment />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/moderator/:id"
+            element={
+              <PrivateRoute>
+                <Moderator />
               </PrivateRoute>
             }
           />
