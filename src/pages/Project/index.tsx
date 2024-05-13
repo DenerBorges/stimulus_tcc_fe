@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Bars3BottomLeftIcon,
@@ -145,7 +146,7 @@ const Project: React.FC = () => {
       document.querySelector('input[name="flexRadioDefault"]:checked') !== null
     );
   };
-  
+
   const handleReportProject = async () => {
     try {
       if (project) {
@@ -228,6 +229,19 @@ const Project: React.FC = () => {
     }
   };
 
+  const copyLinkToClipboard = () => {
+    const currentURL = window.location.href;
+    navigator.clipboard
+      .writeText(currentURL)
+      .then(() => {
+        toast.success("Link copiado para a área de transferência!");
+        setTimeout(() => {}, 3000);
+      })
+      .catch((error) => {
+        console.error("Erro ao copiar o link:", error);
+      });
+  };
+
   function isBase64Image(image?: string) {
     return image && !image.startsWith("http");
   }
@@ -236,6 +250,24 @@ const Project: React.FC = () => {
 
   return (
     <>
+      <Helmet>
+        {/* Metatags do Facebook */}
+        <meta
+          property="og:url"
+          content={`https://stimulus-tcc-fe.vercel.app/project/${project?.id}`}
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={project?.name} />
+        <meta property="og:description" content={"Impulsione este projeto!"} />
+        <meta property="og:image" content={project?.image[0]} />
+
+        {/* Metatags do Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={project?.name} />
+        <meta name="twitter:description" content={"Impulsione este projeto!"} />
+        <meta name="twitter:image" content={project?.image[0]} />
+      </Helmet>
+
       <Navbar />
 
       {project && (
@@ -806,45 +838,51 @@ const Project: React.FC = () => {
                 role="tabpanel"
                 aria-labelledby="pills-share-tab"
               >
-                <h2 className="text-center pb-4 fw-bolder">
+                <h2 className="text-center pb-4 mb-5 fw-bolder">
                   Compartilhe este projeto
                 </h2>
-                <div className="col text-center mx-auto my-auto fs-5 fw-medium">
-                  <div className="col pb-2">
-                    <ShareIcon className="shareIcon" /> Copie este link: link/
-                    {project?.name}
+                <div className="row text-center fs-5 fw-medium">
+                  <div className="col">
+                    <span className="fs-4 mx-3 fw-semibold">
+                      Copie este link:
+                    </span>
+                    <button
+                      type="button"
+                      className="shareButton"
+                      onClick={copyLinkToClipboard}
+                    >
+                      <ShareIcon className="shareIcon" />
+                      {""}
+                    </button>
                   </div>
-                  <div className="col pb-2">
-                    <a className="text-decoration-none text-dark" href="/">
+                  <div className="col">
+                    <span className="fs-4 mx-3 fw-semibold">Facebook:</span>
+                    <a
+                      type="button"
+                      href={`https://www.facebook.com/sharer/sharer.php?u=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <img
                         src={require("../../assets/images/facebook_logo.png")}
                         alt="facebook"
-                        width="30"
-                        className="me-4"
+                        width="40"
                       />
-                      Facebook: facebook.com/{project?.name}
                     </a>
                   </div>
-                  <div className="col pb-2">
-                    <a className="text-decoration-none text-dark" href="/">
+                  <div className="col">
+                    <span className="fs-4 mx-3 fw-semibold">X:</span>
+                    <a
+                      type="button"
+                      href={`https://twitter.com/intent/tweet?url=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <img
                         src={require("../../assets/images/twitter_logo.png")}
                         alt="twitter"
-                        width="30"
-                        className="me-4"
+                        width="40"
                       />
-                      Twitter: twitter.com/{project?.name}
-                    </a>
-                  </div>
-                  <div className="col pb-2">
-                    <a className="text-decoration-none text-dark" href="/">
-                      <img
-                        src={require("../../assets/images/linkedin_logo.png")}
-                        alt="linkedin"
-                        width="30"
-                        className="me-4"
-                      />
-                      Linkedin: linkedin.com/{project?.name}
                     </a>
                   </div>
                 </div>
