@@ -16,11 +16,13 @@ const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getProfile = async () => {
-    try {
-      const response = await api.get("users/profile");
-      setProfile(response.data);
-    } catch (error) {
-      console.log(error);
+    if (isLoggedIn) {
+      try {
+        const response = await api.get("users/profile");
+        setProfile(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
