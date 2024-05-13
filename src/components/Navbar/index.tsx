@@ -15,28 +15,27 @@ const Navbar: React.FC = () => {
   const [profile, setProfile] = useState<userType>();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const getProfile = async () => {
-    if (isLoggedIn) {
-      try {
-        const response = await api.get("users/profile");
-        setProfile(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("userToken");
     localStorage.removeItem("userName");
   };
 
   useEffect(() => {
+    const getProfile = async () => {
+      if (isLoggedIn) {
+        try {
+          const response = await api.get("users/profile");
+          setProfile(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
     getProfile();
     if (localStorage.getItem("userToken")) {
       setIsLoggedIn(true);
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <nav
