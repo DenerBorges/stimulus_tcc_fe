@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import PrivateRoute from "../components/PrivateRoute";
 
 import Home from "../pages/Home";
@@ -29,6 +30,7 @@ import Moderator from "../pages/Moderator";
 const RoutesApp: React.FC = () => {
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <GoogleOAuthProvider clientId="705568925674-u6ubt532k7q69pb7d6kdkgvld8vvk8u2.apps.googleusercontent.com">
       <Fragment>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -92,6 +94,7 @@ const RoutesApp: React.FC = () => {
           />
         </Routes>
       </Fragment>
+      </GoogleOAuthProvider>
     </BrowserRouter>
   );
 };
