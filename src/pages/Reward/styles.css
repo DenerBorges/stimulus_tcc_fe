@@ -1,9 +1,13 @@
 .plusIcon {
-    width: 6rem;
-    fill: rgb(40, 40, 40);
+  width: 6rem;
+  fill: rgb(40, 40, 40);
 }
 
 .plusIcon:hover {
-    cursor: pointer;
-    fill: rgb(65, 65, 65);
+  cursor: pointer;
+  fill: rgb(65, 65, 65);
+}
+
+.trophyIcon {
+  width: 10rem;
 }

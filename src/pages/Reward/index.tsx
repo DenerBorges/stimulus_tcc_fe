@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { rewardType } from "../../types/reward";
 import { projectType } from "../../types/project";
 import { userType } from "../../types/user";
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { PlusCircleIcon, TrophyIcon } from "@heroicons/react/24/solid";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -138,6 +138,13 @@ const Reward: React.FC = () => {
     }
   };
 
+  const projectRewards = rewards.filter(
+    (reward) =>
+      reward.projectId === project?.id &&
+      reward.name !== "Personalizado" &&
+      reward.description !== "Valor personalizado"
+  );
+
   return (
     <>
       <Navbar />
@@ -183,6 +190,16 @@ const Reward: React.FC = () => {
                 </label>
               </form>
             </div>
+
+            {projectRewards.length === 0 && (
+              <div className="container bg-light-subtle border border-2 rounded shadow my-5 pt-4 pb-2 px-5">
+                <div className="text-center text-secondary fw-bolder fs-3">
+                  <p className="fs-1">Este projeto não possui recompensas</p>
+                  <TrophyIcon className="trophyIcon" />
+                  <p className="mt-3">Mesmo assim, não deixe de apoiá-lo!</p>
+                </div>
+              </div>
+            )}
 
             {rewards.map((reward) => {
               if (
