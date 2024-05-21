@@ -89,6 +89,8 @@ const Home: React.FC = () => {
                                 categoryPath = "/book";
                               } else if (project.category === "Música") {
                                 categoryPath = "/music";
+                              } else if (project.category === "Social") {
+                                categoryPath = "/social";
                               } else if (project.category === "Tecnologia") {
                                 categoryPath = "/technology";
                               } else if (project.category === "Outros") {

@@ -18,6 +18,7 @@ import Gastronomy from "../pages/Gastronomy";
 import Game from "../pages/Game";
 import Book from "../pages/Book";
 import Music from "../pages/Music";
+import Social from "../pages/Social";
 import Technology from "../pages/Technology";
 import Others from "../pages/Others";
 import Profile from "../pages/Profile";
@@ -48,6 +49,7 @@ const RoutesApp: React.FC = () => {
           <Route path="/game" element={<Game />} />
           <Route path="/book" element={<Book />} />
           <Route path="/music" element={<Music />} />
+          <Route path="/social" element={<Social />} />
           <Route path="/technology" element={<Technology />} />
           <Route path="/others" element={<Others />} />
           <Route path="/search" element={<Search />} />
