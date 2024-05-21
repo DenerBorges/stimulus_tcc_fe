@@ -270,12 +270,13 @@ const Project: React.FC = () => {
 
       <Navbar />
 
+      <div className="page-container">
       {project && (
         <>
           <h1 className="text-center shadow fw-bolder py-2 my-3">
             {project?.name}
           </h1>
-          <div className="container shadow border rounded text-center bg-light bg-gradient my-5 mx-auto">
+          <div className="main-content container shadow border rounded text-center bg-light bg-gradient my-5 mx-auto">
             <div className="row row-cols-lg-2 row-cols-1 border secondary">
               <div className="col p-0">
                 <div
@@ -871,7 +872,7 @@ const Project: React.FC = () => {
                     </a>
                   </div>
                   <div className="col">
-                    <span className="fs-4 mx-3 fw-semibold">X:</span>
+                    <span className="fs-4 mx-3 fw-semibold">Twitter:</span>
                     <a
                       type="button"
                       href={`https://twitter.com/intent/tweet?url=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`}
@@ -894,6 +895,7 @@ const Project: React.FC = () => {
       <ToastContainer autoClose={3000} className="custom-toast" />
 
       <Footer />
+      </div>
     </>
   );
 };
