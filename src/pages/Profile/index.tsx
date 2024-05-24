@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userType } from "../../types/user";
 import { projectType } from "../../types/project";
 import { donationType } from "../../types/donation";
-import { ClipboardDocumentListIcon } from "@heroicons/react/24/solid";
+import { NewspaperIcon } from "@heroicons/react/24/solid";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -25,10 +25,11 @@ const Profile: React.FC = () => {
   const [tempProfilePic, setTempProfilePic] = useState<string | null>(null);
   const [projects, setProjects] = useState<projectType[]>([]);
   const [donations, setDonations] = useState<donationType[]>([]);
+  const [error, setError] = useState("");
+  const [isDisabled, setIsDisabled] = useState(false);
   const [selectedDonations, setSelectedDonations] = useState<donationType[]>(
     []
   );
-  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -103,6 +104,10 @@ const Profile: React.FC = () => {
       setEmail(response.data.email);
       setMobile(response.data.mobile);
       setProfilePic(response.data.profilePic);
+
+      if (response.data.email.includes("@gmail.com")) {
+        setIsDisabled(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -127,7 +132,7 @@ const Profile: React.FC = () => {
   };
 
   const formatCurrency = (value: number) => {
-    return (value).toLocaleString("pt-BR", {
+    return value.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
     });
@@ -222,6 +227,12 @@ const Profile: React.FC = () => {
       <div className="container bg-light-subtle border border-2 rounded shadow my-5 py-5 px-5">
         <h2 className="text-center fw-bolder mb-5">Informações do usuário</h2>
         <form className="row" method="post" key={profile?.id}>
+          {isDisabled && (
+            <div className="alert alert-info text-center" role="alert">
+              Não é possível modificar o nome ou email pois são informações da
+              sua conta Google.
+            </div>
+          )}
           <div className="container col offset-10 text-center">
             <button
               type="button"
@@ -231,7 +242,7 @@ const Profile: React.FC = () => {
               onClick={handleOpenModal}
             >
               {""}
-              <ClipboardDocumentListIcon style={{ width: "24px" }} />
+              <NewspaperIcon style={{ width: "24px" }} />
             </button>
           </div>
           <div
@@ -323,7 +334,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/JaCbdwu.png")
                         }
                         alt="avatar1"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/JaCbdwu.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/JaCbdwu.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/0EeZEGh.png"
@@ -331,7 +346,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/0EeZEGh.png")
                         }
                         alt="avatar2"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/0EeZEGh.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/0EeZEGh.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/OkZfyRi.png"
@@ -339,7 +358,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/OkZfyRi.png")
                         }
                         alt="avatar3"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/OkZfyRi.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/OkZfyRi.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/6wUE9VU.png"
@@ -347,7 +370,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/6wUE9VU.png")
                         }
                         alt="avatar4"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/6wUE9VU.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/6wUE9VU.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                     </div>
                     <div className="s-row row align-items-start">
@@ -357,7 +384,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/vFzf8nS.png")
                         }
                         alt="avatar5"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/vFzf8nS.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/vFzf8nS.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/CKh51X2.png"
@@ -365,7 +396,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/CKh51X2.png")
                         }
                         alt="avatar6"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/CKh51X2.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/CKh51X2.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/ZaMXigS.png"
@@ -373,7 +408,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/ZaMXigS.png")
                         }
                         alt="avatar7"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/ZaMXigS.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/ZaMXigS.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                       <img
                         src="https://i.imgur.com/nHvhGwg.png"
@@ -381,7 +420,11 @@ const Profile: React.FC = () => {
                           selectImage("https://i.imgur.com/nHvhGwg.png")
                         }
                         alt="avatar8"
-                        className={`modal-pic col h-100 ${selectedImageUrl === "https://i.imgur.com/nHvhGwg.png" ? 'selected' : ''}`}
+                        className={`modal-pic col h-100 ${
+                          selectedImageUrl === "https://i.imgur.com/nHvhGwg.png"
+                            ? "selected"
+                            : ""
+                        }`}
                       ></img>
                     </div>
                   </div>
@@ -419,6 +462,7 @@ const Profile: React.FC = () => {
               aria-describedby="userAria"
               placeholder="Insira seu nome completo"
               value={user}
+              disabled={isDisabled}
               onChange={(e) => setUser(e.target.value)}
               className={
                 error && !user
@@ -474,6 +518,7 @@ const Profile: React.FC = () => {
               aria-describedby="emailAria"
               placeholder="Insire seu email"
               value={email}
+              disabled={isDisabled}
               onChange={(e) => setEmail(e.target.value)}
               className={
                 (error && !email) ||
