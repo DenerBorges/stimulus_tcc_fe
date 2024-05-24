@@ -153,24 +153,13 @@ const SignIn: React.FC = () => {
           <button type="submit" className="btn btn-primary fw-semibold">
             Logar-se
           </button>
-          <div className="row">
-            <div className="col w-50 mt-3">
-              <GoogleLogin
-                onSuccess={handleGoogleLoginSuccess}
-                onError={() => {
-                  console.error("Login Failed");
-                }}
-              />
-            </div>
-            <div className="col w-50 mt-3">
-              {/* <FacebookLogin
-                appId="SEU_APP_ID_DO_FACEBOOK"
-                autoLoad={false}
-                fields="name,email,picture"
-                callback={responseFacebook}
-                icon="fa-facebook"
-              /> */}
-            </div>
+          <div className="mt-3">
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={() => {
+                console.error("Login Failed");
+              }}
+            />
           </div>
         </form>
 
