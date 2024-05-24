@@ -70,6 +70,7 @@ const SignUp: React.FC = () => {
         email,
         password: password,
         profilePic,
+        mobile: "",
       });
       navigate("/signin");
     } catch (error) {
@@ -157,7 +158,9 @@ const SignUp: React.FC = () => {
                 }
               />
               <AtSymbolIcon />
-              {emailError !== '' && <div className="text-danger fw-medium">{emailError}</div>}
+              {emailError !== "" && (
+                <div className="text-danger fw-medium">{emailError}</div>
+              )}
               <div id="emailFeedback" className="invalid-feedback fw-medium">
                 Email inválido!
               </div>
