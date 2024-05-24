@@ -18,7 +18,7 @@
   visibility: hidden;
 }
 
-@media only screen and (max-width: 1200px) and (min-width: 700px) {
+@media only screen and (max-width: 1199px) and (min-width: 700px) {
   .pesquisa[placeholder] {
     padding-left: 3rem;
   }
@@ -30,7 +30,7 @@
   }
 }
 
-@media only screen and (min-width: 1260px) {
+@media only screen and (min-width: 1390px) {
   .searchIcon {
     width: 35rem;
   }
