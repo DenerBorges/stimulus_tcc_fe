@@ -8,6 +8,7 @@ import {
   ExclamationTriangleIcon,
   ShareIcon,
   ShieldExclamationIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/solid";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Navbar from "../../components/Navbar";
@@ -16,6 +17,7 @@ import api from "../../utils/api";
 import { projectType } from "../../types/project";
 import { userType } from "../../types/user";
 import { commentType } from "../../types/comment";
+import { donationType } from "../../types/donation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -26,6 +28,8 @@ const Project: React.FC = () => {
   const [project, setProject] = useState<projectType>();
   const [reportMsg, setReportMsg] = useState<string[]>([]);
   const [user, setUser] = useState<userType>();
+  const [allUser, setAllUser] = useState<userType[]>([]);
+  const [donations, setDonations] = useState<donationType[]>([]);
   const [currentUser, setCurrentUser] = useState<userType | null>(null);
   const [isOwner, setIsOwner] = useState(false);
   const [moderator, setModerator] = useState(false);
@@ -63,6 +67,14 @@ const Project: React.FC = () => {
         const userResponse = await api.get(`users/${userId}`);
         const userData = userResponse.data;
         setUser(userData);
+
+        const allUserResponse = await api.get("users");
+        const allUserData = allUserResponse.data;
+        setAllUser(allUserData);
+
+        const donationsResponse = await api.get("donations");
+        const donationsData = donationsResponse.data;
+        setDonations(donationsData);
 
         if (isLoggedIn) {
           const profileResponse = await api.get("users/profile");
@@ -251,6 +263,15 @@ const Project: React.FC = () => {
   const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`;
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`;
   const whatsappShareUrl = `https://wa.me/?text=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`;
+
+  const formatDate = (dateString: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    };
+    return new Date(dateString).toLocaleDateString("pt-BR", options);
+  };
 
   return (
     <>
@@ -647,6 +668,21 @@ const Project: React.FC = () => {
                     <ShareIcon className="navIcons" />
                   </button>
                 </li>
+                <li className="nav-item p-0" role="presentation">
+                  <button
+                    className="nav-link border border-dark rounded-start-0 rounded-bottom-0 rounded-top-1 text-light"
+                    type="button"
+                    id="pills-donation-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-donation"
+                    role="tab"
+                    aria-controls="pills-donation"
+                    aria-selected="false"
+                  >
+                    Doadores
+                    <UserGroupIcon className="navIcons" />
+                  </button>
+                </li>
               </ul>
 
               <div
@@ -864,8 +900,8 @@ const Project: React.FC = () => {
                   <h2 className="text-center pb-4 mb-5 fw-bolder">
                     Compartilhe este projeto
                   </h2>
-                  <div className="row text-center fs-5 fw-medium">
-                    <div className="col">
+                  <div className="row mb-4 text-center fs-5 fw-medium">
+                    <div className="col mt-2">
                       <span className="fs-4 mx-3 fw-semibold">
                         Copie este link:
                       </span>
@@ -878,7 +914,7 @@ const Project: React.FC = () => {
                         {""}
                       </button>
                     </div>
-                    <div className="col">
+                    <div className="col mt-2">
                       <span className="fs-4 mx-3 fw-semibold">Facebook:</span>
                       <a
                         type="button"
@@ -893,7 +929,7 @@ const Project: React.FC = () => {
                         />
                       </a>
                     </div>
-                    <div className="col">
+                    <div className="col mt-2">
                       <span className="fs-4 mx-3 fw-semibold">Twitter:</span>
                       <a
                         type="button"
@@ -908,7 +944,7 @@ const Project: React.FC = () => {
                         />
                       </a>
                     </div>
-                    <div className="col">
+                    <div className="col mt-1">
                       <span className="fs-4 mx-3 fw-semibold">WhatsApp:</span>
                       <a
                         type="button"
@@ -919,10 +955,61 @@ const Project: React.FC = () => {
                         <img
                           src={require("../../assets/images/whatsapp_logo.png")}
                           alt="whatsapp"
-                          width="40"
+                          width="50"
                         />
                       </a>
                     </div>
+                  </div>
+                </div>
+                <div
+                  className="tab-pane fade"
+                  id="pills-donation"
+                  role="tabpanel"
+                  aria-labelledby="pills-donation-tab"
+                >
+                  <h2 className="text-center pb-4 mb-5 fw-bolder">
+                    Doadores que apoiaram este projeto
+                  </h2>
+                  <div className="container">
+                    {donations && donations.length > 0 ? (
+                      donations
+                        .filter((donation) => donation.projectId === project.id)
+                        .map((donation) => {
+                          const user = allUser.find(
+                            (u) => u.id === donation.userId
+                          );
+                          return user ? (
+                            <div
+                              key={donation.id}
+                              className="row donation-info"
+                            >
+                              <div className="col-2 text-center">
+                                <img
+                                  src={user.profilePic}
+                                  alt="Foto do usuário"
+                                  width="80rem"
+                                />
+                              </div>
+                              <div className="col-4">
+                                <p className="fs-4 fw-medium">{user.user}</p>
+                                <p className="fs-5 fw-medium">
+                                  Valor: {donation.value}
+                                </p>
+                              </div>
+                              <div className="col-6 text-end">
+                                <p className="fs-6 fw-medium">
+                                  {formatDate(donation.createdAt)}
+                                </p>
+                              </div>
+                              <hr />
+                            </div>
+                          ) : null;
+                        })
+                    ) : (
+                      <p className="text-center fs-4 fw-semibold">
+                        Não há doadores para este projeto.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
