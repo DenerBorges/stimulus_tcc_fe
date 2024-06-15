@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate, useParams } from "react-router-dom";
 import {
+  ArrowRightCircleIcon,
   Bars3BottomLeftIcon,
   ChatBubbleBottomCenterTextIcon,
   CurrencyDollarIcon,
@@ -264,14 +265,10 @@ const Project: React.FC = () => {
   const twitterShareUrl = `https://twitter.com/intent/tweet?url=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`;
   const whatsappShareUrl = `https://wa.me/?text=https://stimulus-tcc-fe.vercel.app/project/${project?.id}`;
 
-  const formatDate = (dateString: Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    };
-    return new Date(dateString).toLocaleDateString("pt-BR", options);
-  };
+  const filteredDonations = donations.filter(
+    (donation) => donation.projectId === project?.id
+  );
+  const displayDonations = filteredDonations.slice(0, 5);
 
   return (
     <>
@@ -971,10 +968,9 @@ const Project: React.FC = () => {
                     Doadores que apoiaram este projeto
                   </h2>
                   <div className="container">
-                    {donations && donations.length > 0 ? (
-                      donations
-                        .filter((donation) => donation.projectId === project.id)
-                        .map((donation) => {
+                    {filteredDonations.length > 0 ? (
+                      <>
+                        {displayDonations.map((donation) => {
                           const user = allUser.find(
                             (u) => u.id === donation.userId
                           );
@@ -983,28 +979,43 @@ const Project: React.FC = () => {
                               key={donation.id}
                               className="row donation-info"
                             >
-                              <div className="col-2 text-center">
+                              <div className="col-lg-2 col-sm-4 text-center">
                                 <img
                                   src={user.profilePic}
                                   alt="Foto do usuário"
                                   width="80rem"
                                 />
                               </div>
-                              <div className="col-4">
-                                <p className="fs-4 fw-medium">{user.user}</p>
-                                <p className="fs-5 fw-medium">
+                              <div className="col-lg-2 col-sm-4">
+                                <p className="fs-4 fw-semibold">{user.user}</p>
+                                <p className="fs-5 fw-semibold">
                                   Valor: {donation.value}
                                 </p>
                               </div>
-                              <div className="col-6 text-end">
-                                <p className="fs-6 fw-medium">
-                                  {formatDate(donation.createdAt)}
+                              <div className="col-lg-8 col-sm-2 text-end">
+                                <p className="fs-6 fw-semibold">
+                                  {new Date(
+                                    donation.createdAt
+                                  ).toLocaleDateString()}
                                 </p>
                               </div>
                               <hr />
                             </div>
                           ) : null;
-                        })
+                        })}
+                        {filteredDonations.length > 5 && (
+                          <div className="text-center mt-4">
+                            <button
+                              type="button"
+                              onClick={() => navigate(`/donors/${id}`)}
+                              className="btn btn-info text-light fw-semibold fs-5 rounded-pill"
+                            >
+                              Ver todos os doadores{" "}
+                              <ArrowRightCircleIcon className="dollarIcon" />
+                            </button>
+                          </div>
+                        )}
+                      </>
                     ) : (
                       <p className="text-center fs-4 fw-semibold">
                         Não há doadores para este projeto.

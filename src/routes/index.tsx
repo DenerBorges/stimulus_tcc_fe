@@ -12,6 +12,7 @@ import CreateProject from "../pages/CreateProject";
 import ProjectCreator from "../pages/ProjectCreator";
 import Project from "../pages/Project";
 import Reward from "../pages/Reward";
+import Donors from "../pages/Donors";
 import Categories from "../pages/Categories";
 import Art from "../pages/Art";
 import Gastronomy from "../pages/Gastronomy";
@@ -43,6 +44,7 @@ const RoutesApp: React.FC = () => {
           <Route path="/project_creator/:id" element={<ProjectCreator />} />
           <Route path="/project/:id" element={<Project />} />
           <Route path="/project/:id/reward" element={<Reward />} />
+          <Route path="/donors/:id" element={<Donors />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/art" element={<Art />} />
           <Route path="/gastronomy" element={<Gastronomy />} />
