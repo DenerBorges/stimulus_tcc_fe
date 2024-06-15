@@ -14,10 +14,6 @@
   color: rgb(200, 200, 200);
 }
 
-.searchIcon:focus-within svg {
-  visibility: hidden;
-}
-
 @media only screen and (max-width: 1199px) and (min-width: 700px) {
   .pesquisa[placeholder] {
     padding-left: 3rem;
