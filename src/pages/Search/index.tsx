@@ -73,38 +73,40 @@ const Search: React.FC = () => {
                           />
                         )}
                       </a>
-                      <div className="card-body border secondary">
-                        <h5 className="card-title text-center">
-                          {project.name}
-                        </h5>
-                        <a
-                          className="category-link card-text"
-                          href={(() => {
-                            let categoryPath = "/";
-                            if (project.category === "Arte") {
-                              categoryPath = "/art";
-                            } else if (project.category === "Gastronomia") {
-                              categoryPath = "/gastronomy";
-                            } else if (project.category === "Jogo") {
-                              categoryPath = "/game";
-                            } else if (project.category === "Livro") {
-                              categoryPath = "/book";
-                            } else if (project.category === "Música") {
-                              categoryPath = "/music";
-                            } else if (project.category === "Social") {
-                              categoryPath = "/social";
-                            } else if (project.category === "Tecnologia") {
-                              categoryPath = "/technology";
-                            } else if (project.category === "Outros") {
-                              categoryPath = "/others";
-                            }
+                      <div className="d-flex flex-column card-body">
+                        <div className="mb-auto pb-2">
+                          <h5 className="card-title text-center">
+                            {project.name}
+                          </h5>
+                          <a
+                            className="category-link card-text"
+                            href={(() => {
+                              let categoryPath = "/";
+                              if (project.category === "Arte") {
+                                categoryPath = "/art";
+                              } else if (project.category === "Gastronomia") {
+                                categoryPath = "/gastronomy";
+                              } else if (project.category === "Jogo") {
+                                categoryPath = "/game";
+                              } else if (project.category === "Livro") {
+                                categoryPath = "/book";
+                              } else if (project.category === "Música") {
+                                categoryPath = "/music";
+                              } else if (project.category === "Social") {
+                                categoryPath = "/social";
+                              } else if (project.category === "Tecnologia") {
+                                categoryPath = "/technology";
+                              } else if (project.category === "Outros") {
+                                categoryPath = "/others";
+                              }
 
-                            return categoryPath;
-                          })()}
-                        >
-                          <small>{project.category}</small>
-                        </a>
-                        <p className="card-text">{project.description}</p>
+                              return categoryPath;
+                            })()}
+                          >
+                            <small>{project.category}</small>
+                          </a>
+                          <p className="card-text">{project.description}</p>
+                        </div>
                         <div
                           className="progress"
                           role="progressbar"
@@ -165,38 +167,40 @@ const Search: React.FC = () => {
                           />
                         )}
                       </a>
-                      <div className="card-body border secondary">
-                        <h5 className="card-title text-center">
-                          {project.name}
-                        </h5>
-                        <a
-                          className="category-link card-text"
-                          href={(() => {
-                            let categoryPath = "/";
-                            if (project.category === "Arte") {
-                              categoryPath = "/art";
-                            } else if (project.category === "Gastronomia") {
-                              categoryPath = "/gastronomy";
-                            } else if (project.category === "Jogo") {
-                              categoryPath = "/game";
-                            } else if (project.category === "Livro") {
-                              categoryPath = "/book";
-                            } else if (project.category === "Música") {
-                              categoryPath = "/music";
-                            } else if (project.category === "Social") {
-                              categoryPath = "/social";
-                            } else if (project.category === "Tecnologia") {
-                              categoryPath = "/technology";
-                            } else if (project.category === "Outros") {
-                              categoryPath = "/others";
-                            }
+                      <div className="d-flex flex-column card-body">
+                        <div className="mb-auto pb-2">
+                          <h5 className="card-title text-center">
+                            {project.name}
+                          </h5>
+                          <a
+                            className="category-link card-text"
+                            href={(() => {
+                              let categoryPath = "/";
+                              if (project.category === "Arte") {
+                                categoryPath = "/art";
+                              } else if (project.category === "Gastronomia") {
+                                categoryPath = "/gastronomy";
+                              } else if (project.category === "Jogo") {
+                                categoryPath = "/game";
+                              } else if (project.category === "Livro") {
+                                categoryPath = "/book";
+                              } else if (project.category === "Música") {
+                                categoryPath = "/music";
+                              } else if (project.category === "Social") {
+                                categoryPath = "/social";
+                              } else if (project.category === "Tecnologia") {
+                                categoryPath = "/technology";
+                              } else if (project.category === "Outros") {
+                                categoryPath = "/others";
+                              }
 
-                            return categoryPath;
-                          })()}
-                        >
-                          <small>{project.category}</small>
-                        </a>
-                        <p className="card-text">{project.description}</p>
+                              return categoryPath;
+                            })()}
+                          >
+                            <small>{project.category}</small>
+                          </a>
+                          <p className="card-text">{project.description}</p>
+                        </div>
                         <div
                           className="progress"
                           role="progressbar"

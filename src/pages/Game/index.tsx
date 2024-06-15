@@ -75,14 +75,16 @@ const Game: React.FC = () => {
                           />
                         )}
                       </a>
-                      <div className="card-body border secondary">
-                        <h5 className="card-title text-center">
-                          {project.name}
-                        </h5>
-                        <a className="category-link card-text" href={"/game"}>
-                          <small>{project.category}</small>
-                        </a>
-                        <p className="card-text">{project.description}</p>
+                      <div className="d-flex flex-column card-body">
+                        <div className="mb-auto pb-2">
+                          <h5 className="card-title text-center">
+                            {project.name}
+                          </h5>
+                          <a className="category-link card-text" href={"/game"}>
+                            <small>{project.category}</small>
+                          </a>
+                          <p className="card-text">{project.description}</p>
+                        </div>
                         <div
                           className="progress"
                           role="progressbar"
