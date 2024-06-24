@@ -63,13 +63,22 @@ const Navbar: React.FC = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <SearchBar />
-          <ul className="navbar-nav mt-1">
-            <li className="nav-item border rounded me-1">
-              <a className="navBtns nav-link fw-medium" href="/create_project">
-                Crie seu projeto
-                <PlusIcon />
-              </a>
-            </li>
+          <ul className="navbar-nav mt-2">
+            {isLoggedIn ? (
+              <>
+                <li className="nav-item border rounded me-1">
+                  <a
+                    className="navBtns nav-link fw-medium"
+                    href="/create_project"
+                  >
+                    Crie seu projeto
+                    <PlusIcon />
+                  </a>
+                </li>
+              </>
+            ) : (
+              ""
+            )}
             <li className="nav-item border rounded me-1">
               <a className="navBtns nav-link fw-medium" href="/categories">
                 Categorias
