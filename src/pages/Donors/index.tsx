@@ -41,6 +41,10 @@ const Donors: React.FC = () => {
     (donation) => String(donation.projectId) === String(project?.id)
   );
 
+  const sortedDonations = filteredDonations.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
   return (
     <>
       <Navbar />
@@ -49,8 +53,8 @@ const Donors: React.FC = () => {
           Doadores do Projeto {project?.name}
         </h1>
         <div className="main-content container shadow border rounded bg-light bg-gradient my-5 mx-auto">
-          {filteredDonations.length > 0 ? (
-            filteredDonations.map((donation) => {
+          {sortedDonations.length > 0 ? (
+            sortedDonations.map((donation) => {
               const user = users.find((u) => u.id === donation.userId);
               return user ? (
                 <div key={donation.id} className="row donation-info mt-4">

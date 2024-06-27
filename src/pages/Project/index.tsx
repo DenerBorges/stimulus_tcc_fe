@@ -268,7 +268,12 @@ const Project: React.FC = () => {
   const filteredDonations = donations.filter(
     (donation) => donation.projectId === project?.id
   );
-  const displayDonations = filteredDonations.slice(0, 5);
+
+  const sortedDonations = filteredDonations.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
+  const displayDonations = sortedDonations.slice(0, 5);
 
   return (
     <>
