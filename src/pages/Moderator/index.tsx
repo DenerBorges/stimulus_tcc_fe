@@ -216,7 +216,16 @@ const Moderator: React.FC = () => {
                       onClick={() => suspendProject()}
                       className="btn btn-danger text-light fw-medium rounded-pill shadow fs-4 px-4 py-2"
                     >
-                      Suspender projeto
+                      Suspender este projeto
+                    </button>
+                  </div>
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-center mt-2">
+                    <button
+                      type="button"
+                      className="btn btn-secondary text-light fw-medium rounded-pill shadow fs-4 px-4 py-2"
+                      disabled
+                    >
+                      Contatar autor do projeto
                     </button>
                   </div>
                 </div>
