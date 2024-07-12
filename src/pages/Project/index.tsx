@@ -27,7 +27,9 @@ import "./styles.css";
 const Project: React.FC = () => {
   const { id } = useParams();
   const [project, setProject] = useState<projectType>();
+  const [currentSection, setCurrentSection] = useState("reason");
   const [reportMsg, setReportMsg] = useState<string[]>([]);
+  const [messageInput, setMessageInput] = useState("");
   const [user, setUser] = useState<userType>();
   const [allUser, setAllUser] = useState<userType[]>([]);
   const [donations, setDonations] = useState<donationType[]>([]);
@@ -154,10 +156,12 @@ const Project: React.FC = () => {
   const progress = Math.min((total / goal) * 100, 100);
   const progressBarColor = progress === 100 ? "bg-success" : "bg-info";
 
-  const isAnyOptionSelected = () => {
-    return (
-      document.querySelector('input[name="flexRadioDefault"]:checked') !== null
-    );
+  const handleContinue = () => {
+    setCurrentSection("message");
+  };
+
+  const handleBack = () => {
+    setCurrentSection("reason");
   };
 
   const handleReportProject = async () => {
@@ -181,6 +185,14 @@ const Project: React.FC = () => {
     } catch (error) {
       toast.error("Falha ao reportar o projeto. Tente novamente mais tarde.");
     }
+  };
+
+  const isAnyOptionSelected = () => {
+    return reportMsg.length > 0;
+  };
+
+  const isMessageInputValid = () => {
+    return messageInput.trim().length > 0;
   };
 
   const reportWarning = () => {
@@ -412,7 +424,9 @@ const Project: React.FC = () => {
                                 className="modal-title fs-5"
                                 id="modal-dialog-scrollable"
                               >
-                                Qual o motivo da sua denúncia?
+                                {currentSection === "reason"
+                                  ? "Qual o motivo da sua denúncia?"
+                                  : "Descreva o motivo da sua denúncia"}
                               </h1>
                               <button
                                 type="button"
@@ -422,98 +436,126 @@ const Project: React.FC = () => {
                               ></button>
                             </div>
                             <div className="modal-body">
-                              <div className="form-check my-2">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="flexRadioDefault"
-                                  id="flexRadioDefault1"
-                                  value="Conteúdo inapropriado"
-                                  onChange={(e) =>
-                                    setReportMsg([e.target.value])
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault1"
-                                >
-                                  Conteúdo inapropriado
-                                </label>
-                              </div>
-                              <div className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="flexRadioDefault"
-                                  id="flexRadioDefault2"
-                                  value="Assédio ou bullying"
-                                  onChange={(e) =>
-                                    setReportMsg([e.target.value])
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault2"
-                                >
-                                  Assédio ou bullying
-                                </label>
-                              </div>
-                              <div className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="flexRadioDefault"
-                                  id="flexRadioDefault3"
-                                  value="Conteúdo de incitação ao ódio ou abusivo"
-                                  onChange={(e) =>
-                                    setReportMsg([e.target.value])
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault3"
-                                >
-                                  Conteúdo de incitação ao ódio ou abusivo
-                                </label>
-                              </div>
-                              <div className="form-check mb-2">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="flexRadioDefault"
-                                  id="flexRadioDefault4"
-                                  value="Promove terrorismo"
-                                  onChange={(e) =>
-                                    setReportMsg([e.target.value])
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault4"
-                                >
-                                  Promove terrorismo
-                                </label>
-                              </div>
-                              <div className="form-check my-2">
-                                <input
-                                  className="form-check-input"
-                                  type="radio"
-                                  name="flexRadioDefault"
-                                  id="flexRadioDefault5"
-                                  value="Problema jurídico"
-                                  onChange={(e) =>
-                                    setReportMsg([e.target.value])
-                                  }
-                                />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="flexRadioDefault5"
-                                >
-                                  Problema jurídico
-                                </label>
-                              </div>
+                              {currentSection === "reason" ? (
+                                <>
+                                  <div className="form-check my-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="flexRadioDefault"
+                                      id="flexRadioDefault1"
+                                      value="Conteúdo inapropriado"
+                                      onChange={(e) =>
+                                        setReportMsg([e.target.value])
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexRadioDefault1"
+                                    >
+                                      Conteúdo inapropriado
+                                    </label>
+                                  </div>
+                                  <div className="form-check mb-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="flexRadioDefault"
+                                      id="flexRadioDefault2"
+                                      value="Assédio ou bullying"
+                                      onChange={(e) =>
+                                        setReportMsg([e.target.value])
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexRadioDefault2"
+                                    >
+                                      Assédio ou bullying
+                                    </label>
+                                  </div>
+                                  <div className="form-check mb-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="flexRadioDefault"
+                                      id="flexRadioDefault3"
+                                      value="Conteúdo de incitação ao ódio ou abusivo"
+                                      onChange={(e) =>
+                                        setReportMsg([e.target.value])
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexRadioDefault3"
+                                    >
+                                      Conteúdo de incitação ao ódio ou abusivo
+                                    </label>
+                                  </div>
+                                  <div className="form-check mb-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="flexRadioDefault"
+                                      id="flexRadioDefault4"
+                                      value="Promove terrorismo"
+                                      onChange={(e) =>
+                                        setReportMsg([e.target.value])
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexRadioDefault4"
+                                    >
+                                      Promove terrorismo
+                                    </label>
+                                  </div>
+                                  <div className="form-check my-2">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="flexRadioDefault"
+                                      id="flexRadioDefault5"
+                                      value="Problema jurídico"
+                                      onChange={(e) =>
+                                        setReportMsg([e.target.value])
+                                      }
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="flexRadioDefault5"
+                                    >
+                                      Problema jurídico
+                                    </label>
+                                  </div>
+                                </>
+                              ) : (
+                                <div className="form-group">
+                                  <label htmlFor="reportMessage">
+                                    Descreva qual o motivo da sua denúncia:
+                                  </label>
+                                  <textarea
+                                    className="form-control"
+                                    id="reportMessage"
+                                    rows={3}
+                                    value={messageInput}
+                                    onChange={(e) =>
+                                      setMessageInput(e.target.value)
+                                    }
+                                  ></textarea>
+                                </div>
+                              )}
                             </div>
                             <div className="modal-footer">
+                              {currentSection === "message" && (
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  onClick={handleBack}
+                                >
+                                  Voltar
+                                </button>
+                              )}
                               <button
                                 type="button"
                                 className="btn btn-secondary"
@@ -521,19 +563,30 @@ const Project: React.FC = () => {
                               >
                                 Fechar
                               </button>
-                              <button
-                                type="submit"
-                                onClick={
-                                  isLoggedIn
-                                    ? () => handleReportProject()
-                                    : () => navigate("/signin")
-                                }
-                                className="btn btn-info text-light"
-                                data-bs-dismiss="modal"
-                                disabled={!isAnyOptionSelected()}
-                              >
-                                Confirmar
-                              </button>
+                              {currentSection === "reason" ? (
+                                <button
+                                  type="button"
+                                  className="btn btn-info text-light"
+                                  onClick={handleContinue}
+                                  disabled={!isAnyOptionSelected()}
+                                >
+                                  Continuar
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="btn btn-info text-light"
+                                  data-bs-dismiss="modal"
+                                  disabled={!isMessageInputValid()}
+                                  onClick={
+                                    isLoggedIn
+                                      ? handleReportProject
+                                      : () => navigate("/signin")
+                                  }
+                                >
+                                  Confirmar
+                                </button>
+                              )}
                             </div>
                           </div>
                         </div>
