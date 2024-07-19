@@ -20,13 +20,19 @@
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1199px) {
+  .searchIcon {
+    width: 20rem;
+  }
+}
+
+@media only screen and (min-width: 1290px) {
   .searchIcon {
     width: 25rem;
   }
 }
 
-@media only screen and (min-width: 1390px) {
+@media only screen and (min-width: 1445px) {
   .searchIcon {
     width: 35rem;
   }
