@@ -110,6 +110,10 @@ const Reward: React.FC = () => {
       return;
     }
 
+    if (!isLoggedIn) {
+      navigate("/signin");
+    }
+
     if (isLoggedIn && isOwner) {
       toast.error("Você não pode doar para seu próprio projeto.", {
         position: "top-right",
