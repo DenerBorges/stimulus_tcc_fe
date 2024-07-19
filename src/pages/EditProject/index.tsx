@@ -152,7 +152,9 @@ const EditProject: React.FC = () => {
               <option value="Jogo">Jogo</option>
               <option value="Livro">Livro</option>
               <option value="Música">Música</option>
+              <option value="Social">Social</option>
               <option value="Tecnologia">Tecnologia</option>
+              <option value="Outros">Outros</option>
             </select>
           </div>
           <div className="mb-3">
