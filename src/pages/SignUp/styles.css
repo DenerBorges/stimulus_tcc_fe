@@ -28,7 +28,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -webkit-appearance: none;
 }
 
-@media only screen and (min-width: 1000px) {
+::-ms-reveal {
+  display: none;
+}
+
+@media only screen and (min-width: 991px) {
   #containerLogin {
     width: 700px;
   }
@@ -36,7 +40,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 @media only screen and (max-width: 767px) {
   .containerIcon svg {
-    right: 13%;
+    right: 10%;
   }
   .image {
     width: 30vh;
