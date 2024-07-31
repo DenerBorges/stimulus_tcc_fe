@@ -147,6 +147,11 @@ const Project: React.FC = () => {
     return `Editado em ${date.toLocaleDateString()} às ${hours}:${minutes}`;
   }
 
+  const getUserProfilePic = (userId: number) => {
+    const user = allUser.find((u) => u.id === userId);
+    return user ? user.profilePic : "/src/assets/images/default_product.png";
+  };
+
   const handleEditProject = () => {
     navigate(`/edit_project/${project?.id}`);
   };
@@ -780,7 +785,15 @@ const Project: React.FC = () => {
                             key={com.id}
                           >
                             <div className="d-flex align-items-start">
-                              <p className="mx-2 fs-5 fw-medium">{com.user}</p>
+                              <p className="mx-2 fs-5 fw-medium">
+                                <img
+                                  src={getUserProfilePic(com.userId)}
+                                  alt="avatar"
+                                  width="30rem"
+                                  className="me-2"
+                                />
+                                {com.user}
+                              </p>
                               <p className="text-secondary mt-1">
                                 -{" "}
                                 {com.updatedAt !== com.createdAt
@@ -895,8 +908,8 @@ const Project: React.FC = () => {
                                 </>
                               )}
                             </div>
-                            <div className="commentColor rounded-pill p-1 pt-3 ps-3 w-auto justify-content-center">
-                              <p className="text-start fw-medium fs-4">
+                            <div className="commentColor rounded-pill bg-light bg-gradient border border-2 border-info p-1 pt-3 ps-3 w-auto justify-content-center">
+                              <p className="text-start ms-2 fw-medium fs-4">
                                 {com.comment}
                               </p>
                             </div>
