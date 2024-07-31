@@ -98,11 +98,13 @@ const SignIn: React.FC = () => {
 
   return (
     <div className="container-fluid">
-      <img
-        src={require("../../assets/images/logo_1.png")}
-        alt="Logo do site"
-        className="image mx-auto my-5 d-block"
-      />
+      <a href="/">
+        <img
+          src={require("../../assets/images/logo_1.png")}
+          alt="Logo do site"
+          className="image mx-auto my-5 d-block"
+        />
+      </a>
 
       <div
         className="container mx-auto my-5 py-4 px-4 border border-2 bg-light shadow rounded"
