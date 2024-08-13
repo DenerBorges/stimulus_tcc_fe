@@ -85,7 +85,7 @@ describe("SignIn Page", () => {
 
     await waitFor(() => {
       const errorMessage = screen.getByText(
-        /seu usuário ou senha estão incorretos/i
+        /seu usuário ou senha estão incorretos!/i
       );
       expect(errorMessage).toBeInTheDocument();
     });
