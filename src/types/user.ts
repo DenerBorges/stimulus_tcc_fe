@@ -14,6 +14,7 @@ export interface userType {
   neighborhood: string;
   city: string;
   state: string;
+  isSuperAdmin: boolean;
   isAdmin: boolean;
   createdAt: Date;
 }
