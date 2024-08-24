@@ -53,7 +53,7 @@ const Search: React.FC = () => {
                   progress === 100 ? "bg-success" : "bg-info";
                 return (
                   <div className="col" key={project.id}>
-                    <div className="card shadow-sm h-100">
+                    <div className="card shadow-sm">
                       <a href={`/project/${project.id}`}>
                         {!isBase64Image(project.image[0]) ? (
                           <img
