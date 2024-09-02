@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { userType } from "../../types/user";
 import { projectType } from "../../types/project";
 import Navbar from "../../components/Navbar";
@@ -10,8 +10,6 @@ const ProjectCreator: React.FC = () => {
   const { id } = useParams();
   const [projects, setProjects] = useState<projectType[]>([]);
   const [user, setUser] = useState<userType>();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {

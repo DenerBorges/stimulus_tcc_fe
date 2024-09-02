@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { userType } from "../../types/user";
 import { projectType } from "../../types/project";
 import { donationType } from "../../types/donation";
-import { NewspaperIcon } from "@heroicons/react/24/solid";
+import { NewspaperIcon, RectangleStackIcon } from "@heroicons/react/24/solid";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import api from "../../utils/api";
@@ -233,17 +233,20 @@ const Profile: React.FC = () => {
               sua conta Google.
             </div>
           )}
-          <div className="container col offset-10 text-center">
+          <div className="container col offset-md-8 text-center">
             <button
               type="button"
-              className="btn btn-info text-light"
+              className="btn btn-info text-light px-4"
               data-bs-toggle="modal"
               data-bs-target="#paymentRecord"
               onClick={handleOpenModal}
             >
-              {""}
-              <NewspaperIcon style={{ width: "24px" }} />
+              Registro de doações <NewspaperIcon style={{ width: "24px" }} />
             </button>
+            <br /><br />
+            <a href="/my_projects" className="btn btn-info text-light px-3 mb-3">
+              Meus projetos criados <RectangleStackIcon style={{ width: "24px" }} />
+            </a>
           </div>
           <div
             className="modal fade"

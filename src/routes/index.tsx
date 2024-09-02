@@ -23,6 +23,7 @@ import Social from "../pages/Social";
 import Technology from "../pages/Technology";
 import Others from "../pages/Others";
 import Profile from "../pages/Profile";
+import MyProjects from "../pages/MyProjects";
 import EditProject from "../pages/EditProject";
 import EditReward from "../pages/EditReward";
 import Search from "../pages/Search";
@@ -65,6 +66,14 @@ const RoutesApp: React.FC = () => {
               element={
                 <PrivateRoute>
                   <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/my_projects"
+              element={
+                <PrivateRoute>
+                  <MyProjects />
                 </PrivateRoute>
               }
             />
