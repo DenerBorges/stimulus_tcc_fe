@@ -16,6 +16,31 @@
   color: rgb(100, 100, 100);
 }
 
+.icon-group {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 60px;
+  top: 10%;
+}
+
+.lock-icon,
+.btn-eye {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 5px;
+}
+
+.btn-eye {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
 @media only screen and (min-width: 1000px) {
   #containerLogin {
     width: 700px;

@@ -1,8 +1,11 @@
 import React, { FormEvent, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../utils/api";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import "./styles.css";
 
 const ResetPassword: React.FC = () => {
   const location = useLocation();
@@ -10,6 +13,7 @@ const ResetPassword: React.FC = () => {
   const [resetCode, setResetCode] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -83,7 +87,7 @@ const ResetPassword: React.FC = () => {
             </label>
             <div className="containerIcon">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 aria-describedby="passwordFeedback"
                 value={password}
@@ -94,6 +98,17 @@ const ResetPassword: React.FC = () => {
                     : "form-control"
                 }
               />
+              <div className="icon-eye">
+                {password.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn-eye"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                  </button>
+                )}
+              </div>
               <div id="passwordFeedback" className="invalid-feedback fw-medium">
                 A senha deve contar no mínimo 8 caracteres!
               </div>

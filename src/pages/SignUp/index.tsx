@@ -7,6 +7,7 @@ import {
   ShieldCheckIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import api from "../../utils/api";
 
 import "./styles.css";
@@ -21,6 +22,8 @@ const SignUp: React.FC = () => {
   const [profilePic, setProfilePic] = useState("");
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -174,7 +177,7 @@ const SignUp: React.FC = () => {
             </label>
             <div className="containerIcon">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 aria-describedby="passwordFeedback"
                 value={password}
@@ -186,7 +189,18 @@ const SignUp: React.FC = () => {
                     : "form-control"
                 }
               />
-              <LockClosedIcon />
+              <div className="icon-group">
+                <LockClosedIcon className="lock-icon" />
+                {password.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn-eye"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                  </button>
+                )}
+              </div>
               <div id="passwordFeedback" className="invalid-feedback fw-medium">
                 A senha deve contar no mínimo 8 caracteres!
               </div>
@@ -198,7 +212,7 @@ const SignUp: React.FC = () => {
             </label>
             <div className="containerIcon">
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 aria-describedby="confirmPasswordFeedback"
                 value={confirmPassword}
@@ -212,7 +226,18 @@ const SignUp: React.FC = () => {
                     : "form-control"
                 }
               />
-              <ShieldCheckIcon />
+              <div className="icon-group">
+                <ShieldCheckIcon className="lock-icon" />
+                {confirmPassword.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn-eye"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                  </button>
+                )}
+              </div>
               <div
                 id="confirmPasswordFeedback"
                 className="invalid-feedback fw-medium"

@@ -41,6 +41,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media only screen and (max-width: 767px) {
   .containerIcon svg {
     right: 10%;
+    top: 10%;
   }
   .image {
     width: 30vh;

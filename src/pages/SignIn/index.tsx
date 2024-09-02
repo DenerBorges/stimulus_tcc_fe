@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LockClosedIcon, UserIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import api from "../../utils/api";
@@ -12,6 +13,7 @@ const SignIn: React.FC = () => {
   const [password, setPassword] = useState("");
   const [profilePic, setProfilePic] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -116,7 +118,7 @@ const SignIn: React.FC = () => {
         <form method="post" onSubmit={handleLogin}>
           <div className="mb-3">
             <label htmlFor="user" className="form-label fw-semibold">
-              Nome de usuário
+              Nome completo de usuário
             </label>
             <div className="containerIcon">
               <input
@@ -137,7 +139,7 @@ const SignIn: React.FC = () => {
             </label>
             <div className="containerIcon">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
                 onChange={(e) => [setPassword(e.target.value), setError("")]}
@@ -147,7 +149,18 @@ const SignIn: React.FC = () => {
                     : "form-control"
                 }
               />
-              <LockClosedIcon />
+              <div className="icon-group">
+                <LockClosedIcon className="lock-icon" />
+                {password.length > 0 && (
+                  <button
+                    type="button"
+                    className="btn-eye"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeSlashIcon /> : <EyeIcon />}
+                  </button>
+                )}
+              </div>
             </div>
           </div>
           <label className="d-flex flex-column text-danger fw-medium mb-3">
